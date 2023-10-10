@@ -1,19 +1,19 @@
+# Input: network
+# Output: treefile with N estimated gene trees
+#
+# Steps:
+#   1. simulate gene trees with PhyloCoalSimluations.jl
+#   2. simulate sequences with seq-gen
+#   3. estimate gene trees with IQTree
+#
+# Usage: julia ./network-to-est-gene-trees.sh <file with network> <output file> <number of trees>
+
 if Threads.nthreads() == 1
     @warn "Only using 1 thread. Run with 'julia -tN network-to-est-gene-trees.jl ...' to use N threads."
 end
 
 println("Loading Julia packages...")
-
 using PhyloNetworks, PhyloCoalSimulations
-
-# Input: network
-# Output: treefile with N estimated gene trees
-# Steps:
-#   1. simulate gene trees with PhyloCoalSimluations.jl
-#   2. simulate sequences with seq-gen
-#   3. estimate gene trees with IQTree
-# Usage: julia ./network-to-est-gene-trees.sh <file with network> <output file> <number of trees>
-
 
 # Read in command-line arguments
 if length(ARGS) != 3
@@ -78,4 +78,4 @@ Threads.@threads for i=1:ntrees
     rm(temp_seqfile*".treefile")
 end
 
-println("Done! Results stored in \`"*output_file*"\`")
+println("Done! Results stored in \`"*output_file*"\`.")
