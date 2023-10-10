@@ -26,9 +26,30 @@ For each species network, we use \texttt{PhyloCoalSimulations} to generate $g$ g
 For each simulated sequence alignment, we estimate a gene tree using \texttt{iq-tree 2}. We then compute gene tree estimation error (GTEE) as well.
 
 \subsection{Network estimation}
-Using the set of gene trees, we estimate species network using SNaQ 1.0 and SNaQ 2.0. We assume the true number of reticulations in the final network is known.
+Using the set of gene trees, we estimate species network using SNaQ 1.0 and SNaQ 2.0. We assume the true number of reticulations in the final network is known. Based on Tyler's Notion, it seems like \textbf{multithreading} the psuedolikelihood calculation and probQR are two new features in SNaQ 2.0 that improves computational speed. Obviously, we would like to test the performance of these. It seems like speed-up varies between $n$ and the \textbf{depth} of the network, but nothing on the effect of $r$ was tested. We might want to test method in sing number of cores (possibly 10?), different numbers of \textbf{threads} ($\in \{4, 8, 12, 16\}$?) and \textbf{probQR} (possibly $\in \{0.25, 0.5, 0.75\}$). 
 
-Based on Tyler's Notion, it seems like multithreading the psuedolikelihood calculation and probQR are two new features in SNaQ 2.0 that improves computational speed. Obviously, we would like to test the performance of these. It seems like speed-up varies between $n$ and the depth of the network, but nothing on the effect of $r$ was tested. We might want to test method in different number of cores (possibly $\in \{1, 5, 10, 30\}$) and probQR (possibly $\in \{0.25, 0.5, 0.75\}$). How can we know the depth of the tree? Can we simply use the coalescent unit from the root to the tip? We will have tree different depths (different number of ILS).
+{\kevin Question: How can we know the depth of the tree? Can we simply use the coalescent unit from the root to the tip? We will have tree different depths (different number of ILS).}
+
+{\kevin Tyler uses core and threads indiscriminately, just want to make sure that they are the same thing. The reason I am asking this is because Tyler parallelized the pseudolikelihood computation using Threads.@thread and each run is parallelized using pmap. When opening Julia, the number of threads can be specified using the flag -t and the number of processors can be specified using -p. I am pretty sure the two are different things.
+
+Therefore, we might want to something like this:\\
+\texttt{
+numprocs=10\\
+threads=[4, 8, 12, 16]\\
+probQR=[0.25, 0.5, 0.75]\\
+for th in threads\\
+	for pr in probQR\\
+		julia -t th -p pr\\
+		net1=SNaQ 1.0 \# Vanilla vanilla \\ 
+		net1=SNaQ 2.0 \# This parallelizes PL computation plus probQR\\
+		end\\
+		end	\\	
+}
+}
+
+
+
+
 
 \subsection{Analysis}
 To analysize the accuracy, we compare each of the estimated species network with the true topology. The network dissimilarity is measured using hardwired cluster distance. 
