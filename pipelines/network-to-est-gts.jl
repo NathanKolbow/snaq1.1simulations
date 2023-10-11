@@ -6,7 +6,7 @@
 #   2. simulate sequences with seq-gen
 #   3. estimate gene trees with IQTree
 #
-# Usage: julia ./network-to-est-gene-trees.sh <file with network> <output file> <number of trees>
+# Usage: julia ./network-to-est-gene-trees.jl <file with network> <output file> <number of trees>
 
 if Threads.nthreads() == 1
     @warn "Only using 1 thread. Run with 'julia -tN network-to-est-gene-trees.jl ...' to use N threads."
