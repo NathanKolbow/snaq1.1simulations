@@ -23,7 +23,7 @@ q, t = countquartetsintrees(trees)
 df = readTableCF(writeTableCF(q, t))
 
 println("\n\nRunning SNaQ\n\n")
-snaqnet = snaq!(trees[1], df, filename=tempout, hmax=nhybrids)
+snaqnet = snaq!(trees[1], df, filename=tempout, hmax=nhybrids, seed=42)
 
 # Write output
 writeTopology(snaqnet, output_file)
