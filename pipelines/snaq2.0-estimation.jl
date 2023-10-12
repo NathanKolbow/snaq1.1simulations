@@ -16,7 +16,7 @@ using Pkg
 cd(joinpath(Base.source_dir(), "../PhyloNetworks.jl-master/"))
 Pkg.activate(".")
 Pkg.instantiate()
-using PhyloNetworks
+using PhyloNetworks, CPUTime
 # Should probably put something here to make sure that the correct
 # version of PhyloNetworks was loaded
 
@@ -33,10 +33,15 @@ q, t = countquartetsintrees(trees)
 df = readTableCF(writeTableCF(q, t))
 
 println("\n\nRunning SNaQ\n\n")
+CPUtic()
 snaqnet = snaq!(trees[1], df, filename=tempout, hmax=nhybrids, probQR=probqr, seed=42)
+timespent = CPUtoc()    # in seconds
 
 # Write output
 writeTopology(snaqnet, output_file)
+open(output_file, "a") do f
+    write(f, string(timespent))
+end
 
 # Clean up
 rm(tempout*".err")

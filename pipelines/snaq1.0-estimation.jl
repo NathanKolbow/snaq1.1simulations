@@ -1,7 +1,7 @@
 # Usage: julia ./snaq1.0-estimation.jl <nhybrids> <treefile> <network output file>
 
 println("Loading packages...")
-using PhyloNetworks
+using PhyloNetworks, CPUTime
 
 if length(ARGS) != 3
     error("Usage: julia ./snaq1.0-estimation.jl <nhybrids> <treefile> <output file>")
@@ -24,10 +24,15 @@ q, t = countquartetsintrees(trees)
 df = readTableCF(writeTableCF(q, t))
 
 println("\n\nRunning SNaQ\n\n")
+CPUtic()
 snaqnet = snaq!(trees[1], df, filename=tempout, hmax=nhybrids, seed=42)
+timespent = CPUtoc()
 
 # Write output
 writeTopology(snaqnet, output_file)
+open(output_file, "a") do f
+    write(f, string(timespent))
+end
 
 # Clean up
 rm(tempout*".err")

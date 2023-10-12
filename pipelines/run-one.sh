@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 
 # Runs the full pipeline for one each of:
 # - network
@@ -25,22 +25,42 @@ fi
 
 
 # Generate estimated gene trees
-temp_gt_file=`mktemp -p ./temp_data/`
-julia -t${nthreads} ./network-to-est-gene-trees.jl ${net_newick} ${temp_gt_file} ${ngt}
+mytempfile=`mktemp`
+temp_gt_file="./temp_data/$(basename ${mytempfile})"
+mv ${mytempfile} ./temp_data/
+
+echo "julia -t${nthreads} ./network-to-est-gts.jl \"${net_newick}\" ${temp_gt_file} ${ngt}"
+#julia -t${nthreads} ./network-to-est-gts.jl ${net_newick} ${temp_gt_file} ${ngt}
 
 # Estimate w/ SNaQ 1.0
-temp_snaq1_net_file=`mktemp -p ./temp_data/`
-julia ./snaq1.0-estimation.jl ${nhybrids} ${temp_gt_file} ${temp_snaq1_net_file}
+mytempfile=`mktemp`
+temp_snaq1_net_file="./temp_data/$(basename ${mytempfile})"
+mv ${mytempfile} ./temp_data/
+
+echo "julia ./snaq1.0-estimation.jl ${nhybrids} ${temp_gt_file} ${temp_snaq1_net_file}"
+#julia ./snaq1.0-estimation.jl ${nhybrids} ${temp_gt_file} ${temp_snaq1_net_file}
 
 # Estimate w/ SNaQ 2.0
 snaq2_netfiles=()
 for probQR in 0 0.25 0.5
 do
-    currfile=`mktemp -p ./temp_data/`
-    snaq2_netfiles+=${currfile}
-    mv ${temp_snaq2_net_file} ${probQR}_${temp_snaq2_net_file}
-    julia -t${nthreads} ./snaq2.0-estimation.jl ${nhybrids} ${temp_gt_file} ${currfile} ${probQR}
+    mytempfile=`mktemp`
+    currfile="./temp_data/${probQR}_$(basename ${mytempfile})"
+    snaq2_netfiles+=(${currfile})
+    mv ${mytempfile} ./${currfile}
+
+    echo "julia -t${nthreads} ./snaq2.0-estimation.jl ${nhybrids} ${temp_gt_file} ${currfile} ${probQR}"
+    # julia -t${nthreads} ./snaq2.0-estimation.jl ${nhybrids} ${temp_gt_file} ${currfile} ${probQR}
 done
 
 # Write to DF
-juila ./compile-run.jl ${output_df} ${temp_snaq1_netfile} ${snaq2_netfiles}
+echo "juila ./compile-run.jl ${output_df} ${ngt} ${nthreads} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}"
+#juila ./compile-run.jl ${output_df} ${temp_snaq1_netfile} ${snaq2_netfiles}
+
+# Clean up temp files
+rm ${temp_gt_file}
+rm ${temp_snaq1_net_file}
+for snaq2temp in ${snaq2_netfiles[@]}
+do
+    rm ${snaq2temp}
+done
