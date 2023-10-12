@@ -13,7 +13,7 @@
 #
 # USER MUST BE IN THE `pipelines` DIRECTORY WHEN RUNNING
 #
-# Example: ./run-one.sh "(((A:1,B:1):1,#H1:1::0.7):1,(((C:1,(D:1,#H2:1::0.7):1):1)#H1:1::0.3,((E:1)#H2:1::0.3,F:1):1):1):1;" results/results.csv 5 4
+# Example: ./run-one.sh "(((A:1,B:1):1,#H1:1::0.7):1,(((C:1,(D:1,#H2:1::0.7):1):1)#H1:1::0.3,((E:1)#H2:1::0.3,F:1):1):1):1;" ../results/results.csv 5 4
 
 net_newick=$1
 output_df=$2
@@ -57,7 +57,7 @@ done
 
 # Write to DF
 echo "juila ./compile-run.jl ${output_df} ${ngt} ${nthreads} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}"
-julia ./compile-run.jl ${output_df} ${ngt} ${nthreads} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}
+julia ./compile-run.jl ${output_df} "${net_newick}" ${ngt} ${nthreads} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}
 
 # Clean up temp files
 echo "Cleaning up temp files"
