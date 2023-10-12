@@ -17,10 +17,11 @@ using PhyloNetworks, PhyloCoalSimulations
 
 # Read in command-line arguments
 if length(ARGS) != 3
-    error("Usage: julia network-to-est-gene-trees.jl <file with network> <output file> <number of trees>")
+    println(ARGS)
+    error("Usage: julia network-to-est-gene-trees.jl <network newick> <output file> <number of trees>")
 end
 input_newick = ARGS[1]
-output_file = ARGS[2]
+output_file = abspath(ARGS[2])
 ntrees = parse(Int64, ARGS[3])
 
 net = readTopology(input_newick)
@@ -42,7 +43,6 @@ touch(output_file)
 println("Simulating sequences and estimating gene trees...")
 count = Threads.Atomic{Int}(0)
 Threads.@threads for i=1:ntrees
-    Threads.atomic_add!(count, 1)
     print("\rSimulating sequences and estimating gene trees ("*string(count[])*"/"*string(ntrees)*")")
     tree = sims[i]
 
@@ -76,6 +76,8 @@ Threads.@threads for i=1:ntrees
     rm(temp_seqfile*".mldist")
     rm(temp_seqfile*".model.gz")
     rm(temp_seqfile*".treefile")
+    
+    Threads.atomic_add!(count, 1)
 end
 
 println("Done! Results stored in \`"*output_file*"\`.")
