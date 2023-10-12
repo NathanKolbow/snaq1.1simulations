@@ -1,2 +1,1 @@
-# num_threads=1 is only SNaQ 1.0, >1 is SNaQ 2.0
-truenet,estnet,num_gt,num_threads,probQR,runtime,accuracy
+truenet,estnet,num_gt,num_cores,probQR,whichSNaQ,runtime,accuracy

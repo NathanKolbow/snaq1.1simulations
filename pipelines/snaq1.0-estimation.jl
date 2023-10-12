@@ -1,7 +1,9 @@
 # Usage: julia ./snaq1.0-estimation.jl <nhybrids> <treefile> <network output file>
 
 println("Loading packages...")
-using PhyloNetworks, CPUTime
+using Distributed
+@everywhere using PhyloNetworks, CPUTime
+addprocs()
 
 if length(ARGS) != 3
     error("Usage: julia ./snaq1.0-estimation.jl <nhybrids> <treefile> <output file>")

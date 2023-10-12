@@ -12,7 +12,7 @@ snaq1_file = abspath(ARGS[5])
 snaq2_files = [abspath(f) for f in ARGS[6:length(ARGS)]]
 truenet = readTopology(net_newick)
 
-getaccuracy(truth::HybridNetwork, est::HybridNetwork) = 0
+getaccuracy(truth::HybridNetwork, est::HybridNetwork) = hardwiredClusterDistance(truth, est, rooted=false)
 
 # Read in SNaQ 1.0 results
 snaq1net, snaq1runtime = readlines(snaq1_file)

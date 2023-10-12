@@ -1,5 +1,34 @@
 #! /bin/bash
 
+# TODO: 1. add -p<number of procs> and -t<number of procs> to all Julia calls
+#       2. use Distributed for SNaQ 1.0 and SNaQ 2.0 (https://github.com/crsl4/PhyloNetworks.jl/wiki/SNaQ)
+#           - 1 thread per CPU
+#       3. make sure CPUTime works with Distributed
+#       4. add gene tree estimation error (gtee) to outputs
+#           - https://github.com/ekmolloy/fastmulrfs
+#       5. make sure everything has a set seed
+#       6. test SNaQ 1.0 and 2.0 runtime on 8 processors on CHTC (single run each)
+#       7. estimate concatenated species tree w/ IQTree to use as SNaQ 1.0/2.0 starting points
+
+# 10 taxa, 3 retic network:
+# ((1,(2)#H3),(((3,#H3),(((4,((5,(6)#H1),(7,#H1))),(8))#H2),((9,10),#H2))));
+
+# Setting branch lengths for low/med/high ILS settings:
+#
+# net = <topology>
+# for edge in net.edge
+#     if edge.length != 0
+#         if high ILS
+#             edge.length = 0.2
+#         elseif medium ILS
+#             edge.length = 1
+#         else
+#             edge.length = 2
+#         end
+#     end
+# end
+
+
 # Runs the full pipeline for one each of:
 # - network
 # - number of gene trees
@@ -44,7 +73,7 @@ julia ./snaq1.0-estimation.jl ${nhybrids} ${temp_gt_file} ${temp_snaq1_net_file}
 
 # Estimate w/ SNaQ 2.0
 snaq2_netfiles=()
-for probQR in 0 0.25 0.5
+for probQR in 0 0.25 0.5 0.75 1
 do
     mytempfile=`mktemp`
     currfile="./temp_data/${probQR}_$(basename ${mytempfile})"
@@ -67,3 +96,9 @@ for snaq2temp in ${snaq2_netfiles[@]}
 do
     rm ${snaq2temp}
 done
+
+
+
+
+
+
