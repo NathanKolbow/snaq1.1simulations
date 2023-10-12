@@ -1,8 +1,6 @@
 universe = vanilla
 log = julia-build.log
 
-transfer_input_files = julia-1.9.3-linux-x86_64.tar.gz
-
 +IsBuildJob = true
 
 request_cpus = 1
