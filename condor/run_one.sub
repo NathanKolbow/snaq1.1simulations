@@ -1,0 +1,17 @@
+universe = vanilla
+
+log = run_one_$(Cluster).log
+error = run_one_$(Cluster)_$(Process).err
+output = run_one_$(Cluster)_$(Process).out
+
+executable = julia_setup.sh
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+transfer_input_files = ../*
+
+request_cpus = 1
+request_memory = 4GB
+request_disk = 2GB
+
+queue
