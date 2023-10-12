@@ -1,0 +1,12 @@
+universe = vanilla
+log = julia-build.log
+
+transfer_input_files = https://julialang-s3.julialang.org/bin/linux/x64/1.9/julia-1.9.3-linux-x86_64.tar.gz
+
++IsBuildJob = true
+
+request_cpus = 1
+request_memory = 4GB
+request_disk = 2GB
+
+queue
