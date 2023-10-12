@@ -1,0 +1,2 @@
+# num_threads=1 is only SNaQ 1.0, >1 is SNaQ 2.0
+network,num_gt,num_threads,probQR,runtime,accuracy

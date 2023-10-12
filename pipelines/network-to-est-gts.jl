@@ -6,7 +6,7 @@
 #   2. simulate sequences with seq-gen
 #   3. estimate gene trees with IQTree
 #
-# Usage: julia ./network-to-est-gene-trees.jl <file with network> <output file> <number of trees>
+# Usage: julia ./network-to-est-gene-trees.jl <network newick> <output file> <number of trees>
 
 if Threads.nthreads() == 1
     @warn "Only using 1 thread. Run with 'julia -tN network-to-est-gene-trees.jl ...' to use N threads."
@@ -19,11 +19,11 @@ using PhyloNetworks, PhyloCoalSimulations
 if length(ARGS) != 3
     error("Usage: julia network-to-est-gene-trees.jl <file with network> <output file> <number of trees>")
 end
-input_file = ARGS[1]
+input_newick = ARGS[1]
 output_file = ARGS[2]
 ntrees = parse(Int64, ARGS[3])
 
-net = readTopology(readlines(input_file)[1])
+net = readTopology(input_newick)
 
 # Step 0: move to the correct directly
 cd(Base.source_dir()*"/..")
