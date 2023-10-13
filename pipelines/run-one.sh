@@ -60,6 +60,7 @@ fi
 
 
 # Generate estimated gene trees
+mkdir temp_data
 mytempfile=`mktemp`
 temp_gt_file="./temp_data/$(basename ${mytempfile})"
 mv ${mytempfile} ./temp_data/
