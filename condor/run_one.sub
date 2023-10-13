@@ -5,10 +5,11 @@ error = run_one_$(Cluster)_$(Process).err
 output = run_one_$(Cluster)_$(Process).out
 
 executable = julia_setup.sh
+arguments = 1 /mnt/ws/home/nkolbow/snaq2/results/results.csv 5 4
 
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
-transfer_input_files = ../*
+transfer_input_files = julia_setup.sh, julia-1.9.3-linux-x86_64.tar.gz
 
 request_cpus = 1
 request_memory = 4GB

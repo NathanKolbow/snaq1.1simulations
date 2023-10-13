@@ -51,7 +51,7 @@ Threads.@threads for i=1:ntrees
     writeTopology(tree, temp_gtfile)
 
     # Seq-gen
-    run(pipeline(`software/seq-gen-macos-m1 -mGTR -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+    run(pipeline(`software/seq-gen-macos-m1 -mGTR -op -l250 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
 
     # IQ-tree
     if isfile(temp_seqfile*".treefile")
