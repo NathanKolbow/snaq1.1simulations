@@ -4,6 +4,9 @@
 tar -xzf julia-1.9.3-linux-x86_64.tar.gz
 export PATH=$PWD/julia-1.9.3/bin:$PATH
 
+# Install relevant Julia packages
+julia julia-package-install.jl
+
 # Navigate to the relevant folder
 cd /mnt/ws/home/nkolbow/snaq2/pipelines/
 
