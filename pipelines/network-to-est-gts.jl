@@ -51,13 +51,21 @@ Threads.@threads for i=1:ntrees
     writeTopology(tree, temp_gtfile)
 
     # Seq-gen
-    run(pipeline(`software/seq-gen-macos-m1 -mGTR -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+    if Sys.isapple()
+        run(pipeline(`software/seq-gen-macos -mGTR -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+    elseif Sys.islinux()
+        run(pipeline(`software/seq-gen-linux -mGTR -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+    else
+        run(pipeline(`software/seq-gen-windows.exe -mGTR -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+    end
 
     # IQ-tree
-    if isfile(temp_seqfile*".treefile")
-        run(pipeline(`software/iqtree-1.6.12-macos -quiet -redo -s $temp_seqfile`, stdout=devnull, stderr=devnull))
-    else
+    if Sys.isapple()
         run(pipeline(`software/iqtree-1.6.12-macos -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+    elseif Sys.islinux()
+        run(pipeline(`software/iqtree-1.6.12-linux -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+    else
+        run(pipeline(`software/iqtree-1.6.12-windows.exe -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
     end
 
     # Save the result
@@ -78,6 +86,7 @@ Threads.@threads for i=1:ntrees
     rm(temp_seqfile*".treefile")
     
     Threads.atomic_add!(count, 1)
+    print("\rSimulating sequences and estimating gene trees ("*string(count[])*"/"*string(ntrees)*")")
 end
 
-println("Done! Results stored in \`"*output_file*"\`.")
+println("\nDone! Results stored in \`"*output_file*"\`.")
