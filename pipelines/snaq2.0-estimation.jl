@@ -1,7 +1,7 @@
-# Usage: julia -t<nthreads> ./snaq2.0-estimation.jl <nhybrids> <treefile> <network output file> <probqr>
+# Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <treefile> <network output file> <probqr>
 
 if length(ARGS) != 4
-    error("Usage: julia ./snaq1.0-estimation.jl <nhybrids> <treefile> <network output file> <probqr>")
+    error("Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <treefile> <network output file> <probqr>")
 end
 nhybrids = parse(Int64, ARGS[1])
 treefile = abspath(ARGS[2])
