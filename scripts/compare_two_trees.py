@@ -1,4 +1,9 @@
 """
+File slightly adapted to take string input instead of files, and to
+only return the normalized RF distance, instead of all values
+"""
+
+"""
 This file is used compare two phylogenetic trees (newick strings).
 
 Copyright (c) 2020 Erin K. Molloy
@@ -88,24 +93,24 @@ def compare_trees(tr1, tr2):
     [fp, fn] = false_positives_and_negatives(tr1, tr2)
     rf = (fn + fp) / (2.0 * nl - 6.0)
 
-    return(nl, i1, i2, fn, fp, rf)
+    return(rf)
 
 
 def main(args):
     taxa = dendropy.TaxonNamespace()
 
-    tree1 = dendropy.Tree.get(path=args.tree1,
+    tree1 = dendropy.Tree.get(string=args.tree1,
                               schema='newick',
                               rooting='force-unrooted',
                               taxon_namespace=taxa)
 
-    tree2 = dendropy.Tree.get(path=args.tree2,
+    tree2 = dendropy.Tree.get(string=args.tree2,
                               schema='newick',
                               rooting='force-unrooted',
                               taxon_namespace=taxa)
 
-    [nl, i1, i2, fn, fp, rf] = compare_trees(tree1, tree2)
-    sys.stdout.write('%d,%d,%d,%d,%d,%1.6f\n' % (nl, i1, i2, fn, fp, rf))
+    rf = compare_trees(tree1, tree2)
+    sys.stdout.write('%1.6f\n' % (rf))
     sys.stdout.flush()
     os._exit(0)  # CRITICAL ON BLUE WATERS LOGIN NODE
 
@@ -114,10 +119,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument("-t1", "--tree1", type=str,
-                        help="Input file containing tree 1",
+                        help="Tree 1 newick",
                         required=True)
     parser.add_argument("-t2", "--tree2", type=str,
-                        help="Input file containing tree 2",
+                        help="Tree 2 newick",
                         required=True)
 
     main(parser.parse_args())
