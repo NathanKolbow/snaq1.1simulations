@@ -1,9 +1,10 @@
 #! /bin/bash
 
-# TODO: 1. add -p<number of procs> and -t<number of procs> to all Julia calls
-#       2. use Distributed for SNaQ 1.0 and SNaQ 2.0 (https://github.com/crsl4/PhyloNetworks.jl/wiki/SNaQ)
+# TODO: X. add -p<number of procs> and -t<number of procs> to all Julia calls
+#       X. use Distributed for SNaQ 1.0 and SNaQ 2.0 (https://github.com/crsl4/PhyloNetworks.jl/wiki/SNaQ)
 #           - 1 thread per CPU
-#       3. make sure CPUTime works with Distributed
+#       X. make sure CPUTime works with Distributed
+#           - it does NOT, just using @elapsed instead :(
 #       4. add gene tree estimation error (gtee) to outputs
 #           - https://github.com/ekmolloy/fastmulrfs
 #       5. make sure everything has a set seed
@@ -32,22 +33,22 @@
 # Runs the full pipeline for one each of:
 # - network
 # - number of gene trees
-# - number of threads
+# - number of processors
 #
 # `snaq1.0-estimation.jl` is run once, but
 # `snaq2.0-estimation.jl` is run once for each probQR value
 #
-# Usage: ./run-one.sh "<network newick>" <output dataframe> <N gene trees> <number of threads>
+# Usage: ./run-one.sh "<network newick>" <output dataframe> <N gene trees> <number of processors>
 #   (output is appended to the data frame)
 #
 # USER MUST BE IN THE `pipelines` DIRECTORY WHEN RUNNING
 #
-# Example: ./run-one.sh "(((A:1,B:1):1,#H1:1::0.7):1,(((C:1,(D:1,#H2:1::0.7):1):1)#H1:1::0.3,((E:1)#H2:1::0.3,F:1):1):1):1;" ../results/results.csv 5 4
+# Example: ./run-one.sh "((A:1.0,((B:1.0,C:1.0):1.0,(D:1.0)#H1:1.0::0.5):1.0):1.0,(#H1:1.0::0.5,E:1.0):1.0);" ../results/results.csv 5 4
 
 net_newick=$1
 output_df=$2
 ngt=$3
-nthreads=$4
+nprocs=$4
 
 if [ "${net_newick}" == "(((A:1,B:1):1,#H1:1::0.7):1,(((C:1,(D:1,#H2:1::0.7):1):1)#H1:1::0.3,((E:1)#H2:1::0.3,F:1):1):1):1;" ]
 then
@@ -60,16 +61,16 @@ mytempfile=`mktemp`
 temp_gt_file="./temp_data/$(basename ${mytempfile})"
 mv ${mytempfile} ./temp_data/
 
-echo "julia -t${nthreads} ./network-to-est-gts.jl \"${net_newick}\" ${temp_gt_file} ${ngt}"
-julia -t${nthreads} ./network-to-est-gts.jl "${net_newick}" ${temp_gt_file} ${ngt}
+echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl \"${net_newick}\" ${temp_gt_file} ${ngt}"
+julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl "${net_newick}" ${temp_gt_file} ${ngt}
 
 # Estimate w/ SNaQ 1.0
 mytempfile=`mktemp`
 temp_snaq1_net_file="./temp_data/$(basename ${mytempfile})"
 mv ${mytempfile} ./temp_data/
 
-echo "julia ./snaq1.0-estimation.jl ${nhybrids} ${temp_gt_file} ${temp_snaq1_net_file}"
-julia ./snaq1.0-estimation.jl ${nhybrids} ${temp_gt_file} ${temp_snaq1_net_file}
+echo "julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${temp_gt_file} ${temp_snaq1_net_file}"
+julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${temp_gt_file} ${temp_snaq1_net_file}
 
 # Estimate w/ SNaQ 2.0
 snaq2_netfiles=()
@@ -80,13 +81,13 @@ do
     snaq2_netfiles+=(${currfile})
     mv ${mytempfile} ./${currfile}
 
-    echo "julia -t${nthreads} ./snaq2.0-estimation.jl ${nhybrids} ${temp_gt_file} ${currfile} ${probQR}"
-    julia -t${nthreads} ./snaq2.0-estimation.jl ${nhybrids} ${temp_gt_file} ${currfile} ${probQR}
+    echo "julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${temp_gt_file} ${currfile} ${probQR}"
+    julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${temp_gt_file} ${currfile} ${probQR}
 done
 
 # Write to DF
-echo "juila ./compile-run.jl ${output_df} ${ngt} ${nthreads} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}"
-julia ./compile-run.jl ${output_df} "${net_newick}" ${ngt} ${nthreads} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}
+echo "juila ./compile-run.jl ${output_df} ${ngt} ${nprocs} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}"
+julia ./compile-run.jl ${output_df} "${net_newick}" ${ngt} ${nprocs} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}
 
 # Clean up temp files
 echo "Cleaning up temp files"

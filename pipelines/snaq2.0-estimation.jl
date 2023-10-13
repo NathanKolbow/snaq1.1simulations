@@ -12,13 +12,13 @@ isfile(treefile) || error("treefile "*string(treefile)*" not found.")
 @warn "Using "*string(Threads.nthreads())*" threads."
 
 # Load packages
-using Pkg
-cd(joinpath(Base.source_dir(), "../PhyloNetworks.jl-master/"))
-Pkg.activate(".")
-Pkg.instantiate()
-using PhyloNetworks, CPUTime
-# Should probably put something here to make sure that the correct
-# version of PhyloNetworks was loaded
+using Distributed
+@everywhere using Pkg
+@everywhere cd(joinpath(Base.source_dir(), "../PhyloNetworks.jl-master/"))
+@everywhere Pkg.activate(".")
+@everywhere Pkg.instantiate()
+@everywhere using PhyloNetworks
+
 
 # Put ourselves in the right dir
 cd(joinpath(Base.source_dir(), ".."))
@@ -33,9 +33,7 @@ q, t = countquartetsintrees(trees)
 df = readTableCF(writeTableCF(q, t))
 
 println("\n\nRunning SNaQ\n\n")
-CPUtic()
-snaqnet = snaq!(trees[1], df, filename=tempout, hmax=nhybrids, probQR=probqr, seed=42)
-timespent = CPUtoc()    # in seconds
+timespent = @elapsed snaqnet = snaq!(trees[1], df, filename=tempout, hmax=nhybrids, probQR=probqr, seed=42)
 
 # Write output
 writeTopology(snaqnet, output_file)
