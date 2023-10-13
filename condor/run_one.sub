@@ -1,8 +1,8 @@
 universe = vanilla
 
-log = run_one_$(Cluster).log
-error = run_one_$(Cluster)_$(Process).err
-output = run_one_$(Cluster)_$(Process).out
+log = condor_logs/run_one_$(Cluster).log
+error = condor_logs/run_one_$(Cluster)_$(Process).err
+output = condor_logs/run_one_$(Cluster)_$(Process).out
 
 executable = julia_setup.sh
 arguments = \"((A:1.0,((B:1.0,C:1.0):1.0,(D:1.0)#H1:1.0::0.5):1.0):1.0,(#H1:1.0::0.5,E:1.0):1.0);\" /mnt/ws/home/nkolbow/snaq2/results/results.csv 100 8
