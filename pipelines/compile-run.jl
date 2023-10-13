@@ -32,8 +32,8 @@ df = DataFrame(
 
 # Read in SNaQ 2.0 results
 for snaq2_file in snaq2_files
-    probQR = split(snaq2_file, "/")
-    probQR = split(probQR[length(probQR)], "_")[1]
+    probQR = split(snaq2_file, "_")
+    probQR = probQR[length(probQR)]
     probQR = parse(Float64, probQR)
     lines = readlines(snaq2_file)
 

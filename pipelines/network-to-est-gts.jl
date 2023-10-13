@@ -74,6 +74,9 @@ Threads.@threads for i=1:ntrees
         write(f, newick[1]*"\n")
     end
 
+    # Calculate gene tree estimation error
+
+
     # Clean up
     rm(temp_gtfile)
     rm(temp_seqfile)

@@ -61,17 +61,23 @@ fi
 
 # Generate estimated gene trees
 mkdir temp_data
-mytempfile=`mktemp`
-temp_gt_file="./temp_data/$(basename ${mytempfile})"
-mv ${mytempfile} ./temp_data/
+mk_tempdata_tempfile() {
+    local mytempfile=`mktemp`
+    tempfile="./temp_data/$(basename ${mytempfile})"
+    mv ${mytempfile} ./temp_data/
+}
+mk_tempdata_tempfile
+temp_gt_file=$tempfile
 
 echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_newick} ${temp_gt_file} ${ngt}"
 julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_newick} ${temp_gt_file} ${ngt}
 
+# Gather gene tree estimation errors
+
+
 # Estimate w/ SNaQ 1.0
-mytempfile=`mktemp`
-temp_snaq1_net_file="./temp_data/$(basename ${mytempfile})"
-mv ${mytempfile} ./temp_data/
+mk_tempdata_tempfile
+temp_snaq1_net_file=$tempfile
 
 echo "julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${temp_gt_file} ${temp_snaq1_net_file}"
 julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${temp_gt_file} ${temp_snaq1_net_file}
@@ -80,10 +86,10 @@ julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${temp_gt_file
 snaq2_netfiles=()
 for probQR in 0 0.25 0.5 0.75 1
 do
-    mytempfile=`mktemp`
-    currfile="./temp_data/${probQR}_$(basename ${mytempfile})"
+    mk_tempdata_tempfile
+    currfile=$tempfile_${probQR}
     snaq2_netfiles+=(${currfile})
-    mv ${mytempfile} ./${currfile}
+    mv ${tempfile} ${currfile}
 
     echo "julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${temp_gt_file} ${currfile} ${probQR}"
     julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${temp_gt_file} ${currfile} ${probQR}
@@ -101,9 +107,3 @@ for snaq2temp in ${snaq2_netfiles[@]}
 do
     rm ${snaq2temp}
 done
-
-
-
-
-
-
