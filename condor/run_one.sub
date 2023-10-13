@@ -5,14 +5,14 @@ error = run_one_$(Cluster)_$(Process).err
 output = run_one_$(Cluster)_$(Process).out
 
 executable = julia_setup.sh
-arguments = 1 /mnt/ws/home/nkolbow/snaq2/results/results.csv 5 4
+arguments = \"((A:1.0,((B:1.0,C:1.0):1.0,(D:1.0)#H1:1.0::0.5):1.0):1.0,(#H1:1.0::0.5,E:1.0):1.0);\" /mnt/ws/home/nkolbow/snaq2/results/results.csv 100 8
 
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
-transfer_input_files = julia_setup.sh, julia-1.9.3-linux-x86_64.tar.gz
+transfer_input_files = julia_setup.sh, julia-1.9.3-linux-x86_64.tar.gz, ../pipelines/compile-run.jl, ../pipelines/network-to-est-gts.jl, ../pipelines/run-one.sh, ../pipelines/snaq1.0-estimation.jl, ../pipelines/snaq2.0-estimation.jl, ../software/iqtree-1.6.12-linux, ../software/seq-gen-linux
 
-request_cpus = 1
-request_memory = 4GB
+request_cpus = 8
+request_memory = 16GB
 request_disk = 2GB
 
 queue

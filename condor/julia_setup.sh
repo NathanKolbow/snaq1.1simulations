@@ -8,9 +8,8 @@ export PATH=$PWD/julia-1.9.3/bin:$PATH
 cd /mnt/ws/home/nkolbow/snaq2/pipelines/
 
 # Run stuff
-echo "Running stuff"
-echo $1
-echo $2
-echo $3
-echo $4
-echo $5
+# - $1: network newick
+# - $2: results file
+# - $3: number of gene trees
+# - $4: number of processors
+./run-one.sh $1 "$2" $3 $4

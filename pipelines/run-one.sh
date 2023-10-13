@@ -10,6 +10,7 @@
 #       5. make sure everything has a set seed
 #       6. test SNaQ 1.0 and 2.0 runtime on 8 processors on CHTC (single run each)
 #       7. estimate concatenated species tree w/ IQTree to use as SNaQ 1.0/2.0 starting points
+#       8. update compile-run.jl to reflect the new columns in results.csv
 
 # 10 taxa, 3 retic network:
 # ((1,(2)#H3),(((3,#H3),(((4,((5,(6)#H1),(7,#H1))),(8))#H2),((9,10),#H2))));
@@ -53,6 +54,8 @@ nprocs=$4
 if [ "${net_newick}" == "(((A:1,B:1):1,#H1:1::0.7):1,(((C:1,(D:1,#H2:1::0.7):1):1)#H1:1::0.3,((E:1)#H2:1::0.3,F:1):1):1):1;" ]
 then
     nhybrids=2
+else
+    nhybrids=3
 fi
 
 
@@ -61,8 +64,8 @@ mytempfile=`mktemp`
 temp_gt_file="./temp_data/$(basename ${mytempfile})"
 mv ${mytempfile} ./temp_data/
 
-echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl \"${net_newick}\" ${temp_gt_file} ${ngt}"
-julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl "${net_newick}" ${temp_gt_file} ${ngt}
+echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_newick} ${temp_gt_file} ${ngt}"
+julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_newick} ${temp_gt_file} ${ngt}
 
 # Estimate w/ SNaQ 1.0
 mytempfile=`mktemp`
