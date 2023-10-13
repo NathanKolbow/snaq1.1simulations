@@ -86,7 +86,7 @@ do
 done
 
 # Write to DF
-echo "juila ./compile-run.jl ${output_df} ${ngt} ${nprocs} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}"
+echo "julia ./compile-run.jl ${output_df} ${ngt} ${nprocs} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}"
 julia ./compile-run.jl ${output_df} "${net_newick}" ${ngt} ${nprocs} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}
 
 # Clean up temp files
