@@ -6,7 +6,7 @@
 #   2. simulate sequences with seq-gen
 #   3. estimate gene trees with IQTree
 #
-# Usage: julia ./network-to-est-gene-trees.jl <network newick> <output file> <number of trees>
+# Usage: julia ./network-to-est-gene-trees.jl <network newick> <output file> <number of trees> <gtee file>
 
 if Threads.nthreads() == 1
     @warn "Only using 1 thread. Run with 'julia -tN network-to-est-gene-trees.jl ...' to use N threads."
@@ -16,13 +16,14 @@ println("Loading Julia packages...")
 using PhyloNetworks, PhyloCoalSimulations
 
 # Read in command-line arguments
-if length(ARGS) != 3
+if length(ARGS) != 4
     println(ARGS)
-    error("Usage: julia network-to-est-gene-trees.jl <network newick> <output file> <number of trees>")
+    error("Usage: julia ./network-to-est-gene-trees.jl <network newick> <output file> <number of trees> <gtee file>")
 end
 input_newick = ARGS[1]
 output_file = abspath(ARGS[2])
 ntrees = parse(Int64, ARGS[3])
+gtee_file = abspath(ARGS[4])
 
 net = readTopology(input_newick)
 
@@ -32,7 +33,6 @@ cd(Base.source_dir()*"/..")
 # Step 1: simulate gene trees
 println("Simulating true gene trees...")
 sims = simulatecoalescent(net, ntrees, 1)
-
 
 # Step 2: simulate sequences with seq-gen
 # Step 3: estimate gene trees with IQ tree
@@ -45,6 +45,7 @@ count = Threads.Atomic{Int}(0)
 Threads.@threads for i=1:ntrees
     print("\rSimulating sequences and estimating gene trees ("*string(count[])*"/"*string(ntrees)*")")
     tree = sims[i]
+    true_newick = writeTopology(tree)
 
     temp_seqfile = "pipelines/temp_data/seqgen_"*string(i)*".phy"
     temp_gtfile = "pipelines/temp_data/truegt_"*string(i)*".treefile"
@@ -69,13 +70,20 @@ Threads.@threads for i=1:ntrees
     end
 
     # Save the result
-    newick = readlines(temp_seqfile*".treefile")
+    est_newick = readlines(temp_seqfile*".treefile")[1]
     open(output_file, "a") do f
-        write(f, newick[1]*"\n")
+        write(f, est_newick*"\n")
     end
 
     # Calculate gene tree estimation error
+    gtee_nrf = Pipe()
+    run(pipeline(`python3 scripts/compare_two_trees.py -t1 ${true_newick} -t2 ${est_newick}`, stdout=gtee_nrf))
+    gtee_nrf = String(read(gtee_nrf))
 
+    # Save the result
+    open(gtee_file, "a+") do f
+        write(f, string(gtee_nrf)*"\n")
+    end
 
     # Clean up
     rm(temp_gtfile)

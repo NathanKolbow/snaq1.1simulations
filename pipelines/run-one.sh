@@ -68,12 +68,11 @@ mk_tempdata_tempfile() {
 }
 mk_tempdata_tempfile
 temp_gt_file=$tempfile
+mk_tempdata_tempfile
+gtee_file=$tempfile
 
-echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_newick} ${temp_gt_file} ${ngt}"
-julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_newick} ${temp_gt_file} ${ngt}
-
-# Gather gene tree estimation errors
-
+echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_newick} ${temp_gt_file} ${ngt} ${gtee_file}"
+julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_newick} ${temp_gt_file} ${ngt} ${gtee_file}
 
 # Estimate w/ SNaQ 1.0
 mk_tempdata_tempfile
