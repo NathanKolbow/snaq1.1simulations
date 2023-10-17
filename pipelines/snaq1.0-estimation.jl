@@ -34,9 +34,10 @@ open(output_file, "a") do f
 end
 
 # Clean up
-rm(tempout*".err")
-rm(tempout*".log")
-rm(tempout*".out")
-rm(tempout*".networks")
+rmsuppress(file) = try rm(file) catch e end
+rmsuppress(tempout*".err")
+rmsuppress(tempout*".log")
+rmsuppress(tempout*".out")
+rmsuppress(tempout*".networks")
 
 println("\nSNaQ 1.0 estimated network written to "*output_file)

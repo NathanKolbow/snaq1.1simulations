@@ -39,9 +39,13 @@ sims = simulatecoalescent(net, ntrees, 1)
 if !isdir("pipelines/temp_data/") mkdir("pipelines/temp_data/") end
 if isfile(output_file) rm(output_file) end
 touch(output_file)
+if isfile(gtee_file) rm(gtee_file) end
+touch(gtee_file)
 
 println("Simulating sequences and estimating gene trees...")
 count = Threads.Atomic{Int}(0)
+gteelk = ReentrantLock()
+newicklk = ReentrantLock()
 Threads.@threads for i=1:ntrees
     print("\rSimulating sequences and estimating gene trees ("*string(count[])*"/"*string(ntrees)*")")
     tree = sims[i]
@@ -71,19 +75,24 @@ Threads.@threads for i=1:ntrees
 
     # Save the result
     est_newick = readlines(temp_seqfile*".treefile")[1]
-    open(output_file, "a") do f
+    lock(newicklk)
+    open(output_file, "a", lock=true) do f
         write(f, est_newick*"\n")
     end
+    unlock(newicklk)
 
     # Calculate gene tree estimation error
     gtee_nrf = Pipe()
-    run(pipeline(`python3 scripts/compare_two_trees.py -t1 ${true_newick} -t2 ${est_newick}`, stdout=gtee_nrf))
+    run(pipeline(`python3 scripts/compare_two_trees.py -t1 $true_newick -t2 $est_newick`, stdout=gtee_nrf))
+    close(gtee_nrf.in)
     gtee_nrf = String(read(gtee_nrf))
 
     # Save the result
-    open(gtee_file, "a+") do f
-        write(f, string(gtee_nrf)*"\n")
+    lock(gteelk)
+    open(gtee_file, "a", lock=true) do f
+        write(f, gtee_nrf)  # \n is already in the string
     end
+    unlock(gteelk)
 
     # Clean up
     rm(temp_gtfile)

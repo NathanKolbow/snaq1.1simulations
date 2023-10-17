@@ -58,9 +58,12 @@ else
     nhybrids=3
 fi
 
+# Make temp_data dir if it doesn't exist in this instance
+if [ ! -d "temp_data" ]; then
+    mkdir temp_data
+fi
 
 # Generate estimated gene trees
-mkdir temp_data
 mk_tempdata_tempfile() {
     local mytempfile=`mktemp`
     tempfile="./temp_data/$(basename ${mytempfile})"
@@ -86,7 +89,7 @@ snaq2_netfiles=()
 for probQR in 0 0.25 0.5 0.75 1
 do
     mk_tempdata_tempfile
-    currfile=$tempfile_${probQR}
+    currfile="${tempfile}_${probQR}"
     snaq2_netfiles+=(${currfile})
     mv ${tempfile} ${currfile}
 
@@ -95,14 +98,15 @@ do
 done
 
 # Write to DF
-echo "julia ./compile-run.jl ${output_df} ${ngt} ${nprocs} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}"
-julia ./compile-run.jl ${output_df} "${net_newick}" ${ngt} ${nprocs} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}
+echo "julia ./compile-run.jl ${output_df} ${net_newick} ${ngt} ${nprocs} ${gtee_file} ${temp_snaq1_net_file} ${snaq2_netfiles[@]}"
+julia ./compile-run.jl ${output_df} "${net_newick}" ${ngt} ${nprocs} ${gtee_file} ${temp_snaq1_net_file} ${snaq2_netfiles[@]}
 
 # Clean up temp files
 echo "Cleaning up temp files"
-rm ${temp_gt_file}
-rm ${temp_snaq1_net_file}
-for snaq2temp in ${snaq2_netfiles[@]}
-do
-    rm ${snaq2temp}
-done
+# rm ${temp_gt_file}
+# rm ${gtee_file}
+# rm ${temp_snaq1_net_file}
+# for snaq2temp in ${snaq2_netfiles[@]}
+# do
+#     rm ${snaq2temp}
+# done

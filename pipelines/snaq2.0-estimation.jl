@@ -16,6 +16,7 @@ using Distributed
 @everywhere using Pkg
 @everywhere cd(joinpath(Base.source_dir(), "../PhyloNetworks.jl-master/"))
 @everywhere Pkg.activate(".")
+@everywhere Pkg.update()
 @everywhere Pkg.instantiate()
 @everywhere using PhyloNetworks
 
@@ -42,9 +43,10 @@ open(output_file, "a") do f
 end
 
 # Clean up
-rm(tempout*".err")
-rm(tempout*".log")
-rm(tempout*".out")
-rm(tempout*".networks")
+rmsuppress(file) = try rm(file) catch e end
+rmsuppress(tempout*".err")
+rmsuppress(tempout*".log")
+rmsuppress(tempout*".out")
+rmsuppress(tempout*".networks")
 
 println("\nSNaQ 2.0 estimated network written to "*output_file)

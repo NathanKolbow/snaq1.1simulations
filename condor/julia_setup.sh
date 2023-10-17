@@ -4,6 +4,9 @@
 tar -xzf julia-1.9.3-linux-x86_64.tar.gz
 export PATH=$PWD/julia-1.9.3/bin:$PATH
 
+# Install dendropy for gtee
+pip3 install dendropy --user
+
 # Install relevant Julia packages
 julia julia-package-install.jl
 

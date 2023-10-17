@@ -1,1 +1,1 @@
-truenet,estnet,num_gt,num_cores,probQR,whichSNaQ,runtime,accuracy
+truenet,estnet,num_gt,num_procs,probQR,whichSNaQ,runtime,accuracy

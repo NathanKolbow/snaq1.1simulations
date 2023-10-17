@@ -1,18 +1,33 @@
 # Run from `run-one.sh`
-# julia ./compile-run.jl ${output_df} "${net_newick}" ${ngt} ${nthreads} ${temp_snaq1_netfile} ${snaq2_netfiles[@]}
+
+# Args in order:
+# - output dataframe file
+# - true network newick
+# - number gts
+# - number procs
+# - est gtee file
+# - snaq1 results file
+# - snaq2 results files
 
 println("Loading Julia packages...")
-using PhyloNetworks, CSV, DataFrames
+using PhyloNetworks, CSV, DataFrames, StatsBase
 
 output_df = abspath(ARGS[1])
 net_newick = ARGS[2]
 ngt = parse(Int64, ARGS[3])
-nthreads = parse(Int64, ARGS[4])
-snaq1_file = abspath(ARGS[5])
-snaq2_files = [abspath(f) for f in ARGS[6:length(ARGS)]]
+nprocs = parse(Int64, ARGS[4])
+gtee_file = abspath(ARGS[5])
+snaq1_file = abspath(ARGS[6])
+snaq2_files = [abspath(f) for f in ARGS[7:length(ARGS)]]
 truenet = readTopology(net_newick)
 
-getaccuracy(truth::HybridNetwork, est::HybridNetwork) = hardwiredClusterDistance(truth, est, rooted=false)
+getaccuracy(truth::HybridNetwork, est::HybridNetwork) = hardwiredClusterDistance(truth, est, false)
+
+# Mean gene tree estimation error
+vals = readlines(gtee_file)
+mean_gtee = mean([
+    parse(Float64, val) for val in vals
+])
 
 # Read in SNaQ 1.0 results
 snaq1net, snaq1runtime = readlines(snaq1_file)
@@ -24,8 +39,9 @@ df = DataFrame(
     truenet=[net_newick],
     estnet=[writeTopology(snaq1net)],
     num_gt=[ngt],
-    num_threads=[1],
+    num_procs=[1],
     probQR=[0.],
+    whichSNaQ=[1.],
     runtime=[snaq1runtime],
     accuracy=[getaccuracy(truenet, snaq1net)]
 )
@@ -45,8 +61,9 @@ for snaq2_file in snaq2_files
         net_newick,
         lines[1],
         ngt,
-        nthreads,
+        nprocs,
         probQR,
+        2.,
         runtime,
         acc
     ])
