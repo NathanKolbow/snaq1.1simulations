@@ -11,7 +11,7 @@ julia julia-package-install.jl
 cd /mnt/ws/home/nkolbow/snaq2/pipelines/
 
 # Run stuff
-# - $1: network newick (already quoted)
+# - $1: network newick (already quoted in the submit file)
 # - $2: results file
 # - $3: number of gene trees
 # - $4: number of processors
