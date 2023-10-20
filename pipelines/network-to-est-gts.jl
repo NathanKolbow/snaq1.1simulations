@@ -13,7 +13,7 @@ if Threads.nthreads() == 1
 end
 
 println("Loading Julia packages...")
-using PhyloNetworks, PhyloCoalSimulations
+using PhyloNetworks, PhyloCoalSimulations, StatsBase
 
 # Read in command-line arguments
 if length(ARGS) != 4
@@ -26,6 +26,8 @@ ntrees = parse(Int64, ARGS[3])
 gtee_file = abspath(ARGS[4])
 
 net = readTopology(input_newick)
+
+rmsuppress(file) = try rm(file) catch e end     # used later
 
 # Step 0: move to the correct directly
 cd(Base.source_dir()*"/..")
@@ -57,11 +59,11 @@ Threads.@threads for i=1:ntrees
 
     # Seq-gen
     if Sys.isapple()
-        run(pipeline(`software/seq-gen-macos -mGTR -op -l250 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+        run(pipeline(`software/seq-gen-macos -f0.3,0.2,0.2,0.3 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
     elseif Sys.islinux()
-        run(pipeline(`software/seq-gen-linux -mGTR -op -l250 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+        run(pipeline(`software/seq-gen-linux -f0.3,0.2,0.2,0.3 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
     else
-        run(pipeline(`software/seq-gen-windows.exe -mGTR -op -l250 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+        run(pipeline(`software/seq-gen-windows.exe -f0.3,0.2,0.2,0.3 -t3.0 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
     end
 
     # IQ-tree
@@ -95,18 +97,21 @@ Threads.@threads for i=1:ntrees
     unlock(gteelk)
 
     # Clean up
-    rm(temp_gtfile)
-    rm(temp_seqfile)
-    rm(temp_seqfile*".bionj")
-    rm(temp_seqfile*".ckp.gz")
-    rm(temp_seqfile*".iqtree")
-    rm(temp_seqfile*".log")
-    rm(temp_seqfile*".mldist")
-    rm(temp_seqfile*".model.gz")
-    rm(temp_seqfile*".treefile")
+    rmsuppress(temp_gtfile)
+    rmsuppress(temp_seqfile)
+    rmsuppress(temp_seqfile*".bionj")
+    rmsuppress(temp_seqfile*".ckp.gz")
+    rmsuppress(temp_seqfile*".iqtree")
+    rmsuppress(temp_seqfile*".log")
+    rmsuppress(temp_seqfile*".mldist")
+    rmsuppress(temp_seqfile*".model.gz")
+    rmsuppress(temp_seqfile*".treefile")
     
     Threads.atomic_add!(count, 1)
     print("\rSimulating sequences and estimating gene trees ("*string(count[])*"/"*string(ntrees)*")")
 end
 
-println("\nDone! Results stored in \`"*output_file*"\`.")
+gtee_lines = readlines(gtee_file)
+avg_gtee = mean([parse(Float64, val) for val in gtee_lines])
+
+println("\nDone! Results stored in \`"*output_file*"\`. Average gtee: "*string(round(avg_gtee, digits=3)))
