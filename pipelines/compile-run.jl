@@ -43,7 +43,8 @@ df = DataFrame(
     probQR=[0.],
     whichSNaQ=[1.],
     runtime=[snaq1runtime],
-    accuracy=[getaccuracy(truenet, snaq1net)]
+    accuracy=[getaccuracy(truenet, snaq1net)],
+    mean_gtee=[mean_gtee]
 )
 
 # Read in SNaQ 2.0 results
@@ -65,7 +66,8 @@ for snaq2_file in snaq2_files
         probQR,
         2.,
         runtime,
-        acc
+        acc,
+        mean_gtee
     ])
 end
 

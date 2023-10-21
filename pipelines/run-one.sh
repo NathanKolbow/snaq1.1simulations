@@ -11,6 +11,11 @@
 #       6. test SNaQ 1.0 and 2.0 runtime on 8 processors on CHTC (single run each)
 #       7. estimate concatenated species tree w/ IQTree to use as SNaQ 1.0/2.0 starting points
 #       8. update compile-run.jl to reflect the new columns in results.csv
+#
+#       #. Refactor code so that things can be run easily individually rather than all at once
+#          to account for Condor eviction. Edit scripts, but also split Julia scripts into
+#          functions like `estimategenetrees` that run the stuff, and another section that
+#          handles command-line arguments elegantly
 
 # 10 taxa, 3 retic network:
 # ((1,(2)#H3),(((3,#H3),(((4,((5,(6)#H1),(7,#H1))),(8))#H2),((9,10),#H2))));
