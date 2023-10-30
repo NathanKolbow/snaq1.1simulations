@@ -1,40 +1,5 @@
 #! /bin/bash
-
-# TODO: X. add -p<number of procs> and -t<number of procs> to all Julia calls
-#       X. use Distributed for SNaQ 1.0 and SNaQ 2.0 (https://github.com/crsl4/PhyloNetworks.jl/wiki/SNaQ)
-#           - 1 thread per CPU
-#       X. make sure CPUTime works with Distributed
-#           - it does NOT, just using @elapsed instead :(
-#       X. add gene tree estimation error (gtee) to outputs
-#           - https://github.com/ekmolloy/fastmulrfs
-#       5. make sure everything has a set seed
-#       X. test SNaQ 1.0 and 2.0 runtime on 8 processors on CHTC (single run each)
-#       X. estimate concatenated species tree w/ IQTree to use as SNaQ 1.0/2.0 starting points
-#       X. update compile-run.jl to reflect the new columns in results.csv
-#
-#       #. Refactor code so that things can be run easily individually rather than all at once
-#          to account for Condor eviction. Edit scripts, but also split Julia scripts into
-#          functions like `estimategenetrees` that run the stuff, and another section that
-#          handles command-line arguments elegantly
-
-# 10 taxa, 3 retic network:
-# ((1,(2)#H3),(((3,#H3),(((4,((5,(6)#H1),(7,#H1))),(8))#H2),((9,10),#H2))));
-
-# Setting branch lengths for low/med/high ILS settings:
-# 
-# net = <topology>
-# for edge in net.edge
-#     if edge.length != 0
-#         if high ILS
-#             edge.length = 0.2
-#         elseif medium ILS
-#             edge.length = 1
-#         else
-#             edge.length = 2
-#         end
-#     end
-# end
-
+set -e  # forces quit on error
 
 # Runs the full pipeline for one each of:
 # - network
@@ -44,23 +9,39 @@
 # `snaq1.0-estimation.jl` is run once, but
 # `snaq2.0-estimation.jl` is run once for each probQR value
 #
-# Usage: ./run-one.sh "<network newick>" <output dataframe> <N gene trees> <number of processors>
+# Usage: ./run-one.sh "<network abbreviation>" <output csv> <N gene trees> <number of processors> <ILS level ("low"/"med"/"high")>
 #   (output is appended to the data frame)
 #
 # USER MUST BE IN THE `pipelines` DIRECTORY WHEN RUNNING
 #
-# Example: ./run-one.sh "((A:1.0,((B:1.0,C:1.0):1.0,(D:1.0)#H1:1.0::0.5):1.0):1.0,(#H1:1.0::0.5,E:1.0):1.0);" ../results/results.csv 5 4
+# TODO: 1. make sure everything has a set seed
+#
+# Good test example: ./run-one.sh "simple-test" ../results/test.csv 5 4 "med"
 
-net_newick=$1
+
+net_abbr=$1
 output_df=$2
 ngt=$3
 nprocs=$4
+ils=$5
 
-if [ "${net_newick}" == "(((A:1,B:1):1,#H1:1::0.7):1,(((C:1,(D:1,#H2:1::0.7):1):1)#H1:1::0.3,((E:1)#H2:1::0.3,F:1):1):1):1;" ]
+if [ "${net_abbr: -1}" == "1" ]
+then
+    nhybrids=1
+elif [ "${net_abbr: -1}" == "2" ]
 then
     nhybrids=2
-else
+elif [ "${net_abbr: -1}" == "3" ]
+then
+    nhybrids=3
+elif [ "${net_abbr: -1}" == "4" ]
+then
+    nhybrids=4
+elif [ "${net_abbr: -1}" == "5" ]
+then
     nhybrids=5
+else
+    nhybrids=1
 fi
 
 # Make temp_data dir if it doesn't exist in this instance
@@ -68,26 +49,41 @@ if [ ! -d "temp_data" ]; then
     mkdir temp_data
 fi
 
-# Generate estimated gene trees
+# Function to easily generate temp data files later
 mk_tempdata_tempfile() {
     local mytempfile=`mktemp`
     tempfile="./temp_data/$(basename ${mytempfile})"
     mv ${mytempfile} ./temp_data/
 }
-mk_tempdata_tempfile
-temp_gt_file=$tempfile
-mk_tempdata_tempfile
-gtee_file=$tempfile
 
-echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_newick} ${temp_gt_file} ${ngt} ${gtee_file}"
-julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_newick} ${temp_gt_file} ${ngt} ${gtee_file}
+# If treefiles don't already exist, generate them
+netdir="../data/${net_abbr}/"
+if [ ! -f "../data/${net_abbr}/treefiles-${ils}ILS/est-gts.treefile" ]
+then
+    echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils}"
+    julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils}
+else
+    # Make sure we have enough generated trees
+    nlines=`wc -l < ../data/${net_abbr}/treefiles-${ils}ILS/est-gts.treefile`
+    if [ ! $nlines -ge $ngt ]
+    then
+        echo "Old treefile detected, redoing estimated tree generation."
+        echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils}"
+        julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils}
+    else
+        echo "Treefiles already exist, skipping to estimation."
+    fi
+fi
+
+estgt_file="../data/${net_abbr}/treefiles-${ils}ILS/est-gts.treefile"
+gtee_file="../data/${net_abbr}/treefiles-${ils}ILS/gtee"
 
 # Estimate w/ SNaQ 1.0
 mk_tempdata_tempfile
 temp_snaq1_net_file=$tempfile
 
-echo "julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${temp_gt_file} ${temp_snaq1_net_file}"
-julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${temp_gt_file} ${temp_snaq1_net_file}
+echo "julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${temp_snaq1_net_file}"
+julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${temp_snaq1_net_file}
 
 # Estimate w/ SNaQ 2.0
 snaq2_netfiles=()
@@ -98,18 +94,16 @@ do
     snaq2_netfiles+=(${currfile})
     mv ${tempfile} ${currfile}
 
-    echo "julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${temp_gt_file} ${currfile} ${probQR}"
-    julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${temp_gt_file} ${currfile} ${probQR}
+    echo "julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${estgt_file} ${currfile} ${probQR}"
+    julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${estgt_file} ${currfile} ${probQR}
 done
 
 # Write to DF
-echo "julia ./compile-run.jl ${output_df} ${net_newick} ${ngt} ${nprocs} ${gtee_file} ${temp_snaq1_net_file} ${snaq2_netfiles[@]}"
-julia ./compile-run.jl ${output_df} "${net_newick}" ${ngt} ${nprocs} ${gtee_file} ${temp_snaq1_net_file} ${snaq2_netfiles[@]}
+echo "julia ./compile-run.jl ${output_df} ${net_abbr} ${ngt} ${nprocs} ${gtee_file} ${temp_snaq1_net_file} ${snaq2_netfiles[@]}"
+julia ./compile-run.jl ${output_df} "${net_abbr}" ${ngt} ${nprocs} ${gtee_file} ${temp_snaq1_net_file} ${snaq2_netfiles[@]}
 
 # Clean up temp files
 echo "Cleaning up temp files"
-rm ${temp_gt_file}
-rm ${gtee_file}
 rm ${temp_snaq1_net_file}
 for snaq2temp in ${snaq2_netfiles[@]}
 do

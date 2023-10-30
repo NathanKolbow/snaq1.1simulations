@@ -6,11 +6,11 @@
 #   2. simulate sequences with seq-gen
 #   3. estimate gene trees with IQTree
 #
-# Usage: julia ./network-to-est-gene-trees.jl <network directory> <ils (low/med/high)> <number of trees>
+# Usage: julia ./network-to-est-gene-trees.jl <network directory> <ils (low/med/high)>
 
-if length(ARGS) != 3
+if length(ARGS) != 2
     println(ARGS)
-    error("Usage: julia ./network-to-est-gene-trees.jl <network directory> <ils (low/med/high)> <number of trees>")
+    error("Usage: julia ./network-to-est-gene-trees.jl <network directory> <ils (low/med/high)>")
 end
 
 if Threads.nthreads() == 1
@@ -23,7 +23,7 @@ using PhyloNetworks, PhyloCoalSimulations, StatsBase
 # Read in command-line arguments
 netabbr = ARGS[1]
 ils = ARGS[2]
-ntrees = parse(Int64, ARGS[3])
+ntrees = 5000
 
 # Create the output dir if it doesn't exist
 netdir = abspath(joinpath("..", "data", netabbr))

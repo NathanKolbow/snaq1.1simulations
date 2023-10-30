@@ -1,12 +1,13 @@
-# Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <treefile> <network output file> <probqr>
+# Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file> <probqr>
 
-if length(ARGS) != 4
-    error("Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <treefile> <network output file> <probqr>")
+if length(ARGS) != 5
+    error("Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file> <probqr>")
 end
 nhybrids = parse(Int64, ARGS[1])
-treefile = abspath(ARGS[2])
-output_file = abspath(ARGS[3])
-probqr = parse(Float64, ARGS[4])
+ngt = parse(Int64, ARGS[2])
+treefile = abspath(ARGS[3])
+output_file = abspath(ARGS[4])
+probqr = parse(Float64, ARGS[5])
 isfile(treefile) || error("treefile "*string(treefile)*" not found.")
 
 @warn "Using "*string(Threads.nthreads())*" threads."
@@ -18,7 +19,7 @@ using Distributed
 @everywhere Pkg.activate(".")
 @everywhere Pkg.update()
 @everywhere Pkg.instantiate()
-@everywhere using PhyloNetworks
+@everywhere using PhyloNetworks, StatsBase
 
 
 # Put ourselves in the right dir
@@ -26,6 +27,7 @@ cd(joinpath(Base.source_dir(), ".."))
 
 println("Reading treefile...")
 trees = readMultiTopology(treefile)
+trees = sample(trees, ngt, replace=false)
 
 # Run SNaQ 2.0
 println("\n\nReading quartet info...\n\n")
