@@ -44,6 +44,7 @@ df = DataFrame(
     num_gt=[ngt],
     num_procs=[nprocs],
     probQR=[0.],
+    propQuartets=[1.],
     whichSNaQ=[1.],
     runtime=[snaq1runtime],
     accuracy=[getaccuracy(truenet, snaq1net)],
@@ -52,9 +53,11 @@ df = DataFrame(
 
 # Read in SNaQ 2.0 results
 for snaq2_file in snaq2_files
-    probQR = split(snaq2_file, "_")
-    probQR = probQR[length(probQR)]
+    filesplit = split(snaq2_file, "_")
+    probQR = filesplit[length(filesplit)-1]
+    propQuartets = filesplit[length(filesplit)]
     probQR = parse(Float64, probQR)
+    propQuartets = parse(Float64, propQuartets)
     lines = readlines(snaq2_file)
 
     estnet = readTopology(lines[1])
@@ -67,6 +70,7 @@ for snaq2_file in snaq2_files
         ngt,
         nprocs,
         probQR,
+        propQuartets,
         2.,
         runtime,
         acc,

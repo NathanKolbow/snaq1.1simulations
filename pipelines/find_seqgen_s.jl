@@ -12,7 +12,9 @@ netabbr = ARGS[2]
 ils = ARGS[3]
 
 net = readTopology(joinpath("..", "data", netabbr, netabbr*".net"))
-for edge in net.edge edge.length *= ifelse(ils == "med", 1, ifelse(ils == "high", 2, ifelse(ils == "low", 0.5, error("ils value "*ils*" not recognized")))) end
+mod = ifelse(ils == "med", 1, ifelse(ils == "high", 2, ifelse(ils == "low", 0.5, -1)))
+mod != -1 || error("ils value $ils not recognized.")
+for edge in net.edge edge.length *= mod end
 
 ntrees = 100
 sims = simulatecoalescent(net, ntrees, 1)
@@ -24,10 +26,9 @@ global min_s = 0.00001
 global max_s = 0.1
 global curr_s = 0.003
 
+print("$netabbr $ils ILS: \rsearching...")
 while true
     global min_s, max_s, curr_s, gtees
-    println("\nTrying -s`"*string(curr_s)*"`...")
-
     Threads.@threads for i=1:ntrees
         tree = sims[i]
         true_newick = writeTopology(tree)
@@ -65,18 +66,18 @@ while true
     end
 
     avg_gtee = mean(gtees)
-    print("- mean gtee: "*string(avg_gtee))
+    print("\r-s$curr_s ($avg_gtee)")
 
     if mean(gtees) - desired_gtee > tolerance
         min_s = curr_s
         curr_s = mean([max_s, min_s])
-        println("; increasing")
+        print("; increasing")
     elseif mean(gtees) - desired_gtee < -tolerance
         max_s = curr_s
         curr_s = mean([max_s, min_s])
-        println("; reducing")
+        print("; reducing")
     else
-        println("\n\nFound `-s"*string(curr_s)*"` with mean gtee "*string(mean(gtees)))
+        print("               ")
         break
     end
 end

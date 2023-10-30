@@ -1,13 +1,14 @@
-# Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file> <probqr>
+# Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file> <probqr> <propq>
 
-if length(ARGS) != 5
-    error("Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file> <probqr>")
+if length(ARGS) != 6
+    error("Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file> <probqr> <propq>")
 end
 nhybrids = parse(Int64, ARGS[1])
 ngt = parse(Int64, ARGS[2])
 treefile = abspath(ARGS[3])
 output_file = abspath(ARGS[4])
 probqr = parse(Float64, ARGS[5])
+propq = parse(Float64, ARGS[6])
 isfile(treefile) || error("treefile "*string(treefile)*" not found.")
 
 @warn "Using "*string(Threads.nthreads())*" threads."
@@ -36,7 +37,7 @@ q, t = countquartetsintrees(trees)
 df = readTableCF(writeTableCF(q, t))
 
 println("\n\nRunning SNaQ\n\n")
-timespent = @elapsed snaqnet = snaq!(trees[1], df, filename=tempout, hmax=nhybrids, probQR=probqr, seed=42)
+timespent = @elapsed snaqnet = snaq!(trees[1], df, filename=tempout, hmax=nhybrids, probQR=probqr, propQuartets=propq, seed=42)
 
 # Write output
 writeTopology(snaqnet, output_file)

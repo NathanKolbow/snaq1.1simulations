@@ -87,15 +87,18 @@ julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${ngt} ${estgt
 
 # Estimate w/ SNaQ 2.0
 snaq2_netfiles=()
-for probQR in 0 0.25 0.5 0.75 1
+for probQR in 0 0.33 0.66 1
 do
-    mk_tempdata_tempfile
-    currfile="${tempfile}_${probQR}"
-    snaq2_netfiles+=(${currfile})
-    mv ${tempfile} ${currfile}
+    for propQuartets in 1 0.9 0.7
+    do
+        mk_tempdata_tempfile
+        currfile="${tempfile}_${probQR}_${propQuartets}"
+        snaq2_netfiles+=(${currfile})
+        mv ${tempfile} ${currfile}
 
-    echo "julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${estgt_file} ${currfile} ${probQR}"
-    julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${estgt_file} ${currfile} ${probQR}
+        echo "julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${estgt_file} ${currfile} ${probQR} ${propQuartets}"
+        julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${estgt_file} ${currfile} ${probQR} ${propQuartets}
+    done
 done
 
 # Write to DF

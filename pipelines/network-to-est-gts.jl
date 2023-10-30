@@ -23,7 +23,7 @@ using PhyloNetworks, PhyloCoalSimulations, StatsBase
 # Read in command-line arguments
 netabbr = ARGS[1]
 ils = ARGS[2]
-ntrees = 5000
+ntrees = 10000  # more than our max # of gene trees so that we get random variation
 
 # Create the output dir if it doesn't exist
 netdir = abspath(joinpath("..", "data", netabbr))
@@ -46,7 +46,7 @@ elseif ils != "med"
 end
 
 # Set seq_gen -s param for the given net and ILS level
-seqgen_s =0.002
+seqgen_s = 0.002
 if net.numTaxa == 20
     if net.numHybrids == 3
         if ils == "med"
@@ -54,7 +54,7 @@ if net.numTaxa == 20
         end
     end
 else
-    @warn "seq_gen -s param not specified for this network. Setting default -s0.002"
+    @error "seq_gen -s param not specified for this network."
 end
 
 rmsuppress(file) = try rm(file) catch e end     # used later
