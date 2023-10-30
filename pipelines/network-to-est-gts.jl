@@ -27,6 +27,14 @@ gtee_file = abspath(ARGS[4])
 
 net = readTopology(input_newick)
 
+seqgen_s = 0.
+if net.numTaxa == 20
+    if net.numHybrids == 3
+        # All branch lengths 1
+        seqgen_s = 0.0011
+    end
+end
+
 rmsuppress(file) = try rm(file) catch e end     # used later
 
 # Step 0: move to the correct directly
@@ -46,10 +54,10 @@ touch(gtee_file)
 
 println("Simulating sequences and estimating gene trees...")
 count = Threads.Atomic{Int}(0)
+truelk = ReentrantLock()
 gteelk = ReentrantLock()
 newicklk = ReentrantLock()
 Threads.@threads for i=1:ntrees
-    print("\rSimulating sequences and estimating gene trees ("*string(count[])*"/"*string(ntrees)*")")
     tree = sims[i]
     true_newick = writeTopology(tree)
 
@@ -59,17 +67,19 @@ Threads.@threads for i=1:ntrees
 
     # Seq-gen
     if Sys.isapple()
-        run(pipeline(`software/seq-gen-macos -f0.3,0.2,0.2,0.3 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+        run(pipeline(`software/seq-gen-macos -s$seqgen_s -n1 -f0.3,0.2,0.2,0.3 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
     elseif Sys.islinux()
-        run(pipeline(`software/seq-gen-linux -f0.3,0.2,0.2,0.3 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+        run(pipeline(`software/seq-gen-linux -s$seqgen_s -n1 -f0.3,0.2,0.2,0.3 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
     else
-        run(pipeline(`software/seq-gen-windows.exe -f0.3,0.2,0.2,0.3 -t3.0 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+        run(pipeline(`software/seq-gen-windows.exe -s$seqgen_s -n1 -f0.3,0.2,0.2,0.3 -t3.0 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
     end
 
     # IQ-tree
     if Sys.isapple()
         run(pipeline(`software/iqtree-1.6.12-macos -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
     elseif Sys.islinux()
+        # RAxML also bad
+        # run(pipeline(`software/raxml-ng --msa $temp_seqfile --model GTR`, stdout=devnull, stderr=devnull))
         run(pipeline(`software/iqtree-1.6.12-linux -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
     else
         run(pipeline(`software/iqtree-1.6.12-windows.exe -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
@@ -95,6 +105,12 @@ Threads.@threads for i=1:ntrees
         write(f, gtee_nrf)  # \n is already in the string
     end
     unlock(gteelk)
+
+    lock(truelk)
+    open("true_gts", "a", lock=true) do f
+        write(f, true_newick*"\n")  # \n is already in the string
+    end
+    unlock(truelk)
 
     # Clean up
     rmsuppress(temp_gtfile)

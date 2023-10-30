@@ -60,7 +60,7 @@ if [ "${net_newick}" == "(((A:1,B:1):1,#H1:1::0.7):1,(((C:1,(D:1,#H2:1::0.7):1):
 then
     nhybrids=2
 else
-    nhybrids=3
+    nhybrids=5
 fi
 
 # Make temp_data dir if it doesn't exist in this instance
@@ -108,10 +108,10 @@ julia ./compile-run.jl ${output_df} "${net_newick}" ${ngt} ${nprocs} ${gtee_file
 
 # Clean up temp files
 echo "Cleaning up temp files"
-# rm ${temp_gt_file}
-# rm ${gtee_file}
-# rm ${temp_snaq1_net_file}
-# for snaq2temp in ${snaq2_netfiles[@]}
-# do
-#     rm ${snaq2temp}
-# done
+rm ${temp_gt_file}
+rm ${gtee_file}
+rm ${temp_snaq1_net_file}
+for snaq2temp in ${snaq2_netfiles[@]}
+do
+    rm ${snaq2temp}
+done
