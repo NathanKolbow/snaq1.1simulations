@@ -1,12 +1,13 @@
 # Usage: julia -p<nprocs> -t<nprocs> ./snaq1.0-estimation.jl <nhybrids> <treefile> <network output file>
 
+if length(ARGS) != 3
+    error("Usage: julia -p<nprocs> -t<nprocs> ./snaq1.0-estimation.jl <nhybrids> <treefile> <network output file>")
+end
+
 println("Loading packages...")
 using Distributed
 @everywhere using PhyloNetworks
 
-if length(ARGS) != 3
-    error("Usage: julia -p<nprocs> -t<nprocs> ./snaq1.0-estimation.jl <nhybrids> <treefile> <network output file>")
-end
 nhybrids = parse(Int64, ARGS[1])
 treefile = abspath(ARGS[2])
 output_file = abspath(ARGS[3])

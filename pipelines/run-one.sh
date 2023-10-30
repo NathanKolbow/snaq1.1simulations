@@ -5,12 +5,12 @@
 #           - 1 thread per CPU
 #       X. make sure CPUTime works with Distributed
 #           - it does NOT, just using @elapsed instead :(
-#       4. add gene tree estimation error (gtee) to outputs
+#       X. add gene tree estimation error (gtee) to outputs
 #           - https://github.com/ekmolloy/fastmulrfs
 #       5. make sure everything has a set seed
-#       6. test SNaQ 1.0 and 2.0 runtime on 8 processors on CHTC (single run each)
-#       7. estimate concatenated species tree w/ IQTree to use as SNaQ 1.0/2.0 starting points
-#       8. update compile-run.jl to reflect the new columns in results.csv
+#       X. test SNaQ 1.0 and 2.0 runtime on 8 processors on CHTC (single run each)
+#       X. estimate concatenated species tree w/ IQTree to use as SNaQ 1.0/2.0 starting points
+#       X. update compile-run.jl to reflect the new columns in results.csv
 #
 #       #. Refactor code so that things can be run easily individually rather than all at once
 #          to account for Condor eviction. Edit scripts, but also split Julia scripts into
@@ -21,7 +21,7 @@
 # ((1,(2)#H3),(((3,#H3),(((4,((5,(6)#H1),(7,#H1))),(8))#H2),((9,10),#H2))));
 
 # Setting branch lengths for low/med/high ILS settings:
-#
+# 
 # net = <topology>
 # for edge in net.edge
 #     if edge.length != 0

@@ -2,7 +2,7 @@
 
 # Args in order:
 # - output dataframe file
-# - true network newick
+# - network directory
 # - number gts
 # - number procs
 # - est gtee file
@@ -13,13 +13,16 @@ println("Loading Julia packages...")
 using PhyloNetworks, CSV, DataFrames, StatsBase
 
 output_df = abspath(ARGS[1])
-net_newick = ARGS[2]
+netabbr = ARGS[2]
 ngt = parse(Int64, ARGS[3])
 nprocs = parse(Int64, ARGS[4])
 gtee_file = abspath(ARGS[5])
 snaq1_file = abspath(ARGS[6])
 snaq2_files = [abspath(f) for f in ARGS[7:length(ARGS)]]
-truenet = readTopology(net_newick)
+
+netfile = joinpath("../data/", netabbr, netabbr*".net")
+truenet = readTopology(netfile)
+net_newick = writeTopology(truenet)
 
 getaccuracy(truth::HybridNetwork, est::HybridNetwork) = hardwiredClusterDistance(truth, est, false)
 

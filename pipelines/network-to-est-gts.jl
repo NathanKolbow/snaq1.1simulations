@@ -6,7 +6,12 @@
 #   2. simulate sequences with seq-gen
 #   3. estimate gene trees with IQTree
 #
-# Usage: julia ./network-to-est-gene-trees.jl <network newick> <output file> <number of trees> <gtee file>
+# Usage: julia ./network-to-est-gene-trees.jl <network directory> <ils (low/med/high)> <number of trees>
+
+if length(ARGS) != 3
+    println(ARGS)
+    error("Usage: julia ./network-to-est-gene-trees.jl <network directory> <ils (low/med/high)> <number of trees>")
+end
 
 if Threads.nthreads() == 1
     @warn "Only using 1 thread. Run with 'julia -tN network-to-est-gene-trees.jl ...' to use N threads."
@@ -16,23 +21,40 @@ println("Loading Julia packages...")
 using PhyloNetworks, PhyloCoalSimulations, StatsBase
 
 # Read in command-line arguments
-if length(ARGS) != 4
-    println(ARGS)
-    error("Usage: julia ./network-to-est-gene-trees.jl <network newick> <output file> <number of trees> <gtee file>")
-end
-input_newick = ARGS[1]
-output_file = abspath(ARGS[2])
+netabbr = ARGS[1]
+ils = ARGS[2]
 ntrees = parse(Int64, ARGS[3])
-gtee_file = abspath(ARGS[4])
 
-net = readTopology(input_newick)
+# Create the output dir if it doesn't exist
+netdir = abspath(joinpath("..", "data", netabbr))
+treedir = joinpath(netdir, "treefiles-"*ils*"ILS/")
+if !isdir(treedir) mkdir(treedir) end
 
-seqgen_s = 0.
+# Read net and set output file vars
+net = readTopology(joinpath(netdir, netabbr*".net"))
+gtee_file = joinpath(treedir, "gtee")
+est_treefile = joinpath(treedir, "est-gts.treefile")
+true_treefile = joinpath(treedir, "true-gts.treefile")
+
+# Adjust branch lengths for given ILS level
+if ils == "low"
+    for edge in net.edge edge.length *= 0.5 end
+elseif ils == "high"
+    for edge in net.edge edge.length *= 2 end
+elseif ils != "med"
+    error("Second argument must be either 'low', 'med', or 'high'; received "*ils)
+end
+
+# Set seq_gen -s param for the given net and ILS level
+seqgen_s =0.002
 if net.numTaxa == 20
     if net.numHybrids == 3
-        # All branch lengths 1
-        seqgen_s = 0.0011
+        if ils == "med"
+            seqgen_s = 0.0011
+        end
     end
+else
+    @warn "seq_gen -s param not specified for this network. Setting default -s0.002"
 end
 
 rmsuppress(file) = try rm(file) catch e end     # used later
@@ -44,14 +66,20 @@ cd(Base.source_dir()*"/..")
 println("Simulating true gene trees...")
 sims = simulatecoalescent(net, ntrees, 1)
 
-# Step 2: simulate sequences with seq-gen
-# Step 3: estimate gene trees with IQ tree
+# Clear old files
 if !isdir("pipelines/temp_data/") mkdir("pipelines/temp_data/") end
-if isfile(output_file) rm(output_file) end
-touch(output_file)
+if isfile(est_treefile) rm(est_treefile) end
+touch(est_treefile)
 if isfile(gtee_file) rm(gtee_file) end
 touch(gtee_file)
+if isfile(true_treefile) rm(true_treefile) end
+touch(true_treefile)
 
+# Write sims to true treefile
+writeMultiTopology(sims, true_treefile)
+
+# Step 2: simulate sequences with seq-gen
+# Step 3: estimate gene trees with IQ tree
 println("Simulating sequences and estimating gene trees...")
 count = Threads.Atomic{Int}(0)
 truelk = ReentrantLock()
@@ -78,8 +106,6 @@ Threads.@threads for i=1:ntrees
     if Sys.isapple()
         run(pipeline(`software/iqtree-1.6.12-macos -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
     elseif Sys.islinux()
-        # RAxML also bad
-        # run(pipeline(`software/raxml-ng --msa $temp_seqfile --model GTR`, stdout=devnull, stderr=devnull))
         run(pipeline(`software/iqtree-1.6.12-linux -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
     else
         run(pipeline(`software/iqtree-1.6.12-windows.exe -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
@@ -88,7 +114,7 @@ Threads.@threads for i=1:ntrees
     # Save the result
     est_newick = readlines(temp_seqfile*".treefile")[1]
     lock(newicklk)
-    open(output_file, "a", lock=true) do f
+    open(est_treefile, "a", lock=true) do f
         write(f, est_newick*"\n")
     end
     unlock(newicklk)
@@ -130,4 +156,4 @@ end
 gtee_lines = readlines(gtee_file)
 avg_gtee = mean([parse(Float64, val) for val in gtee_lines])
 
-println("\nDone! Results stored in \`"*output_file*"\`. Average gtee: "*string(round(avg_gtee, digits=3)))
+println("\nDone! Results stored in \`"*est_treefile*"\`. Average gtee: "*string(round(avg_gtee, digits=3)))

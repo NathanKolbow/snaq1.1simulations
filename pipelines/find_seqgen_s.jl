@@ -1,4 +1,4 @@
-# julia -p8 -t8 ./find_seqgen_s.jl 0.30 "((((((1:1.0,#H1:1.0::0.5):1.0,(3:1.0,(2:1.0)#H1:1.0::0.5):1.0):1.0,4:1.0):1.0,(((5:1.0,(6:1.0,7:1.0):1.0):1.0,8:1.0):1.0,(9:1.0,((10:1.0,#H2:1.0::0.5):1.0,(12:1.0,(11:1.0)#H2:1.0::0.5):1.0):1.0):1.0):1.0):1.0,((((13:1.0,14:1.0):1.0,(15:1.0,16:1.0):1.0):1.0,#H3:1.0::0.5):1.0,((17:1.0,18:1.0):1.0,(19:1.0)#H3:1.0::0.5):1.0):1.0):1.0,20:1.0);"
+# julia -p8 -t8 ./find_seqgen_s.jl 0.30 "n10r1" "med"
 # Finds the `-s#` that gives a desired gtee value for a given network
 if Threads.nthreads() == 1
     @warn "Only using 1 thread. Run with 'julia -tN network-to-est-gene-trees.jl ...' to use N threads."
@@ -8,7 +8,12 @@ using PhyloNetworks, PhyloCoalSimulations, StatsBase
 rmsuppress(file) = try rm(file) catch e end     # used later
 
 desired_gtee = parse(Float64, ARGS[1])
-net = readTopology(ARGS[2])
+netabbr = ARGS[2]
+ils = ARGS[3]
+
+net = readTopology(joinpath("..", "data", netabbr, netabbr*".net"))
+for edge in net.edge edge.length *= ifelse(ils == "med", 1, ifelse(ils == "high", 2, ifelse(ils == "low", 0.5, error("ils value "*ils*" not recognized")))) end
+
 ntrees = 100
 sims = simulatecoalescent(net, ntrees, 1)
 tolerance = 0.05
