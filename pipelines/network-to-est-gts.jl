@@ -46,16 +46,8 @@ elseif ils != "med"
 end
 
 # Set seq_gen -s param for the given net and ILS level
-seqgen_s = 0.002
-if net.numTaxa == 20
-    if net.numHybrids == 3
-        if ils == "med"
-            seqgen_s = 0.0011
-        end
-    end
-else
-    @error "seq_gen -s param not specified for this network."
-end
+seqgen_s = readlines(joinpath(treedir, "seqgen-s"))[1]
+seqgen_s = parse(Float64, seqgen_s)
 
 rmsuppress(file) = try rm(file) catch e end     # used later
 
