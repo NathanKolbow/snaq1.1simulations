@@ -25,7 +25,7 @@ set -e  # forces quit on error
 #       9. 10,000 --> 4,430 gene trees, ngt=30 takes first 30, ngt=100 takes 31-130
 #       10. reformat so that a replicate # is associated with each treefile, add replicate # to results csv
 #
-# TO TEST THIS SCRIPT: ./run-one.sh "simple-test" ../results/test.csv 5 16 "med"
+# TO TEST THIS SCRIPT: ./run-one.sh "simple-test" ../results/test.csv 30 16 "med"
 
 
 net_abbr=$1
@@ -69,16 +69,16 @@ mk_tempdata_tempfile() {
 netdir="../data/${net_abbr}/"
 if [ ! -f "../data/${net_abbr}/treefiles-${ils}ILS/est-gts.treefile" ]
 then
-    echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils}"
-    julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils}
+    echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils} > /dev/null"
+    julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils} > /dev/null
 else
     # Make sure we have enough generated trees
     nlines=`wc -l < ../data/${net_abbr}/treefiles-${ils}ILS/est-gts.treefile`
     if [ ! $nlines -eq 4430 ]
     then
         echo "Old treefile detected, redoing estimated tree generation."
-        echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils}"
-        julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils}
+        echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils} > /dev/null"
+        julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils} > /dev/null
     else
         echo "Treefiles already exist, skipping to estimation."
     fi
@@ -91,12 +91,12 @@ gtee_file="../data/${net_abbr}/treefiles-${ils}ILS/gtee"
 mk_tempdata_tempfile
 temp_snaq1_net_file=$tempfile
 
-echo "julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${temp_snaq1_net_file}"
-julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${temp_snaq1_net_file}
+echo "julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${temp_snaq1_net_file} > /dev/null"
+julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${temp_snaq1_net_file} > /dev/null
 
 # Write SNaQ 1.0 results
-echo "julia ./write-results.jl 1 ${output_df} ${net_abbr} ${ngt} ${temp_snaq1_net_file} ${nprocs} ${ils} 1"
-julia ./write-results.jl 1 "${output_df}" ${net_abbr} ${ngt} ${temp_snaq1_net_file} ${nprocs} ${ils} 1
+echo "julia ./write-results.jl 1 ${output_df} ${net_abbr} ${ngt} ${temp_snaq1_net_file} ${nprocs} ${ils} 1 > /dev/null"
+julia ./write-results.jl 1 "${output_df}" ${net_abbr} ${ngt} ${temp_snaq1_net_file} ${nprocs} ${ils} 1 > /dev/null
 
 # Estimate w/ SNaQ 2.0
 snaq2_netfiles=()
@@ -109,12 +109,12 @@ do
         snaq2_netfiles+=(${currfile})
         mv ${tempfile} ${currfile}
 
-        echo "julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${currfile} ${probQR} ${propQuartets}"
-        julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${currfile} ${probQR} ${propQuartets}
+        echo "julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${currfile} ${probQR} ${propQuartets} > /dev/null"
+        julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${currfile} ${probQR} ${propQuartets} > /dev/null
 
         # Write SNaQ 2.0 results
-        echo "julia ./write-results.jl 2 ${output_df} ${net_abbr} ${ngt} ${currfile} ${nprocs} ${ils} ${probQR} ${propQuartets} 1"
-        julia ./write-results.jl 2 "${output_df}" ${net_abbr} ${ngt} ${currfile} ${nprocs} ${ils} ${probQR} ${propQuartets} 1
+        echo "julia ./write-results.jl 2 ${output_df} ${net_abbr} ${ngt} ${currfile} ${nprocs} ${ils} ${probQR} ${propQuartets} 1 > /dev/null"
+        julia ./write-results.jl 2 "${output_df}" ${net_abbr} ${ngt} ${currfile} ${nprocs} ${ils} ${probQR} ${propQuartets} 1 > /dev/null
     done
 done
 

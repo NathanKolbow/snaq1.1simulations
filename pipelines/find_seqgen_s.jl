@@ -1,4 +1,4 @@
-# julia -p8 -t8 ./find_seqgen_s.jl 0.25 "n10r1" "med"
+# julia -p16 -t16 ./find_seqgen_s.jl 0.25 "n10r1" "med"
 # Finds the `-s#` that gives a desired gtee value for a given network
 
 # All network -s params generated with:
@@ -21,7 +21,7 @@ net = readnetwithILS(netabbr, ils)
 
 ntrees = 500
 sims = simulatecoalescent(net, ntrees, 1)
-tolerance = 0.025
+tolerance = 0.01
 
 global gtees = zeros(ntrees)
 global min_s = 0.00001

@@ -1,11 +1,11 @@
 # Usage: julia -p<nprocs> -t<nprocs> ./snaq1.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file>
+include("helper-fxns.jl")
 verifyargsSNaQ1(ARGS)
 
 println("Loading packages...")
 using Distributed
 @everywhere using PhyloNetworks, StatsBase
 
-include("helper-fxns.jl")
 nhybrids, ngt, treefile, output_file = parseSNaQ1estargs(ARGS)
 
 # Put ourselves in the right dir

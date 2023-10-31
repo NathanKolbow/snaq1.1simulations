@@ -1,4 +1,5 @@
 # Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file> <probqr> <propq>
+include("helper-fxns.jl")
 verifyargsSNaQ2(ARGS)
 
 @warn "Using "*string(Threads.nthreads())*" threads."
@@ -12,9 +13,7 @@ using Distributed
 @everywhere Pkg.instantiate()
 @everywhere using PhyloNetworks, StatsBase
 
-include("helper-fxns.jl")
 nhybrids, ngt, treefile, output_file, probqr, propq = parseSNaQ2estargs(ARGS)
-
 
 # Put ourselves in the right dir
 cd(joinpath(Base.source_dir(), ".."))

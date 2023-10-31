@@ -93,10 +93,12 @@ end
 # Miscellaneous #
 #################
 function readnetwithILS(netabbr::AbstractString, ils::AbstractString)
-    net = readTopology(joinpath(basedir, "data", netabbr, netabbr*".net"))
+    net = readTopology(gettruenewick(netabbr))
     mod = ifelse(ils == "med", 1, ifelse(ils == "high", 2, ifelse(ils == "low", 0.5, -1)))
     mod != -1 || error("ils value $ils not recognized.")
     for edge in net.edge edge.length *= mod end
+    
+    return net
 end
 
 function verifyargs_nettogts(ARGS)
@@ -106,25 +108,39 @@ function verifyargs_nettogts(ARGS)
     end
 end
 
+function verifyargs_writeresults(ARGS)
+    whichSNaQ = parse(Int64, ARGS[1])
+    if whichSNaQ == 1 && length(ARGS) != 8
+        error("Usage: julia ./write-results.jl 1 <output_df> <netabbr> <ngt> <estnet/runtime file> <nprocs> <ils> <replicateid>")
+    elseif whichSNaQ == 2 && length(ARGS) != 10
+        error("Usage: julia ./write-results.jl 2 <output_df> <netabbr> <ngt> <estnet/runtime file> <nprocs> <ils> <probQR> <propQuartets> <replicateid>")
+    elseif whichSNaQ != 1 && whichSNaQ != 2
+        error("whichSNaQ must be 1 or 2, got $whichSNaQ instead.")
+    end
+    return whichSNaQ
+end
+
 warnsinglethread() = if Threads.nthreads() == 1 @warn "Only using 1 thread. Run with 'julia -tN network-to-est-gene-trees.jl ...' to use N threads." end
 
 function runseqgen(seqgen_s::AbstractFloat, temp_gtfile::AbstractString, temp_seqfile::AbstractString)
+    softwarepath = joinpath(basedir, "software")
     if Sys.isapple()
-        run(pipeline(`software/seq-gen-macos -s$seqgen_s -n1 -f0.3,0.2,0.2,0.3 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+        run(pipeline(`$softwarepath/seq-gen-macos -s$seqgen_s -n1 -f0.3,0.2,0.2,0.3 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
     elseif Sys.islinux()
-        run(pipeline(`software/seq-gen-linux -s$seqgen_s -n1 -f0.3,0.2,0.2,0.3 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+        run(pipeline(`$softwarepath/seq-gen-linux -s$seqgen_s -n1 -f0.3,0.2,0.2,0.3 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
     else
-        run(pipeline(`software/seq-gen-windows.exe -s$seqgen_s -n1 -f0.3,0.2,0.2,0.3 -t3.0 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+        run(pipeline(`$softwarepath/seq-gen-windows.exe -s$seqgen_s -n1 -f0.3,0.2,0.2,0.3 -t3.0 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
     end
 end
 
 function runiqtree(temp_seqfile::AbstractString)
+    softwarepath = joinpath(basedir, "software")
     if Sys.isapple()
-        run(pipeline(`software/iqtree-1.6.12-macos -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+        run(pipeline(`$softwarepath/iqtree-1.6.12-macos -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
     elseif Sys.islinux()
-        run(pipeline(`software/iqtree-1.6.12-linux -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+        run(pipeline(`$softwarepath/iqtree-1.6.12-linux -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
     else
-        run(pipeline(`software/iqtree-1.6.12-windows.exe -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+        run(pipeline(`$softwarepath/iqtree-1.6.12-windows.exe -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
     end
 end
 
@@ -137,8 +153,9 @@ function appendtolockedfile(filename::AbstractString, filelock::ReentrantLock, d
 end
 
 function calc_gtee(true_newick::AbstractString, est_newick::AbstractString)
+    scriptpath = joinpath(basedir, "scripts", "compare_two_trees.py")
     gtee_nrf = Pipe()
-    run(pipeline(`python3 scripts/compare_two_trees.py -t1 $true_newick -t2 $est_newick`, stdout=gtee_nrf))
+    run(pipeline(`python3 $scriptpath -t1 $true_newick -t2 $est_newick`, stdout=gtee_nrf))
     close(gtee_nrf.in)
     return String(read(gtee_nrf))
 end
@@ -154,3 +171,8 @@ function cleanestgtfiles(temp_gtfile::AbstractString, temp_seqfile::AbstractStri
     rmsuppress(temp_seqfile*".model.gz")
     rmsuppress(temp_seqfile*".treefile")
 end
+
+getnetdir(netabbr::AbstractString) = joinpath(basedir, "data", netabbr)
+gettreefiledir(netabbr::AbstractString, ils::AbstractString) = joinpath(getnetdir(netabbr), "treefiles-$ils"*"ILS")
+gettruenewick(netabbr::AbstractString) = readlines(joinpath(getnetdir(netabbr), netabbr*".net"))[1]
+getRFdist(truth::HybridNetwork, est::HybridNetwork) = hardwiredClusterDistance(truth, est, false)

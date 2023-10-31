@@ -1,19 +1,7 @@
-whichSNaQ = parse(Int64, ARGS[1])
-if whichSNaQ == 1 && length(ARGS) != 8
-    error("Usage: julia ./write-results.jl 1 <output_df> <netabbr> <ngt> <estnet/runtime file> <nprocs> <ils> <replicateid>")
-elseif whichSNaQ == 2 && length(ARGS) != 10
-    error("Usage: julia ./write-results.jl 2 <output_df> <netabbr> <ngt> <estnet/runtime file> <nprocs> <ils> <probQR> <propQuartets> <replicateid>")
-elseif whichSNaQ != 1 && whichSNaQ != 2
-    error("whichSNaQ must be 1 or 2, got $whichSNaQ instead.")
-end
-
+include("helper-fxns.jl")
+whichSNaQ = verifyargs_writeresults(ARGS)
 
 using PhyloNetworks, CSV, DataFrames, StatsBase
-include("helper-fxns.jl")
-
-getRFdist(truth::HybridNetwork, est::HybridNetwork) = hardwiredClusterDistance(truth, est, false)
-gettreefiledir(netabbr::AbstractString, ils::AbstractString) = joinpath("..", "data", netabbr, "treefiles-$ils"*"ILS")
-gettruenewick(netabbr::AbstractString) = readlines(joinpath(gettreefiledir(netabbr, "low"), "..", netabbr*".net"))[1]
 
 function processthenwrite(outputfilename::AbstractString, whichSNaQ::Integer, netabbr::AbstractString, ngt::Real, estnetruntimefilename::AbstractString, nprocs::Real, ils::AbstractString, replicateid::Real;
     probQR::AbstractFloat=0., propQuartets::AbstractFloat=1.)
@@ -28,7 +16,7 @@ function processthenwrite(outputfilename::AbstractString, whichSNaQ::Integer, ne
     writeresults(outputfilename, truenet, estnet, ngt, nprocs, probQR, propQuartets, whichSNaQ, runtime, replicateid, gtee, ils)
 end
 
-function writeresults(outputfilename::AbstactString, truenetnewick::AbstractString, estnetnewick::AbstractString, ngt::Real, nprocs::Real, probQR::AbstractFloat, propQuartets::AbstractFloat,
+function writeresults(outputfilename::AbstractString, truenetnewick::AbstractString, estnetnewick::AbstractString, ngt::Real, nprocs::Real, probQR::AbstractFloat, propQuartets::AbstractFloat,
     whichSNaQ::Real, runtime::Real, replicateid::Real, mean_gtee::Real, ils::AbstractString)
     # Verify inputs are valid
     ngt = Int64(ngt)
@@ -50,7 +38,7 @@ function writeresults(outputfilename::AbstactString, truenetnewick::AbstractStri
         propQuartets=[propQuartets],
         whichSNaQ=[whichSNaQ],
         runtime=[runtime],
-        netRF=[getRFdist(truenet, snaq1net)],
+        netRF=[getRFdist(truenet, estnet)],
         majortreeRF=[getRFdist(majorTree(truenet), majorTree(estnet))],
         mean_gtee=[mean_gtee],
         ntaxa=[truenet.numTaxa],
