@@ -96,8 +96,8 @@ do
         snaq2_netfiles+=(${currfile})
         mv ${tempfile} ${currfile}
 
-        echo "julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${estgt_file} ${currfile} ${probQR} ${propQuartets}"
-        julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${estgt_file} ${currfile} ${probQR} ${propQuartets}
+        echo "julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${currfile} ${probQR} ${propQuartets}"
+        julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${currfile} ${probQR} ${propQuartets}
     done
 done
 
