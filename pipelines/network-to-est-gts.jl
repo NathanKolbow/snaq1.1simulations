@@ -8,14 +8,10 @@
 #
 # Usage: julia ./network-to-est-gene-trees.jl <network directory> <ils (low/med/high)>
 
-if length(ARGS) != 2
-    println(ARGS)
-    error("Usage: julia ./network-to-est-gene-trees.jl <network directory> <ils (low/med/high)>")
-end
+include("helper-fxns.jl")
 
-if Threads.nthreads() == 1
-    @warn "Only using 1 thread. Run with 'julia -tN network-to-est-gene-trees.jl ...' to use N threads."
-end
+verifyargs_nettogts(ARGS)
+warnsinglethread()
 
 println("Loading Julia packages...")
 using PhyloNetworks, PhyloCoalSimulations, StatsBase
@@ -23,7 +19,7 @@ using PhyloNetworks, PhyloCoalSimulations, StatsBase
 # Read in command-line arguments
 netabbr = ARGS[1]
 ils = ARGS[2]
-ntrees = 10000  # more than our max # of gene trees so that we get random variation
+ntrees = 4430   # 30 + 100 + 300 + 1000 + 3000
 
 # Create the output dir if it doesn't exist
 netdir = abspath(joinpath("..", "data", netabbr))
@@ -86,60 +82,23 @@ Threads.@threads for i=1:ntrees
     writeTopology(tree, temp_gtfile)
 
     # Seq-gen
-    if Sys.isapple()
-        run(pipeline(`software/seq-gen-macos -s$seqgen_s -n1 -f0.3,0.2,0.2,0.3 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
-    elseif Sys.islinux()
-        run(pipeline(`software/seq-gen-linux -s$seqgen_s -n1 -f0.3,0.2,0.2,0.3 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
-    else
-        run(pipeline(`software/seq-gen-windows.exe -s$seqgen_s -n1 -f0.3,0.2,0.2,0.3 -t3.0 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
-    end
+    runseqgen(seqgen_s, temp_gtfile, temp_seqfile)
 
     # IQ-tree
-    if Sys.isapple()
-        run(pipeline(`software/iqtree-1.6.12-macos -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
-    elseif Sys.islinux()
-        run(pipeline(`software/iqtree-1.6.12-linux -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
-    else
-        run(pipeline(`software/iqtree-1.6.12-windows.exe -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
-    end
+    runiqtree(temp_seqfile)
 
     # Save the result
     est_newick = readlines(temp_seqfile*".treefile")[1]
-    lock(newicklk)
-    open(est_treefile, "a", lock=true) do f
-        write(f, est_newick*"\n")
-    end
-    unlock(newicklk)
+    appendtolockedfile(est_treefile, newicklk, est_newick*"\n")
 
     # Calculate gene tree estimation error
-    gtee_nrf = Pipe()
-    run(pipeline(`python3 scripts/compare_two_trees.py -t1 $true_newick -t2 $est_newick`, stdout=gtee_nrf))
-    close(gtee_nrf.in)
-    gtee_nrf = String(read(gtee_nrf))
+    gtee_nrf = calc_gtee(true_newick, est_newick)
 
     # Save the result
-    lock(gteelk)
-    open(gtee_file, "a", lock=true) do f
-        write(f, gtee_nrf)  # \n is already in the string
-    end
-    unlock(gteelk)
-
-    lock(truelk)
-    open("true_gts", "a", lock=true) do f
-        write(f, true_newick*"\n")  # \n is already in the string
-    end
-    unlock(truelk)
+    appendtolockedfile(gtee_file, gteelk, gtee_nrf)
 
     # Clean up
-    rmsuppress(temp_gtfile)
-    rmsuppress(temp_seqfile)
-    rmsuppress(temp_seqfile*".bionj")
-    rmsuppress(temp_seqfile*".ckp.gz")
-    rmsuppress(temp_seqfile*".iqtree")
-    rmsuppress(temp_seqfile*".log")
-    rmsuppress(temp_seqfile*".mldist")
-    rmsuppress(temp_seqfile*".model.gz")
-    rmsuppress(temp_seqfile*".treefile")
+    cleanestgtfiles(temp_gtfile, temp_seqfile)
     
     Threads.atomic_add!(count, 1)
     print("\rSimulating sequences and estimating gene trees ("*string(count[])*"/"*string(ntrees)*")")

@@ -11,21 +11,13 @@
 #   done
 # done
 
-if Threads.nthreads() == 1
-    @warn "Only using 1 thread. Run with 'julia -tN network-to-est-gene-trees.jl ...' to use N threads."
-end
+include("helper-fxns.jl")
+warnsinglethread()
 
 using PhyloNetworks, PhyloCoalSimulations, StatsBase
-rmsuppress(file) = try rm(file) catch e end     # used later
 
-desired_gtee = parse(Float64, ARGS[1])
-netabbr = ARGS[2]
-ils = ARGS[3]
-
-net = readTopology(joinpath("..", "data", netabbr, netabbr*".net"))
-mod = ifelse(ils == "med", 1, ifelse(ils == "high", 2, ifelse(ils == "low", 0.5, -1)))
-mod != -1 || error("ils value $ils not recognized.")
-for edge in net.edge edge.length *= mod end
+desired_gtee, netabbr, ils = parseargsseqgen(ARGS)
+net = readnetwithILS(netabbr, ils)
 
 ntrees = 500
 sims = simulatecoalescent(net, ntrees, 1)
@@ -48,31 +40,20 @@ while true
         writeTopology(tree, temp_gtfile)
 
         # Seq-gen
-        run(pipeline(`../software/seq-gen-linux -s$curr_s -n1 -f0.3,0.2,0.2,0.3 -mHKY -op -l1000 $temp_gtfile`, stdout=temp_seqfile, stderr=devnull))
+        runseqgen(curr_s, temp_gtfile, temp_seqfile)
 
         # IQ-tree
-        run(pipeline(`../software/iqtree-1.6.12-linux -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+        runiqtree(temp_seqfile)
 
         # Save the result
         est_newick = readlines(temp_seqfile*".treefile")[1]
 
         # Calculate gene tree estimation error
-        gtee_nrf = Pipe()
-        run(pipeline(`python3 ../scripts/compare_two_trees.py -t1 $true_newick -t2 $est_newick`, stdout=gtee_nrf))
-        close(gtee_nrf.in)
-        gtee_nrf = String(read(gtee_nrf))
+        gtee_nrf = calc_gtee(true_newick, est_newick)
         gtees[i] = parse(Float64, gtee_nrf)
 
         # Clean up
-        rmsuppress(temp_gtfile)
-        rmsuppress(temp_seqfile)
-        rmsuppress(temp_seqfile*".bionj")
-        rmsuppress(temp_seqfile*".ckp.gz")
-        rmsuppress(temp_seqfile*".iqtree")
-        rmsuppress(temp_seqfile*".log")
-        rmsuppress(temp_seqfile*".mldist")
-        rmsuppress(temp_seqfile*".model.gz")
-        rmsuppress(temp_seqfile*".treefile")
+        cleanestgtfiles(temp_gtfile, temp_seqfile)
     end
 
     avg_gtee = round(mean(gtees), sigdigits=4)
