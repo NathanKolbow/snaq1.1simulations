@@ -15,8 +15,17 @@ set -e  # forces quit on error
 # USER MUST BE IN THE `pipelines` DIRECTORY WHEN RUNNING
 #
 # TODO: 1. make sure everything has a set seed
+#       2. add ILS, nhybrids, ntaxa to results.csv
+#       3. pass a set seed for selecting same ngt gene trees for each SNaQ1 and SNaQ2 run
+#       4. calculate mean_gtee for the actual selected gene trees, not just the whole file mean
+#       5. use $ngt as the set seed
+#       6. don't wait to the end to write results
+#       7. add major tree RF distance to results (majorRF)
+#       8. accuracy --> RF in results
+#       9. 10,000 --> 4,430 gene trees, ngt=30 takes first 30, ngt=100 takes 31-130
+#       10. reformat so that a replicate # is associated with each treefile, add replicate # to results csv
 #
-# Good test example: ./run-one.sh "simple-test" ../results/test.csv 5 4 "med"
+# TO TEST THIS SCRIPT: ./run-one.sh "simple-test" ../results/test.csv 5 16 "med"
 
 
 net_abbr=$1
@@ -65,7 +74,7 @@ then
 else
     # Make sure we have enough generated trees
     nlines=`wc -l < ../data/${net_abbr}/treefiles-${ils}ILS/est-gts.treefile`
-    if [ ! $nlines -ge $ngt ]
+    if [ ! $nlines -eq 4430 ]
     then
         echo "Old treefile detected, redoing estimated tree generation."
         echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils}"
@@ -85,6 +94,10 @@ temp_snaq1_net_file=$tempfile
 echo "julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${temp_snaq1_net_file}"
 julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${temp_snaq1_net_file}
 
+# Write SNaQ 1.0 results
+echo "julia ./write-results.jl 1 ${output_df} ${net_abbr} ${ngt} ${temp_snaq1_net_file} ${nprocs} ${ils} 1"
+julia ./write-results.jl 1 "${output_df}" ${net_abbr} ${ngt} ${temp_snaq1_net_file} ${nprocs} ${ils} 1
+
 # Estimate w/ SNaQ 2.0
 snaq2_netfiles=()
 for probQR in 0 0.33 0.66 1
@@ -98,12 +111,12 @@ do
 
         echo "julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${currfile} ${probQR} ${propQuartets}"
         julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${currfile} ${probQR} ${propQuartets}
+
+        # Write SNaQ 2.0 results
+        echo "julia ./write-results.jl 2 ${output_df} ${net_abbr} ${ngt} ${currfile} ${nprocs} ${ils} ${probQR} ${propQuartets} 1"
+        julia ./write-results.jl 2 "${output_df}" ${net_abbr} ${ngt} ${currfile} ${nprocs} ${ils} ${probQR} ${propQuartets} 1
     done
 done
-
-# Write to DF
-echo "julia ./compile-run.jl ${output_df} ${net_abbr} ${ngt} ${nprocs} ${gtee_file} ${temp_snaq1_net_file} ${snaq2_netfiles[@]}"
-julia ./compile-run.jl ${output_df} "${net_abbr}" ${ngt} ${nprocs} ${gtee_file} ${temp_snaq1_net_file} ${snaq2_netfiles[@]}
 
 # Clean up temp files
 echo "Cleaning up temp files"
