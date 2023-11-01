@@ -1,7 +1,4 @@
 # Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file> <probqr> <propq>
-include("helper-fxns.jl")
-verifyargsSNaQ2(ARGS)
-
 @warn "Using "*string(Threads.nthreads())*" threads."
 
 # Load packages
@@ -9,14 +6,17 @@ using Distributed
 @everywhere using Pkg
 @everywhere cd(joinpath(Base.source_dir(), "../PhyloNetworks.jl-master/"))
 @everywhere Pkg.activate(".")
-@everywhere Pkg.update()
+Pkg.update()
 @everywhere Pkg.instantiate()
 @everywhere using PhyloNetworks, StatsBase
 
-nhybrids, ngt, treefile, output_file, probqr, propq = parseSNaQ2estargs(ARGS)
+include("helper-fxns.jl")
+verifyargsSNaQ2(ARGS)
 
 # Put ourselves in the right dir
-cd(joinpath(Base.source_dir(), ".."))
+@everywhere cd(joinpath(Base.source_dir()))
+nhybrids, ngt, treefile, output_file, probqr, propq = parseSNaQ2estargs(ARGS)
+@everywhere cd("..")
 
 # Run SNaQ 2.0
 trees, tempout, df = setupSNaQ(treefile, ngt)
