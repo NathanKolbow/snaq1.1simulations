@@ -113,8 +113,8 @@ do
         julia -p${nprocs} -t${nprocs} ./snaq2.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${currfile} ${probQR} ${propQuartets} > /dev/null
 
         # Write SNaQ 2.0 results
-        echo "julia ./write-results.jl 2 ${output_df} ${net_abbr} ${ngt} ${currfile} ${nprocs} ${ils} ${probQR} ${propQuartets} 1 > /dev/null"
-        julia ./write-results.jl 2 "${output_df}" ${net_abbr} ${ngt} ${currfile} ${nprocs} ${ils} ${probQR} ${propQuartets} 1 > /dev/null
+        echo "julia ./write-results.jl 2 ${output_df} ${net_abbr} ${ngt} ${currfile} ${nprocs} ${ils} 1 ${probQR} ${propQuartets} > /dev/null"
+        julia ./write-results.jl 2 "${output_df}" ${net_abbr} ${ngt} ${currfile} ${nprocs} ${ils} 1 ${probQR} ${propQuartets} > /dev/null
     done
 done
 
