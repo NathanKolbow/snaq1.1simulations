@@ -69,7 +69,7 @@ function parseSNaQ2estargs(ARGS)
     propq = parse(Float64, ARGS[6])
     isfile(treefile) || error("treefile "*string(treefile)*" not found.")
 
-    return nhybrids, ngt, treefile, output_file, probqr, probq
+    return nhybrids, ngt, treefile, output_file, probqr, propq
 end
 
 function verifyargsSNaQ2(ARGS)
