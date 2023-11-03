@@ -136,11 +136,23 @@ end
 function runiqtree(temp_seqfile::AbstractString)
     softwarepath = joinpath(basedir, "software")
     if Sys.isapple()
-        run(pipeline(`$softwarepath/iqtree-1.6.12-macos -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+        try
+            run(pipeline(`$softwarepath/iqtree-1.6.12-macos -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+        catch e
+            run(pipeline(`$softwarepath/iqtree-1.6.12-macos -redo -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+        end
     elseif Sys.islinux()
-        run(pipeline(`$softwarepath/iqtree-1.6.12-linux -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+        try
+            run(pipeline(`$softwarepath/iqtree-1.6.12-linux -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+        catch e
+            run(pipeline(`$softwarepath/iqtree-1.6.12-linux -redo -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+        end
     else
-        run(pipeline(`$softwarepath/iqtree-1.6.12-windows.exe -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+        try
+            run(pipeline(`$softwarepath/iqtree-1.6.12-windows.exe -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+        catch e
+            run(pipeline(`$softwarepath/iqtree-1.6.12-windows.exe -redo -quiet -s $temp_seqfile`, stdout=devnull, stderr=devnull))
+        end
     end
 end
 
@@ -148,6 +160,18 @@ function appendtolockedfile(filename::AbstractString, filelock::ReentrantLock, d
     lock(filelock)
     open(filename, "a") do f
         write(f, data)
+    end
+    unlock(filelock)
+end
+
+function appendtolockedfiles(filenames::AbstractVector{AbstractString}, filelock::ReentrantLock, data::AbstractVector{AbstractString})
+    length(filenames) == length(data) || error("Must provide same amount of filenames and data.")
+
+    lock(filelock)
+    for (filename, datum) in zip(filenames, data)
+        open(filename, "a") do f
+            write(f, datum)
+        end
     end
     unlock(filelock)
 end
