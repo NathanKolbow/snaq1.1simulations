@@ -11,11 +11,13 @@ pip3 install dendropy --user
 julia julia-package-install.jl
 
 # Navigate to the relevant folder
-cd /mnt/ws/home/nkolbow/snaq2/pipelines/
+# cd /mnt/ws/home/nkolbow/snaq2/pipelines/
 
 # Run stuff
 # - $1: network newick (already quoted in the submit file)
 # - $2: results file
 # - $3: number of gene trees
 # - $4: number of processors
-./run-one.sh $1 "$2" $3 $4
+# - $5: ILS
+# - $6: replicate
+./run-one.sh $1 "$2" $3 $4 $5 $6

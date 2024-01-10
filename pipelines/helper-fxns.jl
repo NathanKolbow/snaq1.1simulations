@@ -1,4 +1,4 @@
-basedir = joinpath(Base.source_dir(), "..")
+basedir = "/mnt/ws/home/nkolbow/repos/snaq2/"
 using PhyloNetworks
 
 function getsimidxs(ngt::Real)
@@ -46,14 +46,15 @@ function parseSNaQ1estargs(ARGS)
     ngt = parse(Int64, ARGS[2])
     treefile = abspath(ARGS[3])
     output_file = abspath(ARGS[4])
+    replicate = parse(Int64, ARGS[5])
     isfile(treefile) || error("treefile "*string(treefile)*" not found.")
 
-    return nhybrids, ngt, treefile, output_file
+    return nhybrids, ngt, treefile, output_file, replicate
 end
 
 function verifyargsSNaQ1(ARGS)
-    if length(ARGS) != 4
-        error("Usage: julia -p<nprocs> -t<nprocs> ./snaq1.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file>")
+    if length(ARGS) != 5
+        error("Usage: julia -p<nprocs> -t<nprocs> ./snaq1.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file> <replicate>")
     end
 end
 
@@ -67,14 +68,15 @@ function parseSNaQ2estargs(ARGS)
     output_file = abspath(ARGS[4])
     probqr = parse(Float64, ARGS[5])
     propq = parse(Float64, ARGS[6])
+    replicate = parse(Int64, ARGS[7])
     isfile(treefile) || error("treefile "*string(treefile)*" not found.")
 
-    return nhybrids, ngt, treefile, output_file, probqr, propq
+    return nhybrids, ngt, treefile, output_file, probqr, propq, replicate
 end
 
 function verifyargsSNaQ2(ARGS)
-    if length(ARGS) != 6
-        error("Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file> <probqr> <propq>")
+    if length(ARGS) != 7
+        error("Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file> <probqr> <propq> <replicate>")
     end
 end
 
@@ -102,18 +104,18 @@ function readnetwithILS(netabbr::AbstractString, ils::AbstractString)
 end
 
 function verifyargs_nettogts(ARGS)
-    if length(ARGS) != 2
+    if length(ARGS) != 3
         println(ARGS)
-        error("Usage: julia ./network-to-est-gene-trees.jl <network directory> <ils (low/med/high)>")
+        error("Usage: julia ./network-to-est-gene-trees.jl <network directory> <ils (low/med/high)> <replicate>")
     end
 end
 
 function verifyargs_writeresults(ARGS)
     whichSNaQ = parse(Int64, ARGS[1])
     if whichSNaQ == 1 && length(ARGS) != 8
-        error("Usage: julia ./write-results.jl 1 <output_df> <netabbr> <ngt> <estnet/runtime file> <nprocs> <ils> <replicateid>")
+        error("Usage: julia ./write-results.jl 1 <output_df> <netabbr> <ngt> <estnet/runtime file> <nprocs> <ils> <replicate>")
     elseif whichSNaQ == 2 && length(ARGS) != 10
-        error("Usage: julia ./write-results.jl 2 <output_df> <netabbr> <ngt> <estnet/runtime file> <nprocs> <ils> <probQR> <propQuartets> <replicateid>")
+        error("Usage: julia ./write-results.jl 2 <output_df> <netabbr> <ngt> <estnet/runtime file> <nprocs> <ils> <probQR> <propQuartets> <replicate>")
     elseif whichSNaQ != 1 && whichSNaQ != 2
         error("whichSNaQ must be 1 or 2, got $whichSNaQ instead.")
     end
@@ -164,7 +166,7 @@ function appendtolockedfile(filename::AbstractString, filelock::ReentrantLock, d
     unlock(filelock)
 end
 
-function appendtolockedfiles(filenames::AbstractVector{AbstractString}, filelock::ReentrantLock, data::AbstractVector{AbstractString})
+function appendtolockedfiles(filenames::AbstractVector{<:AbstractString}, filelock::ReentrantLock, data::AbstractVector{<:AbstractString})
     length(filenames) == length(data) || error("Must provide same amount of filenames and data.")
 
     lock(filelock)
@@ -196,7 +198,14 @@ function cleanestgtfiles(temp_gtfile::AbstractString, temp_seqfile::AbstractStri
     rmsuppress(temp_seqfile*".treefile")
 end
 
-getnetdir(netabbr::AbstractString) = joinpath(basedir, "data", netabbr)
-gettreefiledir(netabbr::AbstractString, ils::AbstractString) = joinpath(getnetdir(netabbr), "treefiles-$ils"*"ILS")
+# File/folder getter functions
+getnetdir(netabbr::AbstractString) = abspath(joinpath("/mnt/ws/home/nkolbow/repos/snaq2/data/input/", netabbr))
+gettreefiledir(netabbr::AbstractString, ils::AbstractString) = joinpath(getnetdir(netabbr), "treefiles", "$ils"*"ILS")
+
+getestgtfilepath(netabbr::AbstractString, ils::AbstractString, replicate::Integer) = joinpath(gettreefiledir(netabbr, ils), "estgts_$replicate.treefile")
+gettruegtfilepath(netabbr::AbstractString, ils::AbstractString, replicate::Integer) = joinpath(gettreefiledir(netabbr, ils), "truegts_$replicate.treefile")
+getseqgen_sfilepath(netabbr::AbstractString, ils::AbstractString, replicate::Integer) = joinpath(gettreefiledir(netabbr, ils), "seqgen-s_$replicate")
+getgteefilepath(netabbr::AbstractString, ils::AbstractString, replicate::Integer) = joinpath(gettreefiledir(netabbr, ils), "gtee_$replicate")
+
 gettruenewick(netabbr::AbstractString) = readlines(joinpath(getnetdir(netabbr), netabbr*".net"))[1]
 getRFdist(truth::HybridNetwork, est::HybridNetwork) = hardwiredClusterDistance(truth, est, false)

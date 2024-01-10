@@ -15,7 +15,7 @@ verifyargsSNaQ2(ARGS)
 
 # Put ourselves in the right dir
 @everywhere cd(joinpath(Base.source_dir()))
-nhybrids, ngt, treefile, output_file, probqr, propq = parseSNaQ2estargs(ARGS)
+nhybrids, ngt, treefile, output_file, probqr, propq, replicate = parseSNaQ2estargs(ARGS)
 @everywhere cd("..")
 
 # Run SNaQ 2.0

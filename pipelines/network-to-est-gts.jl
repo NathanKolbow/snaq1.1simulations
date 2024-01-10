@@ -6,7 +6,7 @@
 #   2. simulate sequences with seq-gen
 #   3. estimate gene trees with IQTree
 #
-# Usage: julia ./network-to-est-gene-trees.jl <network directory> <ils (low/med/high)>
+# Usage: julia ./network-to-est-gene-trees.jl <network directory> <ils (low/med/high)> <replicateID>
 
 include("helper-fxns.jl")
 
@@ -19,10 +19,11 @@ using PhyloNetworks, PhyloCoalSimulations, StatsBase
 # Read in command-line arguments
 netabbr = ARGS[1]
 ils = ARGS[2]
+replicate = parse(Int64, ARGS[3])
 ntrees = 4430   # 30 + 100 + 300 + 1000 + 3000
 
 # Create the output dir if it doesn't exist
-netdir = abspath(joinpath("..", "data", netabbr))
+netdir = getnetdir(netabbr)
 treedir = joinpath(netdir, "treefiles-"*ils*"ILS/")
 if !isdir(treedir) mkdir(treedir) end
 
@@ -42,20 +43,22 @@ elseif ils != "med"
 end
 
 # Set seq_gen -s param for the given net and ILS level
-seqgen_s = readlines(joinpath(treedir, "seqgen-s"))[1]
+seqgen_s = getseqgen_sfilepath(netabbr, ils, replicate)
+seqgen_s = readlines(seqgen_s)[1]
 seqgen_s = parse(Float64, seqgen_s)
 
 rmsuppress(file) = try rm(file) catch e end     # used later
 
 # Step 0: move to the correct directly
-cd(Base.source_dir()*"/..")
+cd("/mnt/ws/home/nkolbow/repos/snaq2/")
 
 # Step 1: simulate gene trees
 println("Simulating true gene trees...")
 sims = simulatecoalescent(net, ntrees, 1)
 
 # Clear old files
-if !isdir("pipelines/temp_data/") mkdir("pipelines/temp_data/") end
+if !isdir("./pipelines/") mkdir("./pipelines/") end     # this line just for condor scratch directory
+if !isdir("./pipelines/temp_data/") mkdir("./pipelines/temp_data/") end
 if isfile(est_treefile) rm(est_treefile) end
 touch(est_treefile)
 if isfile(gtee_file) rm(gtee_file) end
@@ -70,15 +73,13 @@ writeMultiTopology(sims, true_treefile)
 # Step 3: estimate gene trees with IQ tree
 println("Simulating sequences and estimating gene trees...")
 count = Threads.Atomic{Int}(0)
-truelk = ReentrantLock()
-gteelk = ReentrantLock()
-newicklk = ReentrantLock()
+lk = ReentrantLock()
 Threads.@threads for i=1:ntrees
     tree = sims[i]
     true_newick = writeTopology(tree)
 
-    temp_seqfile = "pipelines/temp_data/seqgen_"*string(i)*".phy"
-    temp_gtfile = "pipelines/temp_data/truegt_"*string(i)*".treefile"
+    temp_seqfile = "./pipelines/temp_data/seqgen_"*string(i)*".phy"
+    temp_gtfile = "./pipelines/temp_data/truegt_"*string(i)*".treefile"
     writeTopology(tree, temp_gtfile)
 
     # Seq-gen
@@ -89,13 +90,12 @@ Threads.@threads for i=1:ntrees
 
     # Save the result
     est_newick = readlines(temp_seqfile*".treefile")[1]
-    appendtolockedfile(est_treefile, newicklk, est_newick*"\n")
 
     # Calculate gene tree estimation error
     gtee_nrf = calc_gtee(true_newick, est_newick)
 
-    # Save the result
-    appendtolockedfile(gtee_file, gteelk, gtee_nrf)
+    # Save the results
+    appendtolockedfiles([est_treefile, gtee_file], lk, [est_newick*"\n", gtee_nrf])
 
     # Clean up
     cleanestgtfiles(temp_gtfile, temp_seqfile)

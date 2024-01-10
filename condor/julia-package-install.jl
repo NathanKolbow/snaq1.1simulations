@@ -1,2 +1,2 @@
 using Pkg
-Pkg.add(["PhyloNetworks", "PhyloCoalSimulations", "CSV", "DataFrames"])
+Pkg.add(["PhyloNetworks", "PhyloCoalSimulations", "CSV", "DataFrames", "StatsBase"])

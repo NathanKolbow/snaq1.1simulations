@@ -6,7 +6,7 @@ println("Loading packages...")
 using Distributed
 @everywhere using PhyloNetworks, StatsBase
 
-nhybrids, ngt, treefile, output_file = parseSNaQ1estargs(ARGS)
+nhybrids, ngt, treefile, output_file, replicate = parseSNaQ1estargs(ARGS)
 
 # Put ourselves in the right dir
 cd(joinpath(Base.source_dir(), ".."))
