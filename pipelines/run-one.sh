@@ -81,6 +81,9 @@ gtee_file="${treefiledir}/gtee_${replicate}"
 
 if [ ! -f "${estgt_file}" ]
 then
+    echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils} ${replicate} > /dev/null" >> /mnt/ws/home/nkolbow/repos/snaq2/condor/condor_logs/_mylog.log
+
+
     echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils} ${replicate} > /dev/null"
     julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils} ${replicate} > /dev/null
 else
@@ -88,6 +91,10 @@ else
     nlines=`wc -l < $estgt_file`
     if [ ! $nlines -eq 4430 ]
     then
+        echo "Old treefile detected, redoing estimated tree generation." >> /mnt/ws/home/nkolbow/repos/snaq2/condor/condor_logs/_mylog.log
+        echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils} ${replicate} > /dev/null" >> /mnt/ws/home/nkolbow/repos/snaq2/condor/condor_logs/_mylog.log
+
+
         echo "Old treefile detected, redoing estimated tree generation."
         echo "julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils} ${replicate} > /dev/null"
         julia -p${nprocs} -t${nprocs} ./network-to-est-gts.jl ${net_abbr} ${ils} ${replicate} > /dev/null
@@ -100,10 +107,16 @@ fi
 mk_tempdata_tempfile
 temp_snaq1_net_file=$tempfile
 
+echo "julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${temp_snaq1_net_file} ${replicate} > /dev/null" >> /mnt/ws/home/nkolbow/repos/snaq2/condor/condor_logs/_mylog.log
+
+
 echo "julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${temp_snaq1_net_file} ${replicate} > /dev/null"
 julia -p${nprocs} -t${nprocs} ./snaq1.0-estimation.jl ${nhybrids} ${ngt} ${estgt_file} ${temp_snaq1_net_file} ${replicate} > /dev/null
 
 # Write SNaQ 1.0 results
+echo "julia ./write-results.jl 1 ${output_df} ${net_abbr} ${ngt} ${temp_snaq1_net_file} ${nprocs} ${ils} ${replicate} > /dev/null" >> /mnt/ws/home/nkolbow/repos/snaq2/condor/condor_logs/_mylog.log
+
+
 echo "julia ./write-results.jl 1 ${output_df} ${net_abbr} ${ngt} ${temp_snaq1_net_file} ${nprocs} ${ils} ${replicate} > /dev/null"
 julia ./write-results.jl 1 "${output_df}" ${net_abbr} ${ngt} ${temp_snaq1_net_file} ${nprocs} ${ils} ${replicate} > /dev/null
 
