@@ -4,7 +4,7 @@
 # Load packages
 using Distributed
 @everywhere using Pkg
-@everywhere cd(joinpath(Base.source_dir(), "../PhyloNetworks.jl-master/"))
+@everywhere cd("/mnt/ws/home/nkolbow/repos/snaq2/PhyloNetworks.jl-master/")
 @everywhere Pkg.activate(".")
 Pkg.update()
 @everywhere Pkg.instantiate()
@@ -14,9 +14,8 @@ include("helper-fxns.jl")
 verifyargsSNaQ2(ARGS)
 
 # Put ourselves in the right dir
-@everywhere cd(joinpath(Base.source_dir()))
+@everywhere cd("/mnt/ws/home/nkolbow/repos/snaq2/")
 nhybrids, ngt, treefile, output_file, probqr, propq, replicate = parseSNaQ2estargs(ARGS)
-@everywhere cd("..")
 
 # Run SNaQ 2.0
 trees, tempout, df = setupSNaQ(treefile, ngt)

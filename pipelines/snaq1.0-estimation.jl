@@ -9,7 +9,7 @@ using Distributed
 nhybrids, ngt, treefile, output_file, replicate = parseSNaQ1estargs(ARGS)
 
 # Put ourselves in the right dir
-cd(joinpath(Base.source_dir(), ".."))
+cd("/mnt/ws/home/nkolbow/repos/snaq2/")
 
 # Run SNaQ 1.0
 trees, tempout, df = setupSNaQ(treefile, ngt)
