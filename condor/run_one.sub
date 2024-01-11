@@ -4,11 +4,22 @@ log = condor_logs/run_one_$(Cluster).log
 error = condor_logs/run_one_$(Cluster)_$(Process).err
 output = condor_logs/run_one_$(Cluster)_$(Process).out
 
+############################################################################################
 executable = julia_setup.sh
-arguments = n10r0 /mnt/ws/home/nkolbow/repos/snaq2/data/output/n10r0.csv 100 2 low 1
+arguments = n10r0 /mnt/ws/home/nkolbow/repos/snaq2/data/output/n10r0.csv 100 1 low 1
+############################################################################################
+# Arguments:
+# 1. network abbreviation (i.e. data/input/<ARG1>/)
+# 2. output CSV filepath
+# 3. number of gene trees
+# 4. number of processors MINUS ONE (i.e. 1 ==> 2 procs are used)
+#   - this is because `julia -pN` runs julia with N __additional__ processors, not N procs
+# 5. level of ILS
+# 6. replicate ID
+############################################################################################
 
 should_transfer_files = YES
-transfer_input_files = julia_setup.sh, julia-package-install.jl, julia-1.9.3-linux-x86_64.tar.gz, ../pipelines/helper-fxns.jl, ../pipelines/network-to-est-gts.jl, ../pipelines/run-one.sh, ../pipelines/snaq1.0-estimation.jl, ../pipelines/snaq2.0-estimation.jl, ../software/iqtree-1.6.12-linux, ../software/seq-gen-linux
+transfer_input_files = julia_setup.sh, julia-package-install.jl, julia-1.9.3-linux-x86_64.tar.gz, ../pipelines/helper-fxns.jl, ../pipelines/network-to-est-gts.jl, ../pipelines/run-one.sh, ../pipelines/snaq1.0-estimation.jl, ../pipelines/snaq2.0-estimation.jl, ../software/iqtree-1.6.12-linux, ../software/seq-gen-linux, ../pipelines/write-results.jl
 when_to_transfer_output = ON_EXIT
 
 request_cpus = 2
