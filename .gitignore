@@ -3,3 +3,9 @@ pipelines/temp_data/*
 
 # Mac files
 .DS_Store
+
+# Data files where there is too much data to send to GitHub
+data/input/*
+
+# Newer version of PhyloNetworks that is only available to us locally
+PhyloNetworks.jl-master/*
