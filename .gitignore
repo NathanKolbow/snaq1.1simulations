@@ -9,3 +9,8 @@ data/input/*
 
 # Newer version of PhyloNetworks that is only available to us locally
 PhyloNetworks.jl-master/*
+
+# Condor logs & large files
+condor/condor_logs/*
+condor/.bash_history
+condor/julia-1.9.3-linux-x86_64.tar.gz
