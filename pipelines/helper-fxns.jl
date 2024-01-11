@@ -204,7 +204,7 @@ gettreefiledir(netabbr::AbstractString, ils::AbstractString) = joinpath(getnetdi
 
 getestgtfilepath(netabbr::AbstractString, ils::AbstractString, replicate::Integer) = joinpath(gettreefiledir(netabbr, ils), "estgts_$replicate.treefile")
 gettruegtfilepath(netabbr::AbstractString, ils::AbstractString, replicate::Integer) = joinpath(gettreefiledir(netabbr, ils), "truegts_$replicate.treefile")
-getseqgen_sfilepath(netabbr::AbstractString, ils::AbstractString, replicate::Integer) = joinpath(gettreefiledir(netabbr, ils), "seqgen-s_$replicate")
+getseqgen_sfilepath(netabbr::AbstractString, ils::AbstractString) = joinpath(getnetdir(netabbr), "seqgen-s", ils)
 getgteefilepath(netabbr::AbstractString, ils::AbstractString, replicate::Integer) = joinpath(gettreefiledir(netabbr, ils), "gtee_$replicate")
 
 gettruenewick(netabbr::AbstractString) = readlines(joinpath(getnetdir(netabbr), netabbr*".net"))[1]

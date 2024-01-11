@@ -28,10 +28,10 @@ treedir = joinpath(netdir, "treefiles-"*ils*"ILS/")
 if !isdir(treedir) mkdir(treedir) end
 
 # Read net and set output file vars
-net = readTopology(joinpath(netdir, netabbr*".net"))
-gtee_file = joinpath(treedir, "gtee")
-est_treefile = joinpath(treedir, "est-gts.treefile")
-true_treefile = joinpath(treedir, "true-gts.treefile")
+net = readTopology(getnetdir(netabbr))
+gtee_file = getgteefilepath(netabbr, ils, replicate)
+est_treefile = getestgtfilepath(netabbr, ils, replicate)
+true_treefile = gettruegtfilepath(netabbr, ils, replicate)
 
 # Adjust branch lengths for given ILS level
 if ils == "low"
@@ -43,7 +43,7 @@ elseif ils != "med"
 end
 
 # Set seq_gen -s param for the given net and ILS level
-seqgen_s = getseqgen_sfilepath(netabbr, ils, replicate)
+seqgen_s = getseqgen_sfilepath(netabbr, ils)
 seqgen_s = readlines(seqgen_s)[1]
 seqgen_s = parse(Float64, seqgen_s)
 
