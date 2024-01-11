@@ -28,7 +28,7 @@ treedir = joinpath(netdir, "treefiles-"*ils*"ILS/")
 if !isdir(treedir) mkdir(treedir) end
 
 # Read net and set output file vars
-net = readTopology(getnetdir(netabbr))
+net = readTopology(gettruenewick(netabbr))
 gtee_file = getgteefilepath(netabbr, ils, replicate)
 est_treefile = getestgtfilepath(netabbr, ils, replicate)
 true_treefile = gettruegtfilepath(netabbr, ils, replicate)

@@ -6,7 +6,7 @@ using PhyloNetworks, CSV, DataFrames, StatsBase
 function processthenwrite(outputfilename::AbstractString, whichSNaQ::Integer, netabbr::AbstractString, ngt::Real, estnetruntimefilename::AbstractString, nprocs::Real, ils::AbstractString, replicateid::Real;
     probQR::AbstractFloat=0., propQuartets::AbstractFloat=1.)
     idxs = getsimidxs(ngt)
-    gtee = readlines(joinpath(gettreefiledir(netabbr, ils), "gtee"))[idxs]
+    gtee = readlines(getgteefilepath(netabbr, ils, replicateid))[idxs]
     gtee = mean([parse(Float64, line) for line in gtee])
 
     truenet = gettruenewick(netabbr)

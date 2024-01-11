@@ -4,14 +4,13 @@ universe = vanilla
 NETABBR = n10r0
 OUTPUTFILEPATH = /mnt/ws/home/nkolbow/repos/snaq2/data/output/n10r0.csv
 NUMGT = 100
-NUMPROCS = 2
 ILS = low
 
 # REPLICATENUM is actually changed later in the `queue` command
 REPLICATENUM = 2
 
-# NUMPROCS is decreased by 1 b/c this is passed to bash scripts that run julia -p${NUMPROCS} which is actually ADDITIONAL procs, not total procs
-NUMPROCS = $(NUMPROCS) - 1
+# NUMPROCS should actually be `<numprobs> - 1` b/c of julia reasons
+NUMPROCS = 1
 ############################################
 
 
