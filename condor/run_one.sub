@@ -19,11 +19,11 @@ arguments = n10r0 /mnt/ws/home/nkolbow/repos/snaq2/data/output/n10r0.csv 100 1 l
 ############################################################################################
 
 should_transfer_files = YES
-transfer_input_files = julia_setup.sh, julia-package-install.jl, julia-1.9.3-linux-x86_64.tar.gz, ../pipelines/helper-fxns.jl, ../pipelines/network-to-est-gts.jl, ../pipelines/run-one.sh, ../pipelines/snaq1.0-estimation.jl, ../pipelines/snaq2.0-estimation.jl, ../software/iqtree-1.6.12-linux, ../software/seq-gen-linux, ../pipelines/write-results.jl
+transfer_input_files = julia_setup.sh, install-confirmation.jl, julia-package-install.jl, julia-1.9.3-linux-x86_64.tar.gz, ../pipelines/helper-fxns.jl, ../pipelines/network-to-est-gts.jl, ../pipelines/run-one.sh, ../pipelines/snaq1.0-estimation.jl, ../pipelines/snaq2.0-estimation.jl, ../software/iqtree-1.6.12-linux, ../software/seq-gen-linux, ../pipelines/write-results.jl
 when_to_transfer_output = ON_EXIT
 
 request_cpus = 2
-request_memory = 12GB
+request_memory = 4GB
 request_disk = 1GB
 
 queue
