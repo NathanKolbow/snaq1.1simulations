@@ -11,6 +11,10 @@ data/input/*
 PhyloNetworks.jl-master/*
 
 # Condor logs & large files
-condor/condor_logs/*
+condor/logs/*
 condor/.bash_history
 condor/transfer-files/*
+condor/julia-projects/snaq1/snaq1-proj/
+condor/julia-projects/snaq1/snaq1-proj.tar.gz
+condor/julia-projects/snaq2/snaq2-proj/
+condor/julia-projects/snaq2/snaq2-proj.tar.gz

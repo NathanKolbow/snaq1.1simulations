@@ -1,4 +1,6 @@
 # Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file> <probqr> <propq>
+error("Need to build the project on HT Condor first!")
+
 @warn "Using "*string(Threads.nthreads())*" threads."
 
 # Load packages
@@ -10,7 +12,7 @@ Pkg.update()
 @everywhere Pkg.instantiate()
 @everywhere using PhyloNetworks, StatsBase
 
-include("helper-fxns.jl")
+@everywhere include("helper-fxns.jl")
 verifyargsSNaQ2(ARGS)
 
 # Put ourselves in the right dir
@@ -24,6 +26,7 @@ println("\n\nRunning SNaQ\n\n")
 timespent = @elapsed snaqnet = snaq!(trees[1], df, filename=tempout, hmax=nhybrids, probQR=probqr, propQuartets=propq, seed=42)
 
 # Write output
+if !isfile(output_file) touch(output_file) end
 writeTopology(snaqnet, output_file)
 open(output_file, "a") do f
     write(f, string(timespent))
