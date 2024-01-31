@@ -1,23 +1,16 @@
 # Usage: julia -p<nprocs> -t<nprocs> ./snaq2.0-estimation.jl <nhybrids> <ngt> <treefile> <network output file> <probqr> <propq>
-error("Need to build the project on HT Condor first!")
-
 @warn "Using "*string(Threads.nthreads())*" threads."
 
 # Load packages
-using Distributed
-@everywhere using Pkg
-@everywhere cd("/mnt/ws/home/nkolbow/repos/snaq2/PhyloNetworks.jl-master/")
-@everywhere Pkg.activate(".")
-Pkg.update()
-@everywhere Pkg.instantiate()
 @everywhere using PhyloNetworks, StatsBase
-
 @everywhere include("helper-fxns.jl")
+
 verifyargsSNaQ2(ARGS)
 
 # Put ourselves in the right dir
-@everywhere cd("/mnt/ws/home/nkolbow/repos/snaq2/")
 nhybrids, ngt, treefile, output_file, probqr, propq, replicate = parseSNaQ2estargs(ARGS)
+
+@everywhere cd("/mnt/ws/home/nkolbow/repos/snaq2/")
 
 # Run SNaQ 2.0
 trees, tempout, df = setupSNaQ(treefile, ngt)

@@ -20,7 +20,7 @@ function writeresults(outputfilename::AbstractString, truenetnewick::AbstractStr
     whichSNaQ::Real, runtime::Real, replicateid::Real, mean_gtee::Real, ils::AbstractString)
     
     outputfilename = abspath(outputfilename)
-    lk = mkpidlock(outputfilename)
+    lk = mkpidlock(outputfilename*".lk")
 
     try
         # Verify inputs are valid
