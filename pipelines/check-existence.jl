@@ -30,6 +30,5 @@ function already_has_entry(df, ngt, ils, replicate, numprocs, probQR, propQuarte
     return true
 end
 
-output_df = CSV.read(output_df, DataFrame)
-if !already_has_entry(output_df, ngt, ils, replicate, numprocs, probQR, propQuartets, whichSNaQ) exit(0) end
+if !already_has_entry(CSV.read(output_df, DataFrame), ngt, ils, replicate, numprocs, probQR, propQuartets, whichSNaQ) exit(0) end
 exit(1)
