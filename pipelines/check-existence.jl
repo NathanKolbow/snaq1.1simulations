@@ -11,7 +11,12 @@ probQR = parse(Float64, ARGS[7])
 propQuartets = parse(Float64, ARGS[8])
 whichSNaQ = parse(Int64, ARGS[9])
 
-function already_has_entry(df, ngt, ils, replicate, numprocs, probQR, propQuartets, whichSNaQ)
+printOutput = false
+if length(ARGS) == 10
+    printOutput = true
+end
+
+function already_has_entry(df, ngt, ils, replicate, numprocs, probQR, propQuartets, whichSNaQ; printOutput=false)
     if size(df, 1) == 0 return false end
     df = filter(:numgt => ==(ngt), df)
     if size(df, 1) == 0 return false end
@@ -27,8 +32,14 @@ function already_has_entry(df, ngt, ils, replicate, numprocs, probQR, propQuarte
     if size(df, 1) == 0 return false end
     df = filter(:whichSNaQ => ==(whichSNaQ), df)
     if size(df, 1) == 0 return false end
+
+    if printOutput
+        println("size(df, 1): $(size(df, 1))")
+        println("df[1,:]:\n$(df[1,:])")
+    end
+
     return true
 end
 
-if !already_has_entry(CSV.read(output_df, DataFrame), ngt, ils, replicate, numprocs, probQR, propQuartets, whichSNaQ) exit(0) end
+if !already_has_entry(CSV.read(output_df, DataFrame), ngt, ils, replicate, numprocs, probQR, propQuartets, whichSNaQ, printOutput=printOutput) exit(0) end
 exit(1)
