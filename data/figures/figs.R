@@ -2,15 +2,23 @@ library(tidyverse)
 
 n10r1_df <- read.csv("/mnt/home/nkolbow/repos/snaq2/data/output/n10r1.csv")
 n10r3_df <- read.csv("/mnt/home/nkolbow/repos/snaq2/data/output/n10r3.csv")
+n20r1_df <- read.csv("/mnt/home/nkolbow/repos/snaq2/data/output/n20r1.csv")
+n20r3_df <- read.csv("/mnt/home/nkolbow/repos/snaq2/data/output/n20r3.csv")
 
 n10r1_df$estnet <- NA
-n10r1_df$netabbr <- "n10r1"
 n10r3_df$estnet <- NA
+n20r1_df$estnet <- NA
+n20r3_df$estnet <- NA
+n10r1_df$netabbr <- "n10r1"
 n10r3_df$netabbr <- "n10r3"
+n20r1_df$netabbr <- "n20r1"
+n20r3_df$netabbr <- "n20r3"
 n10r1_df$whichSNaQ <- factor(n10r1_df$whichSNaQ)
 n10r3_df$whichSNaQ <- factor(n10r3_df$whichSNaQ)
+n20r1_df$whichSNaQ <- factor(n20r1_df$whichSNaQ)
+n20r3_df$whichSNaQ <- factor(n20r3_df$whichSNaQ)
 
-gg_df <- rbind(n10r1_df, n10r3_df) %>%
+gg_df <- rbind(n10r1_df, n10r3_df, n20r1_df, n20r3_df) %>%
     mutate(netid = paste0(netabbr, "_", numgt, "gt_",
     numprocs, "proc_S", whichSNaQ, "_", probQR, ",", propQuartets)) %>%
     mutate(runtimehours = runtime / 3600) %>%
@@ -38,6 +46,12 @@ median(filter(gg_df, netabbr == "n10r3", whichSNaQ == 2,
                      propQuartets == 1, probQR == 0)$runtimehours) * 60
 median(filter(gg_df, netabbr == "n10r3", whichSNaQ == 2,
                      propQuartets == 0.7, probQR == 0.5)$runtimehours) * 60
+
+median(filter(gg_df, netabbr == "n20r1", whichSNaQ == 1)$runtimehours)
+median(filter(gg_df, netabbr == "n20r1", whichSNaQ == 2,
+                     propQuartets == 1, probQR == 0)$runtimehours)
+median(filter(gg_df, netabbr == "n20r1", whichSNaQ == 2,
+                     propQuartets == 0.7, probQR == 0.5)$runtimehours)
 
 
 
@@ -92,7 +106,7 @@ make_relevant_boxplot <- function(netabbrparam, yvar, savefile="") {
         plot <- gg_df %>%
             filter(netabbr == netabbrparam) %>%
             ggplot(aes(x = whichSNaQ, y = runtimehours, color = snaq2params)) +
-            geom_boxplot(aes(group = snaq2params)) +
+            geom_violin(aes(group = snaq2params)) +
             ylab("Runtime (hours)") +
             xlab("Which SNaQ?") +
             ggtitle(paste0("Network: ", netabbrparam))
@@ -124,3 +138,10 @@ p3 <- make_relevant_boxplot("n10r3", "runtimehours",
     savefile = "/mnt/ws/home/nkolbow/repos/snaq2/data/figures/n10r3_runtime.png")
 p4 <- make_relevant_boxplot("n10r3", "netRF",
     savefile = "/mnt/ws/home/nkolbow/repos/snaq2/data/figures/n10r3_accuracy.png")
+
+sum(n20r1_df$whichSNaQ == 1)
+sum(n20r1_df$whichSNaQ == 2)
+make_relevant_boxplot("n20r1", "netRF")
+make_relevant_boxplot("n20r1", "runtimehours")
+
+n10r1_df %>% filter(whichSNaQ == 1)
