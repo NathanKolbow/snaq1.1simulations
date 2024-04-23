@@ -1,0 +1,40 @@
+universe = vanilla
+
+log = ../logs/snaq2_$(Cluster).log
+error = ../logs/errors/snaq2_$(Cluster)_$(Process)_$(NETABBR)_$(REPLICATENUM)_$(NUMTHREADS)_$(NUMGT)_$(ILS).err
+output = ../logs/outputs/snaq2_$(Cluster)_$(Process)_$(NETABBR)_$(REPLICATENUM)_$(NUMTHREADS)_$(NUMGT)_$(ILS).out
+
+OUTPUT_DF = /mnt/ws/home/nkolbow/repos/snaq2/data/output/$(NETABBR).csv
+
+###########################################################################################################
+executable = ../scripts/snaq2.sh
+arguments = $(NETABBR) $(ILS) $(NUMTHREADS) $(REPLICATENUM) $(NUMGT) $(OUTPUT_DF) $(PROBQR) $(PROPQUARTETS)
+###########################################################################################################
+
+should_transfer_files = YES
+transfer_input_files = ../scripts/snaq2.sh,             \
+    ../transfer-files/julia-1.9.3-linux-x86_64.tar.gz,  \
+    ../transfer-files/snaq2-proj.tar.gz,                \
+    ../../pipelines/check-existence.jl,                 \
+    ../../pipelines/helper-fxns.jl,                     \
+    ../../pipelines/network-to-est-gts.jl,              \
+    ../../pipelines/run-one.sh,                         \
+    ../../pipelines/snaq2.0-estimation.jl,              \
+    ../../pipelines/write-results.jl
+
+# Some machines lead to segfaults, but these all seem to work fine. So, we only allow these for now.
+#Requirements = (machine == "roy-exec-1.discovery.wisc.edu") || \
+#    (machine == "roy-exec-2.discovery.wisc.edu") || (machine == "roy-exec-3.discovery.wisc.edu") || \
+#    (machine == "roy-exec-4.discovery.wisc.edu") || (machine == "roy-exec-5.discovery.wisc.edu") || \
+#    (machine == "roy-exec-6.discovery.wisc.edu") || (machine == "roy-exec-7.discovery.wisc.edu") || \
+#    (machine == "roy-exec-8.discovery.wisc.edu") || (machine == "wid-004.discovery.wisc.edu") || \
+#    (machine == "wid-005.discovery.wisc.edu") || (machine == "wid-008.discovery.wisc.edu") || \
+#    (machine == "wid-001.discovery.wisc.edu") || (machine == "wid-002.discovery.wisc.edu") || \
+#    (machine == "wid-003.discovery.wisc.edu") || (machine == "wid-006.discovery.wisc.edu") || \
+#    (machine == "wid-007.discovery.wisc.edu") || (machine == "solislemus-001.discovery.wisc.edu")
+
+request_cpus = $(NUMTHREADS)
+request_memory = 64GB
+request_disk = 16GB
+
+queue NETABBR,NUMGT,NUMTHREADS,ILS,REPLICATENUM,PROBQR,PROPQUARTETS from snaq2-n20r1.tab
