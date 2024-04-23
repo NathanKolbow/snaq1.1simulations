@@ -1435,6 +1435,7 @@ function NNIRepeat!(net::HybridNetwork,N::Integer, probQR::Float64, d::DataCF)
     success || return false
     return true
 end
+
 # function to choose an edge from a network using quartet ranks 
 # quartet ranks are stored in quartet.deltaCF, and they represent 
 # weights for weighted random sampling, calculated as the sum of differences 
