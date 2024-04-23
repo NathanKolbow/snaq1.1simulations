@@ -8,7 +8,7 @@ pipelines/temp_data/*
 data/input/*
 
 # Newer version of PhyloNetworks that is only available to us locally
-PhyloNetworks.jl-master/*
+PhyloNetworks.jl/*
 
 # Condor logs & large files
 condor/logs/*
