@@ -1,0 +1,32 @@
+universe = vanilla
+
+log = ../logs/snaq1_$(Cluster).log
+error = ../logs/errors/snaq1_$(Cluster)_$(Process)_$(NETABBR)_$(REPLICATENUM)_$(NUMTHREADS)_$(NUMGT)_$(ILS).err
+output = ../logs/outputs/snaq1_$(Cluster)_$(Process)_$(NETABBR)_$(REPLICATENUM)_$(NUMTHREADS)_$(NUMGT)_$(ILS).out
+
+OUTPUT_DF = /mnt/ws/home/nkolbow/repos/snaq2/data/output/$(NETABBR).csv
+
+###################################################################
+executable = ../scripts/snaq1.sh
+arguments = $(NETABBR) $(ILS) $(NUMTHREADS) $(REPLICATENUM) $(NUMGT) $(OUTPUT_DF)
+###################################################################
+
+should_transfer_files = YES
+transfer_input_files = ../scripts/snaq1.sh,             \
+    ../scripts/snaq1-setup.sh,                          \
+    ../transfer-files/julia-1.9.3-linux-x86_64.tar.gz,  \
+    ../transfer-files/snaq1-proj.tar.gz,                \
+    ../../pipelines/check-existence.jl,                 \
+    ../../pipelines/helper-fxns.jl,                     \
+    ../../pipelines/network-to-est-gts.jl,              \
+    ../../pipelines/run-one.sh,                         \
+    ../../pipelines/snaq1.0-estimation.jl,              \
+    ../../software/iqtree-1.6.12-linux,                 \
+    ../../software/seq-gen-linux,                       \
+    ../../pipelines/write-results.jl
+
+request_cpus = $(NUMTHREADS)
+request_memory = 96GB
+request_disk = 8GB
+
+queue NETABBR,NUMGT,NUMTHREADS,ILS,REPLICATENUM from snaq1.tab

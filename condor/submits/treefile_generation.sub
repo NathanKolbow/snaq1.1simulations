@@ -1,0 +1,33 @@
+# SUBMIT FROM `condor/submits/`
+# SUBMIT WITH `condor_submit treefile_generation.sub`
+
+universe = vanilla
+
+log = ../logs/treegen_$(Cluster).log
+error = ../logs/treegen_$(Cluster)_$(NETABBR)-$(ILS)-$(REPLICATEID).err
+output = ../logs/treegen_$(Cluster)_$(NETABBR)-$(ILS)-$(REPLICATEID).out
+
+########################################################
+executable = ../scripts/generate_treefiles.sh
+arguments = $(NETABBR) $(ILS) $(NUMTHREADS) $(REPLICATEID)
+########################################################
+
+should_transfer_files = YES
+transfer_input_files = ../scripts/generate_treefiles.sh, \
+    ../scripts/julia_setup.sh, \
+    ../scripts/julia-package-install.jl, \
+    ../transfer-files/julia-1.9.3-linux-x86_64.tar.gz, \
+    ../../pipelines/helper-fxns.jl, \
+    ../../pipelines/network-to-est-gts.jl, \
+    ../../pipelines/run-one.sh, \
+    ../../pipelines/snaq1.0-estimation.jl, \
+    ../../pipelines/snaq2.0-estimation.jl, \
+    ../../software/iqtree-1.6.12-linux, \
+    ../../software/seq-gen-linux, \
+    ../../pipelines/write-results.jl
+
+request_cpus = 8
+request_memory = 2GB
+request_disk = 2GB
+
+queue NETABBR,ILS,NUMTHREADS,REPLICATEID from treefile_generation.tab
