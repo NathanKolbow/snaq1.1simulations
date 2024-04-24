@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.5.20)  23 APR 2024 15:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.5.20)  24 APR 2024 11:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1014,17 +1014,32 @@ Underfull \hbox (badness 1412) in paragraph at lines 143--144
 
  []
 
-- LAST -
-Extra skip:3.81186pt
-Left:481.07227pt/1.46379pt
-Right:478.7242pt/0.0pt
-Output:481.14822pt
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 
 Overfull \hbox (253.25pt too wide) has occurred while \output is active
 [][][] 
  []
 
-[2
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+ [2
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+]
+- LAST -
+Extra skip:25.5pt
+Left:25.5pt/0.0pt
+Right:0.0pt/0.0pt
+Output:25.75pt
+
+Overfull \hbox (253.25pt too wide) has occurred while \output is active
+[][][] 
+ []
+
+[3
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
 ] (./oup-authoring-template.aux)
@@ -1033,9 +1048,9 @@ Package rerunfilecheck Info: File `oup-authoring-template.out' has not changed.
 (rerunfilecheck)             Checksum: CECEE63E580F8039A50F1AE5708E2C41;2880.
  ) 
 Here is how much of TeX's memory you used:
- 24975 strings out of 478994
- 450522 string characters out of 5858184
- 930550 words of memory out of 5000000
+ 24976 strings out of 478994
+ 450528 string characters out of 5858184
+ 928550 words of memory out of 5000000
  41948 multiletter control sequences out of 15000+600000
  429859 words of font info for 129 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
@@ -1064,10 +1079,10 @@ ist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2021/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2021/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2021/texmf-dist/fo
 nts/type1/public/cm-super/sfrm0600.pfb>
-Output written on oup-authoring-template.pdf (2 pages, 239549 bytes).
+Output written on oup-authoring-template.pdf (3 pages, 243246 bytes).
 PDF statistics:
- 204 PDF objects out of 1000 (max. 8388607)
- 175 compressed objects within 2 object streams
- 33 named destinations out of 1000 (max. 500000)
+ 208 PDF objects out of 1000 (max. 8388607)
+ 178 compressed objects within 2 object streams
+ 34 named destinations out of 1000 (max. 500000)
  149 words of extra memory for PDF output out of 10000 (max. 10000000)
 

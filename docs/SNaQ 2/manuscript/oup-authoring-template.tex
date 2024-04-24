@@ -157,24 +157,26 @@ We make an improvement in heuristics by selecting the edge via weighted random s
 
 \subsection{Evaluation using simulated and empirical data}\label{subsec3}
 \subsubsection{Simulation}
-We evaluate the performance of SNaQ2 using simulation. 
+We evaluate the performance of SNaQ2 using simulation. A set of species networks wher each network has $n=\{10, 20, 30\}$ tips with 1 or 3 reticulations when $n=10$ and 1, 3, or 5 otherwise was generated. For each $n$, we first generated a species tree under a Yule process using R package phytools, then we sequentially added reticulation onto the topology at arbitrary position. We checked each network is level-1 considering that snaq! can only infer networks in this class, both manually and using R package SiPhyNetworks. For each species network, we set each branch length $=\{0.5,1.0,2.0\}$ colescent unit to represent high, medium, and low amount of incomplete lineage sorting.
+
+Using Julia package PhyloCoalSimulations, we generate a set of $g\in\{300, 1000, 3000\}$ gene trees for each species network. For each gene tree, we generated multiple sequence alignment that is $10^3$ bp long, setting the scale branch parameter=0.03 and base frequency of nucleotides as A=0.3, C=0.2, G=0.2, and T=0.3 under the HKY model. The generated sequence alignment was used to estimate a gene tree using IQ-TREE 1.6.12 with the best substituion model being identified withtin the sotftware with default parameters. Gene tree estimation error was measured using python package FastMulRFS.
+
+The set of estimated gene trees were subsequently used as an input file for network estimation using SNaQ1 and SNaQ2. For SNaQ1, a randomly selected estimated gene tree was used as the starting topology, a table of CFs computed from the set of estimated gene trees were used as input, and the true number of reticulations were provided. For SNaQ2, all parameter setting was identical to SNaQ1 with additional parameters probQuartets$\in\{1.0, 0.9, 0.7\}$ and proqQR$\in\{0,0.5,1.0\}$. We recorded runtime for each network analysis. We evaluated the accuracy of the estimated network using hardwired cluster dissimilarity metric in Julia package PhyloNetworks. More specifically, we compared between the estimated network with the true network as well as the major trees of the estimated network and the true network. 
+
+All computations were done using condor at University of Wisconsin-Madison. We ran the analyses in different computing power setting the number of processors $\in\{4,8,16\}$ to compare the efficiency in various conditions. One hundred replicates were made.
 
 
+%Add species networks used in supplementary materials 
+%http://blog.phytools.org/2015/10/simulating-species-tree-from-genus-tree.html
+%Add sophisticated simulation pipeline in supp.
 
 \subsubsection{Empirical data}
 
-
-
-species networks, gene tree sim, seq sim, gen tree est, gene tree est error 
-
-snaq1+snaq2, estimation condition: numcores, propQR, propQ
-
-evaluation: measure time, accruacy, using condor?
-
-Empirical data: 1. the fish data in snaq1; 2. find something nice
+Empirical data: 1. the fish data in snaq1; 2. find something else
 
 \section{Results and discussion}\label{sec3}
 \subsection{Simulation}\label{subsec4}
+GTEE
 \subsection{Empirical data}\label{subsec5}
 
 \section{Conclusion}\label{sec4}
