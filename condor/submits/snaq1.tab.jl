@@ -1,4 +1,4 @@
-# Populate the snaq1.tab file with variables only for the runs that have not been completed yet.
+w# Populate the snaq1.tab file with variables only for the runs that have not been completed yet.
 using CSV, DataFrames
 
 outputdir = "/mnt/ws/home/nkolbow/repos/snaq2/data/output/"
