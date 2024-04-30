@@ -1,0 +1,28 @@
+universe = vanilla
+
+NumHybs = $(Process)
+
+log = /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/logs/$(Cluster)_$(NumHybs).log
+error = /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/errors/$(Cluster)_$(NumHybs).err
+output = /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/outputs/$(Cluster)_$(NumHybs).out
+
+############################################################################################################
+executable = /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/condor_empirical_driver.sh
+arguments = $(NumHybs)
+############################################################################################################
+
+should_transfer_files = YES
+transfer_input_files = /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/condor_empirical_driver.sh, \
+    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/julia-1.9.3-linux-x86_64.tar.gz,   \
+    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/script.jl, \
+    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/snaq2-proj.tar.gz, \
+    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/cui_etal_data.msbum.CFs.csv,   \
+    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/cui_etal_data.msbum.QMC.tre,   \
+    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/test_data.CFs.csv, \
+    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/test_data.tre
+
+request_cpus = 16
+request_memory = 128GB
+request_disk = 16GB
+
+queue 6
