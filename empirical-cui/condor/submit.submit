@@ -17,12 +17,12 @@ transfer_input_files = /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/tra
     /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/script.jl, \
     /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/snaq2-proj.tar.gz, \
     /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/cui_etal_data.msbum.CFs.csv,   \
-    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/cui_etal_data.msbum.QMC.tre,   \
-    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/test_data.CFs.csv, \
-    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/test_data.tre
+    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/cui_etal_data.msbum.QMC.tre
 
 request_cpus = 16
 request_memory = 128GB
 request_disk = 16GB
+
+priority = 100
 
 queue 6
