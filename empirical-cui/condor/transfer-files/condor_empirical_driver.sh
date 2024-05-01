@@ -16,4 +16,4 @@ num_hybrids=$1
 
 # Run the script
 echo "Running Julia script from bash"
-julia --project=snaq2-proj/ -p16 -t16 ./script.jl ${num_hybrids}
+julia --project=snaq2-proj/ -p15 -t16 ./script.jl ${num_hybrids}

@@ -34,11 +34,15 @@ d = readTableCF("cui_etal_data.msbum.CFs.csv")    # real data
 # Run SNaQ
 @info "Running SNaQ"
 filename = "/mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/snaq_outputs/cui_net_$(nhybrids)hyb"
-time_taken = @elapsed net = snaq!(t, d, hmax=nhybrids, probQR=pqr, propQuartets=pqt, seed=42, filename=filename)
-
-
-# Save results
-@info "Saving runtime"
-open("$(filename).runtime", "w+") do f
-    write(f, "$(time_taken)\n")
+if !isfile("$(filename).runtime")
+    time_taken = @elapsed net = snaq!(t, d, hmax=nhybrids, probQR=pqr, propQuartets=pqt, seed=42, filename=filename)
+    
+    # Save results
+    @info "Saving runtime"
+    open("$(filename).runtime", "w+") do f
+        write(f, "$(time_taken)\n")
+    end
+else
+    println("--- Results already exist, skipping analyses.")
 end
+
