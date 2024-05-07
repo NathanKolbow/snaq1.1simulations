@@ -3,44 +3,44 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: oup-authoring-template.aux
 The style file: abbrvnat.bst
 Database file #1: reference.bib
-You've used 13 entries,
+You've used 24 entries,
             2773 wiz_defined-function locations,
-            700 strings with 7282 characters,
-and the built_in function-call counts, 6389 in all, are:
-= -- 608
-> -- 343
-< -- 7
-+ -- 116
-- -- 102
-* -- 578
-:= -- 1006
-add.period$ -- 64
-call.type$ -- 13
-change.case$ -- 74
-chr.to.int$ -- 12
-cite$ -- 26
-duplicate$ -- 274
-empty$ -- 498
-format.name$ -- 125
-if$ -- 1332
+            786 strings with 9645 characters,
+and the built_in function-call counts, 11955 in all, are:
+= -- 1159
+> -- 613
+< -- 14
++ -- 208
+- -- 183
+* -- 1085
+:= -- 1869
+add.period$ -- 119
+call.type$ -- 24
+change.case$ -- 134
+chr.to.int$ -- 23
+cite$ -- 48
+duplicate$ -- 498
+empty$ -- 947
+format.name$ -- 225
+if$ -- 2489
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 13
-newline$ -- 97
-num.names$ -- 52
-pop$ -- 104
+missing$ -- 24
+newline$ -- 174
+num.names$ -- 96
+pop$ -- 183
 preamble$ -- 1
-purify$ -- 60
+purify$ -- 109
 quote$ -- 0
-skip$ -- 194
+skip$ -- 350
 stack$ -- 0
-substring$ -- 232
-swap$ -- 35
+substring$ -- 539
+swap$ -- 57
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 138
+type$ -- 259
 warning$ -- 0
-while$ -- 55
+while$ -- 108
 width$ -- 0
-write$ -- 226
+write$ -- 413

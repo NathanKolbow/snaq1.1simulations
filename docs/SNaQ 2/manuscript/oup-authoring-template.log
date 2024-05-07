@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.5.20)  25 APR 2024 12:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.5.20)  7 MAY 2024 13:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -928,64 +928,41 @@ LaTeX Info: Redefining \nameref on input line 62.
 \@outlinefile=\write4
 \openout4 = `oup-authoring-template.out'.
 
-LaTeX Font Info:    Calculating math sizes for size <13.04874> on input line 12
-0.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 120
+LaTeX Font Info:    Calculating math sizes for size <13.04874> on input line 11
+8.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 118
 .
 
 (/usr/local/texlive/2021/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 120
+LaTeX Font Info:    Trying to load font information for U+msb on input line 118
 .
 
 (/usr/local/texlive/2021/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 12
-0.
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 11
+8.
 
 (/usr/local/texlive/2021/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-LaTeX Font Info:    Calculating math sizes for size <9.13406> on input line 120
+LaTeX Font Info:    Calculating math sizes for size <9.13406> on input line 118
 .
-LaTeX Font Info:    Calculating math sizes for size <7.52812> on input line 120
+LaTeX Font Info:    Calculating math sizes for size <7.52812> on input line 118
 .
-LaTeX Font Info:    Calculating math sizes for size <6.52437> on input line 120
+LaTeX Font Info:    Calculating math sizes for size <6.52437> on input line 118
 .
-LaTeX Font Info:    Calculating math sizes for size <4.56703> on input line 120
+LaTeX Font Info:    Calculating math sizes for size <4.56703> on input line 118
 .
 
-Underfull \hbox (badness 2932) in paragraph at lines 123--124
+Underfull \hbox (badness 2932) in paragraph at lines 121--122
 \OT1/cmr/m/n/7.52812 Phylogenetic network is an acyclic directed graph that
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-Package amsmath Warning: Foreign command \atopwithdelims;
-(amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 131.
-
-
-Underfull \hbox (badness 1708) in paragraph at lines 131--132
-\OT1/cmr/m/n/7.52812 subsection. First, \OT1/cmr/m/sc/7.52812 SNaQ \OT1/cmr/m/n
-/7.52812 extracts unrooted quarnet (i.e.,
- []
-
-
-Underfull \hbox (badness 1642) in paragraph at lines 131--132
-\OT1/cmr/m/n/7.52812 expected concordance factor (CF) for each quarnet that
- []
-
-
-Underfull \hbox (badness 3849) in paragraph at lines 133--134
-\OML/cmm/m/it/7.52812 X$ \OT1/cmr/m/n/7.52812 follows a multinomial distributio
-n with probabilities
- []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -998,18 +975,34 @@ Non-PDF special ignored!
 
 
 ]
-Underfull \hbox (badness 3679) in paragraph at lines 144--145
-[]\OT1/cmr/m/n/7.52812 Since hill climbing only guantees to find the local
+Underfull \hbox (badness 1917) in paragraph at lines 134--135
+\OT1/cmr/m/n/7.52812 of the expected CF for each quarnet with probabilities
  []
 
 
-Underfull \hbox (badness 2126) in paragraph at lines 148--149
-\OT1/cmr/m/n/7.52812 Julia package \OT1/cmr/m/sc/7.52812 Distributed\OT1/cmr/m/
-n/7.52812 . SNaQ2 further improves the
+Underfull \hbox (badness 2503) in paragraph at lines 145--146
+\OT1/cmr/m/n/7.52812 each independent run on different processors (or cores)
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Package amsmath Warning: Foreign command \atopwithdelims;
+(amsmath)                \frac or \genfrac should be used instead
+(amsmath)                 on input line 148.
+
+
+Underfull \hbox (badness 3417) in paragraph at lines 151--152
+\OT1/cmr/m/n/7.52812 All topological moves, except `change direction of the
+ []
+
+
+Underfull \hbox (badness 1454) in paragraph at lines 153--154
+[]\OT1/cmr/m/n/7.52812 This stochasticity produced by a random selection of
+ []
+
+
+Underfull \hbox (badness 1715) in paragraph at lines 153--154
+\OT1/cmr/m/n/7.52812 a tree branch to make a move can result in increased
+ []
 
 
 Overfull \hbox (253.25pt too wide) has occurred while \output is active
@@ -1023,74 +1016,106 @@ Overfull \vbox (1.0pt too high) has occurred while \output is active []
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
 ] (./oup-authoring-template.bbl
-Underfull \hbox (badness 1939) in paragraph at lines 18--24
+Underfull \hbox (badness 10000) in paragraph at lines 45--52
+\OT1/cmr/m/n/7.52812 EXTENSIVE RETICULATE EVOLUTION IN
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--52
+\OT1/cmr/m/it/7.52812 XIPHOPHORUS \OT1/cmr/m/n/7.52812 FISHES: PHYLOGENOMICS OF
+
+ []
+
+
+Underfull \hbox (badness 1939) in paragraph at lines 64--70
 []\OT1/cmr/m/n/7.52812 H. A. Hejase and K. J. Liu.  A scalability study of
  []
 
 
-Underfull \hbox (badness 1365) in paragraph at lines 18--24
+Underfull \hbox (badness 1365) in paragraph at lines 64--70
 \OT1/cmr/m/n/7.52812 phylogenetic network inference methods using empirical
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 34--40
+Underfull \hbox (badness 10000) in paragraph at lines 88--94
 \OT1/cmr/m/it/7.52812 Networks: Concepts, Algorithms and Applications\OT1/cmr/m
 /n/7.52812 .
  []
 
 
-Underfull \hbox (badness 5316) in paragraph at lines 34--40
+Underfull \hbox (badness 5316) in paragraph at lines 88--94
 \OT1/cmr/m/n/7.52812 Cambridge University Press, 1 edition, Dec. 2010.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 34--40
+Underfull \hbox (badness 10000) in paragraph at lines 88--94
 \OT1/cmr/m/n/7.52812 ISBN 978-0-521-75596-2 978-0-511-97407-6.  doi:
  []
 
 
-Underfull \hbox (badness 3209) in paragraph at lines 43--50
+Underfull \hbox (badness 7081) in paragraph at lines 96--103
+[]\OT1/cmr/m/n/7.52812 J. A. Justison, C. Solis-Lemus, and T. A. Heath.
+ []
+
+
+Underfull \hbox (badness 3209) in paragraph at lines 106--113
 \OT1/cmr/m/n/7.52812 mathematical significance.  \OT1/cmr/m/it/7.52812 Journal 
 of Mathematical
  []
 
 
-Underfull \hbox (badness 2302) in paragraph at lines 83--89
+Overfull \hbox (253.25pt too wide) has occurred while \output is active
+[][][] 
+ []
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+ [3
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+]
+Underfull \hbox (badness 2302) in paragraph at lines 174--180
 []\OT1/cmr/m/n/7.52812 C. Than, D. Ruths, and L. Nakhleh.  PhyloNet: A
  []
 
 
-Underfull \hbox (badness 1354) in paragraph at lines 99--104
+Underfull \hbox (badness 1354) in paragraph at lines 190--195
 []\OT1/cmr/m/n/7.52812 Y. Yu and L. Nakhleh.  A maximum pseudo-likelihood
+ []
+
+
+Underfull \hbox (badness 2573) in paragraph at lines 197--204
+[]\OT1/cmr/m/n/7.52812 C. Zhang and S. Mirarab.  Weighting by Gene Tree
  []
 
 )
 - LAST -
-Extra skip:2.27565pt
-Left:431.85742pt/1.88202pt
-Right:429.58177pt/1.88202pt
-Output:431.96959pt
+Extra skip:10.5pt
+Left:167.5pt/1.88202pt
+Right:157.0pt/1.88202pt
+Output:167.5pt
 
 Overfull \hbox (253.25pt too wide) has occurred while \output is active
 [][][] 
  []
 
-[3
+[4
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
 ] (./oup-authoring-template.aux)
 Package rerunfilecheck Info: File `oup-authoring-template.out' has not changed.
 
-(rerunfilecheck)             Checksum: CECEE63E580F8039A50F1AE5708E2C41;2880.
+(rerunfilecheck)             Checksum: 54D9D84F5E59EAF2BD141CA66EF58CE5;2926.
  ) 
 Here is how much of TeX's memory you used:
  25037 strings out of 478994
- 451513 string characters out of 5858184
- 933550 words of memory out of 5000000
- 41992 multiletter control sequences out of 15000+600000
+ 451067 string characters out of 5858184
+ 934550 words of memory out of 5000000
+ 41981 multiletter control sequences out of 15000+600000
  429859 words of font info for 129 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
- 102i,11n,102p,17365b,866s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 102i,11n,102p,17365b,457s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }</usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmb10.pfb><
 /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><
@@ -1115,10 +1140,10 @@ ist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2021/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2021/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2021/texmf-dist/fo
 nts/type1/public/cm-super/sfrm0600.pfb>
-Output written on oup-authoring-template.pdf (3 pages, 259959 bytes).
+Output written on oup-authoring-template.pdf (4 pages, 278884 bytes).
 PDF statistics:
- 258 PDF objects out of 1000 (max. 8388607)
- 227 compressed objects within 3 object streams
- 48 named destinations out of 1000 (max. 500000)
+ 300 PDF objects out of 1000 (max. 8388607)
+ 268 compressed objects within 3 object streams
+ 59 named destinations out of 1000 (max. 500000)
  149 words of extra memory for PDF output out of 10000 (max. 10000000)
 
