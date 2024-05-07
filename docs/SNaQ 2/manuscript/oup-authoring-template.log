@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.5.20)  7 MAY 2024 13:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.5.20)  7 MAY 2024 13:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1106,7 +1106,7 @@ Non-PDF special ignored!
 ] (./oup-authoring-template.aux)
 Package rerunfilecheck Info: File `oup-authoring-template.out' has not changed.
 
-(rerunfilecheck)             Checksum: 54D9D84F5E59EAF2BD141CA66EF58CE5;2926.
+(rerunfilecheck)             Checksum: D67CAFDFB75589FE600AA8BBBA09141C;2969.
  ) 
 Here is how much of TeX's memory you used:
  25037 strings out of 478994
@@ -1140,7 +1140,7 @@ ist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2021/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2021/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2021/texmf-dist/fo
 nts/type1/public/cm-super/sfrm0600.pfb>
-Output written on oup-authoring-template.pdf (4 pages, 278884 bytes).
+Output written on oup-authoring-template.pdf (4 pages, 280016 bytes).
 PDF statistics:
  300 PDF objects out of 1000 (max. 8388607)
  268 compressed objects within 3 object streams

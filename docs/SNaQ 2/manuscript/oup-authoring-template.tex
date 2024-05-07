@@ -75,16 +75,16 @@
 \title[SNaQ2]{SNaQ2: Improved Scalability for Phylogenetic Network Inference}
 
 \author[1]{Sungsik Kong}
-\author[2]{Nathan Kolbow}
+\author[1,2]{Nathan Kolbow}
 \author[3]{Tyler Chafin}
-\author[3,$\ast$]{Claudia Solís-Lemus}
+\author[1,4,$\ast$]{Claudia Solís-Lemus}
 
 \authormark{Author Name et al.}
 
-\address[1]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \postcode{Postcode}, \state{State}, \country{Country}}}
-\address[2]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \postcode{Postcode}, \state{State}, \country{Country}}}
+\address[1]{\orgdiv{Wisconsin Institute for Discovery}, \orgname{University of Wisconsin–Madison}, \orgaddress{\street{Street}, \postcode{Postcode}, \state{State}, \country{Country}}}
+\address[2]{\orgdiv{Department of Biostatistics}, \orgname{University of Wisconsin–Madison}, \orgaddress{\street{Street}, \postcode{Postcode}, \state{State}, \country{Country}}}
 \address[3]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \postcode{Postcode}, \state{State}, \country{Country}}}
-\address[4]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \postcode{Postcode}, \state{State}, \country{Country}}}
+\address[4]{\orgdiv{Department of Plant Pathology}, \orgname{University of Wisconsin–Madison}, \orgaddress{\street{Street}, \postcode{Postcode}, \state{State}, \country{Country}}}
 
 \corresp[$\ast$]{Corresponding author. \href{email:email-id.com}{email-id.com}}
 
@@ -124,7 +124,7 @@ A common strategy to enhance the efficiency of the network inference is to summa
 
 Nevertheless, network inference is still a computationally demanding procedure. It is not uncommon to conduct the analysis with a handful of taxa, which narrows the scope of biological investigation. In this study, we present \textsc{SNaQ2}, a new version of \textsc{SNaQ} with improved computational efficiency via (1) weighted random selection of quartets, (2) parallelization of the quartet likelihood calculation during composite likelihood computation, and (3) probabilistic decision-making during network search heuristics. In the following, we first briefly introduce the essence of the original \textsc{SNaQ} followed by the key improvemetns made in \textsc{SNaQ2}. Then, we present the result of our benchmarks that compares the performance of \textsc{SNaQ} and \text{SNaQ2} and we apply \textsc{SNaQ2} on empirical datasets. Our results clearly demonstrate improved efficiency in \textsc{SNaQ2}.
 
-\pagebreak
+%\pagebreak
 \section{Methods}\label{sec2}
 \subsection{Original SNaQ}\label{subsec1}
 %$4 \choose 2$=3
@@ -147,7 +147,7 @@ While \textsc{SNaQ} utilizes parallelization mechanism by allowing each independ
 \subsubsection{Sampling subset of quartets for composite likelihood}\label{subsubsec3}
 In \textsc{SNaQ}, all quartets extracted from a network were used to compute composite likelihood. While this computation is generally efficient, it may lead to the bottleneck as the number of taxa increases, since there are $n \choose 4$ quartets in a network. In \textsc{SNaQ2}, a new argument \texttt{propQuartets}, which specifies the proportion of sampled quarnets from the full set of quarnets extracted for the composite likelihood calculation, is available in the main function \texttt{snaq!}. The value of \texttt{propQuartets} must be non-negative float $\le 1$. \textsc{SNaQ2} currently subseamples quartets in a randomized manner, which is a common subsampling approach (e.g., SVDQuartets \citep{chifman2014,chifman2015}) in phylogenetic inference, although some studies show weighted subsampling can improve accuracy (e.g., ASTRAL \citep{zhang2022b}).
 
-\subsubsection{Proposals using quartet weighting}\label{subsubsec2}
+\subsubsection{Topological moves using quartet weighting}\label{subsubsec2}
 All topological moves, except `change direction of the reticulation edge', involve random selection of a tree edge in $N_0$ that acts as the point of moficiation. For example, to perform the topological move `move the origin of an existing hybridization edge', a reticulation edge whose head is at a randomly selected reticulation node $u$ is selected at the probability of $\gamma$ (i.e., the inhertiance probability assigned to each reticulation edge), followed by a $random$ selection of a tree edge that will have a new node $u'$ in the middle. Then, the head of the selected reticulation edge becomes $u'$ with $\gamma$ and the original incoming branch becomes the other reticulation edge with ($1-\gamma$). All nodes with degree two are removed.
 
 This stochasticity produced by a random selection of a tree branch to make a move can result in increased computational time to find a optima during the search process. We make an improvement in heuristics by selecting the edge via weighted random sampling where the weight is $\Delta CF=\sum^3_{i=1}\left|X_{q_i}-CF_{q_i}\right|$, calculated for every quartet extracted from a network. The rationale is that if an edge (or split) occurs in the frequency that deviates from the expectation, that edge is unlikely to present in the true network topology. A new argument \texttt{probQR} is added in the function \texttt{snaq!}, which must be non-negative float $\le 1$ that defines the probability of an edge chosen based on the weight (i.e, 0.0=full random and 1.0=full weighted).
