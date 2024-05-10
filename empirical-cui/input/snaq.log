@@ -1,0 +1,12 @@
+optimization of topology, BL and inheritance probabilities using:
+ hmax = 0,
+ tolerance parameters: ftolRel=1.0e-6, ftolAbs=1.0e-6,
+                       xtolAbs=0.001, xtolRel=0.01.
+ max number of failed proposals = 75, liktolAbs = 1.0e-6.
+rootname for files: snaq
+BEGIN: 10 runs on starting tree (Xbirchmanni_GARC,Xmalinche_CHIC2,(Xcortezi,((Xmontezumae,Xnezahuacoyotl):0.20483859110430347,(((Xcontinens,Xpygmaeus):2.2959965325402103,(Xnigrensis,Xmultilineatus):1.6589389246103243):2.3452393423437425,(((((((((Xgordoni,Xmeyeri):0.2712063807319495,Xcouchianus):4.202259055017044,Xvariatus):0.6972657181741981,Xevelynae):0.5671916883783797,Xmilleri):0.289866426483057,Xxiphidium):0.3867695113181988,Xandersi):0.42286001342299184,Xmaculatus):0.5990023321456063,((((Xalvarezi,Xmayae):0.4340043590214104,Xhellerii):0.3191339642737695,Xsignum):2.036358391777147,(Xclemenciae_F2,Xmonticolus):1.4456444494511218):0.9576249049350155):2.4117600894070255):0.47148136750609243):0.45190130744628526):0.9838760344084564);
+
+main seed 8584
+seed: 8584 for run 1, 2024-04-29 11:58:56.041
+
+BEGIN SNaQ for run 1, seed 8584 and hmax 0
