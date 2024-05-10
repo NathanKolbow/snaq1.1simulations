@@ -35,7 +35,7 @@ for netabbr in ["n10r1", "n10r3", "n20r1", "n20r3"]
         output_df = CSV.read(joinpath(outputdir, netabbr*".csv"), DataFrame)
 
         for ngt in [300, 1000, 3000]
-            for rep in 1:100
+            for rep in 1:10
                 for numprocs in [4, 8, 16]
                     for probQR in [0, 0.5, 1]
                         for propQuartets in [1, 0.9, 0.7]

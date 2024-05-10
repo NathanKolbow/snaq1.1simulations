@@ -1,4 +1,4 @@
-w# Populate the snaq1.tab file with variables only for the runs that have not been completed yet.
+# Populate the snaq1.tab file with variables only for the runs that have not been completed yet.
 using CSV, DataFrames
 
 outputdir = "/mnt/ws/home/nkolbow/repos/snaq2/data/output/"
@@ -27,7 +27,7 @@ open("snaq1.tab", "w") do file
     for netabbr in ["n10r1", "n10r3", "n20r1", "n20r3"]
         output_df = CSV.read(joinpath(outputdir, netabbr*".csv"), DataFrame)
         for ngt in [300, 1000, 3000]
-            for rep in 1:100
+            for rep in 1:10
                 for numprocs in [4, 8, 16]
                     if !already_has_entry(output_df, ngt, "med", rep, numprocs, 0, 1, 1)
                         write(file, "$netabbr,$ngt,$numprocs,med,$rep\n")

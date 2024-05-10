@@ -2,8 +2,8 @@
 using Distributed
 
 # Verify number of processors
-if nprocs() < 16
-    error("Should be run w/ 16 processors.")
+if nprocs() == 1
+    error("Should be run w/ multiple processors.")
 end
 
 # Verify arguments
