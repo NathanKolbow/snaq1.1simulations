@@ -39,9 +39,11 @@ for netabbr in ["n10r1", "n10r3", "n20r1", "n20r3"]
                 for numprocs in [4, 8, 16]
                     for probQR in [0, 0.5, 1]
                         for propQuartets in [1, 0.9, 0.7]
-                            if !already_has_entry(output_df, ngt, "med", rep, numprocs, probQR, propQuartets, 2)
-                                write(file, "$netabbr,$ngt,$numprocs,med,$rep,$probQR,$propQuartets\n")
-                                lineswritten += 1
+                            for ils in ["low", "med", "high"]
+                                if !already_has_entry(output_df, ngt, ils, rep, numprocs, probQR, propQuartets, 2)
+                                    write(file, "$netabbr,$ngt,$numprocs,$ils,$rep,$probQR,$propQuartets\n")
+                                    lineswritten += 1
+                                end
                             end
                         end
                     end

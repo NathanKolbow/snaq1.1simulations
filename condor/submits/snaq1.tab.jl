@@ -29,9 +29,11 @@ open("snaq1.tab", "w") do file
         for ngt in [300, 1000, 3000]
             for rep in 1:10
                 for numprocs in [4, 8, 16]
-                    if !already_has_entry(output_df, ngt, "med", rep, numprocs, 0, 1, 1)
-                        write(file, "$netabbr,$ngt,$numprocs,med,$rep\n")
-                        lineswritten += 1
+                    for ils in ["low", "med", "high"]
+                        if !already_has_entry(output_df, ngt, ils, rep, numprocs, 0, 1, 1)
+                            write(file, "$netabbr,$ngt,$numprocs,$ils,$rep\n")
+                            lineswritten += 1
+                        end
                     end
                 end
             end
