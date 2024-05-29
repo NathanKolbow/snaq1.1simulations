@@ -27,13 +27,11 @@ open("snaq1.tab", "w") do file
     for netabbr in ["n10r1", "n10r3", "n20r1", "n20r3"]
         output_df = CSV.read(joinpath(outputdir, netabbr*".csv"), DataFrame)
         for ngt in [300, 1000, 3000]
-            for rep in 1:10
+            for rep in 1:20
                 for numprocs in [4, 8, 16]
-                    for ils in ["low", "med", "high"]
-                        if !already_has_entry(output_df, ngt, ils, rep, numprocs, 0, 1, 1)
-                            write(file, "$netabbr,$ngt,$numprocs,$ils,$rep\n")
-                            lineswritten += 1
-                        end
+                    if !already_has_entry(output_df, ngt, "med", rep, numprocs, 0, 1, 1)
+                        write(file, "$netabbr,$ngt,$numprocs,med,$rep\n")
+                        lineswritten += 1
                     end
                 end
             end

@@ -35,15 +35,13 @@ for netabbr in ["n10r1", "n10r3", "n20r1", "n20r3"]
         output_df = CSV.read(joinpath(outputdir, netabbr*".csv"), DataFrame)
 
         for ngt in [300, 1000, 3000]
-            for rep in 1:10
+            for rep in 1:20
                 for numprocs in [4, 8, 16]
                     for probQR in [0, 0.5, 1]
-                        for propQuartets in [1, 0.9, 0.7]
-                            for ils in ["low", "med", "high"]
-                                if !already_has_entry(output_df, ngt, ils, rep, numprocs, probQR, propQuartets, 2)
-                                    write(file, "$netabbr,$ngt,$numprocs,$ils,$rep,$probQR,$propQuartets\n")
-                                    lineswritten += 1
-                                end
+                        for propQuartets in [0.5]
+                            if !already_has_entry(output_df, ngt, "med", rep, numprocs, probQR, propQuartets, 2)
+                                write(file, "$netabbr,$ngt,$numprocs,med,$rep,$probQR,$propQuartets\n")
+                                lineswritten += 1
                             end
                         end
                     end
