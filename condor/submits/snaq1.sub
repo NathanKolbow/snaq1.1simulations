@@ -26,7 +26,7 @@ transfer_input_files = ../scripts/snaq1.sh,             \
     ../../pipelines/write-results.jl
 
 request_cpus = $(NUMTHREADS)
-request_memory = 96GB
+request_memory = 128GB
 request_disk = 8GB
 
 queue NETABBR,NUMGT,NUMTHREADS,ILS,REPLICATENUM from snaq1.tab

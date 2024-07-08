@@ -34,7 +34,7 @@ transfer_input_files = ../scripts/snaq2.sh,             \
 #    (machine == "wid-007.discovery.wisc.edu") || (machine == "solislemus-001.discovery.wisc.edu")
 
 request_cpus = $(NUMTHREADS)
-request_memory = 64GB
+request_memory = 128GB
 request_disk = 16GB
 
 queue NETABBR,NUMGT,NUMTHREADS,ILS,REPLICATENUM,PROBQR,PROPQUARTETS from snaq2-n20r3.tab
