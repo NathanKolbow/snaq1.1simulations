@@ -1,0 +1,24 @@
+optimization of topology, BL and inheritance probabilities using:
+ hmax = 3,
+ tolerance parameters: ftolRel=1.0e-6, ftolAbs=1.0e-6,
+                       xtolAbs=0.001, xtolRel=0.01.
+ max number of failed proposals = 75, liktolAbs = 1.0e-6.
+rootname for files: /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/snaq_outputs/cui_net_3hyb
+BEGIN: 10 runs on starting tree (Xbirchmanni_GARC,Xmalinche_CHIC2,(Xcortezi,((Xmontezumae,Xnezahuacoyotl):0.20483859110430347,(((Xcontinens,Xpygmaeus):2.2959965325402103,(Xnigrensis,Xmultilineatus):1.6589389246103243):2.3452393423437425,(((((((((Xgordoni,Xmeyeri):0.2712063807319495,Xcouchianus):4.202259055017044,Xvariatus):0.6972657181741981,Xevelynae):0.5671916883783797,Xmilleri):0.289866426483057,Xxiphidium):0.3867695113181988,Xandersi):0.42286001342299184,Xmaculatus):0.5990023321456063,((((Xalvarezi,Xmayae):0.4340043590214104,Xhellerii):0.3191339642737695,Xsignum):2.036358391777147,(Xclemenciae_F2,Xmonticolus):1.4456444494511218):0.9576249049350155):2.4117600894070255):0.47148136750609243):0.45190130744628526):0.9838760344084564);
+       using 11 processors
+
+main seed 42
+seed: 42 for run 1
+seed: 17357 for run 2
+seed: 32166 for run 3
+seed: 25858 for run 4
+seed: 16643 for run 5
+seed: 52701 for run 6
+seed: 48302 for run 7
+seed: 39066 for run 8
+seed: 80276 for run 9
+seed: 72198 for run 10
+
+2024-05-03 12:34:57.68
+MaxNet is (Xmeyeri,Xgordoni,(Xcouchianus,((Xvariatus,(Xevelynae,(Xmilleri,(((Xandersi,(Xmaculatus,(((((Xalvarezi,Xmayae):0.35523598726753974,Xhellerii):0.2551585304612236,Xsignum):1.86414781612554,(Xclemenciae_F2,Xmonticolus):1.4518300532738695):0.780858065644734,((((Xcontinens,Xpygmaeus):1.8371481663862312,(Xmultilineatus,(Xnigrensis)#H25:::0.9609090573333088):2.020195319259579):2.3462939916126166,(((Xmontezumae,Xnezahuacoyotl):0.18304886194077766,((Xmalinche_CHIC2,Xbirchmanni_GARC):1.0078526159917822,Xcortezi):0.559592984366517):0.21625729673398908,#H25:::0.0390909426666912):0.2585219424681057):2.058951204825393)#H27:0.8450493290611666::0.8201988399405816):1.0374235982464672):0.6589285536790408):0.4810485585571911,(Xxiphidium,#H27:0.01998487996080917::0.1798011600594184):1.0912404435721506):0.10518129494227688)#H29:0.137399952402428::0.9363463753974051):0.6163780468790104):0.8628137007277241):1.9687745976616406,#H29:0.5361453044685456::0.06365362460259495):2.2384019525032093):0.2555736461395238); 
+with -loglik 9517.256271544718

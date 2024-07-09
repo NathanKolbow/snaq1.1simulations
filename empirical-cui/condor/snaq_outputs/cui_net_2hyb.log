@@ -1,0 +1,24 @@
+optimization of topology, BL and inheritance probabilities using:
+ hmax = 2,
+ tolerance parameters: ftolRel=1.0e-6, ftolAbs=1.0e-6,
+                       xtolAbs=0.001, xtolRel=0.01.
+ max number of failed proposals = 75, liktolAbs = 1.0e-6.
+rootname for files: /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/snaq_outputs/cui_net_2hyb
+BEGIN: 10 runs on starting tree (Xbirchmanni_GARC,Xmalinche_CHIC2,(Xcortezi,((Xmontezumae,Xnezahuacoyotl):0.20483859110430347,(((Xcontinens,Xpygmaeus):2.2959965325402103,(Xnigrensis,Xmultilineatus):1.6589389246103243):2.3452393423437425,(((((((((Xgordoni,Xmeyeri):0.2712063807319495,Xcouchianus):4.202259055017044,Xvariatus):0.6972657181741981,Xevelynae):0.5671916883783797,Xmilleri):0.289866426483057,Xxiphidium):0.3867695113181988,Xandersi):0.42286001342299184,Xmaculatus):0.5990023321456063,((((Xalvarezi,Xmayae):0.4340043590214104,Xhellerii):0.3191339642737695,Xsignum):2.036358391777147,(Xclemenciae_F2,Xmonticolus):1.4456444494511218):0.9576249049350155):2.4117600894070255):0.47148136750609243):0.45190130744628526):0.9838760344084564);
+       using 17 processors
+
+main seed 42
+seed: 42 for run 1
+seed: 17357 for run 2
+seed: 32166 for run 3
+seed: 25858 for run 4
+seed: 16643 for run 5
+seed: 52701 for run 6
+seed: 48302 for run 7
+seed: 39066 for run 8
+seed: 80276 for run 9
+seed: 72198 for run 10
+
+2024-04-30 19:28:46.847
+MaxNet is (Xbirchmanni_GARC,Xmalinche_CHIC2,(Xcortezi,((((((Xxiphidium,(((((Xmeyeri,Xgordoni):0.2636125258995548,Xcouchianus):3.500689282907888,Xvariatus):0.631060667421429,Xevelynae):0.36384431618446456,(Xmilleri)#H27:::0.9347017725850442):0.337984414136385):0.37108829129924537,Xandersi):0.4247019862024905,Xmaculatus):0.5804860923733187,((Xclemenciae_F2,Xmonticolus):1.4525442440650576,((((Xalvarezi,Xmayae):0.32967720163672803,Xhellerii):0.25364299449877903,Xsignum):1.1809333322387425,#H27:::0.06529822741495583):0.704884894988302):1.0089265053891516):2.242602508665856,(((Xcontinens,Xpygmaeus):1.9060578592681583,(Xnigrensis,Xmultilineatus):1.3683555366925761):0.04645495347527983,#H25:::0.1885094883265293):2.4090201585868933):0.6274265209362606,(Xmontezumae,(Xnezahuacoyotl)#H25:::0.8114905116734707):0.3270653571601541):0.46906830514093595):0.9965298321797921); 
+with -loglik 11100.876536210875
