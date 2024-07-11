@@ -4,8 +4,8 @@ optimization of topology, BL and inheritance probabilities using:
                        xtolAbs=0.001, xtolRel=0.01.
  max number of failed proposals = 75, liktolAbs = 1.0e-6.
 rootname for files: /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/snaq_outputs/cui_net_1hyb
-BEGIN: 10 runs on starting tree (Xbirchmanni_GARC,Xmalinche_CHIC2,(Xcortezi,((Xmontezumae,Xnezahuacoyotl):0.20483859110430347,(((Xcontinens,Xpygmaeus):2.2959965325402103,(Xnigrensis,Xmultilineatus):1.6589389246103243):2.3452393423437425,(((((((((Xgordoni,Xmeyeri):0.2712063807319495,Xcouchianus):4.202259055017044,Xvariatus):0.6972657181741981,Xevelynae):0.5671916883783797,Xmilleri):0.289866426483057,Xxiphidium):0.3867695113181988,Xandersi):0.42286001342299184,Xmaculatus):0.5990023321456063,((((Xalvarezi,Xmayae):0.4340043590214104,Xhellerii):0.3191339642737695,Xsignum):2.036358391777147,(Xclemenciae_F2,Xmonticolus):1.4456444494511218):0.9576249049350155):2.4117600894070255):0.47148136750609243):0.45190130744628526):0.9838760344084564);
-       using 17 processors
+BEGIN: 10 runs on starting tree (Xbirchmanni_GARC,Xmalinche_CHIC2,(Xcortezi,(Xmontezumae,(((Xcontinens,Xpygmaeus):2.3017080252234448,(Xnigrensis,Xmultilineatus):1.671108991025126):2.759092131213057,(((((((((Xgordoni,Xmeyeri):0.27086593332514336,Xcouchianus):4.196808533934877,Xvariatus):0.697221167243595,Xevelynae):0.5681304307513453,Xmilleri):0.2868239031681669,Xxiphidium):0.39006592220779324,Xandersi):0.42783533295036885,Xmaculatus):0.5986215662561576,((((Xalvarezi,Xmayae):0.4333783549386694,Xhellerii):0.3187739708046137,Xsignum):2.0371066471202357,(Xclemenciae_F2,Xmonticolus):1.447751800046445):0.9602131745363406):2.3413425740175646):0.5135163354424009):0.7528347026628194):0.9601165929019997);
+       using 11 processors
 
 main seed 42
 seed: 42 for run 1
@@ -18,7 +18,3 @@ seed: 48302 for run 7
 seed: 39066 for run 8
 seed: 80276 for run 9
 seed: 72198 for run 10
-
-2024-04-30 17:31:44.989
-MaxNet is (Xgordoni,Xmeyeri,(Xcouchianus,(Xvariatus,(Xevelynae,(((Xandersi,(Xmaculatus,(((((Xalvarezi,Xmayae):0.3412058044882496,Xhellerii):0.25980205765976716,Xsignum):1.8677591675921164,(Xclemenciae_F2,Xmonticolus):1.448857233123739):0.7916035706071038,(((((Xbirchmanni_GARC,Xmalinche_CHIC2):0.9869763982642129,Xcortezi):0.566392004282229,(Xmontezumae,Xnezahuacoyotl):0.18176889556182854):0.46642458644494456,((Xcontinens,Xpygmaeus):1.8304826232109004,(Xnigrensis,Xmultilineatus):1.4064665368742382):2.102159923200821):2.095533492917311)#H25:0.719354621810622::0.8332882513603551):1.029815944738755):0.6485175860688308):0.4707798619059468,Xmilleri):0.30340575133304637,(Xxiphidium,#H25:0.0::0.16671174863964489):1.4191809521468768):0.40559725289017595):0.6385195168847904):3.5206808514189167):0.26238741176753844); 
-with -loglik 9458.674295546114

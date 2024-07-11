@@ -26,14 +26,14 @@ nhybrids = parse(Int64, ARGS[1])
 
 # Load data
 @info "Reading starting tree"
-t = readTopology("cui_etal_data.msbum.QMC.tre")   # real data
+t = readTopology("cui-neza.tre")   # real data
 
 @info "Reading CF table"
-d = readTableCF("cui_etal_data.msbum.CFs.csv")    # real data
+d = readTableCF("cui-neza.csv")    # real data
 
 # Run SNaQ
 @info "Running SNaQ"
-filename = "/mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/snaq_outputs_pqt1.0/cui_net_$(nhybrids)hyb"
+filename = "/mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/snaq_outputs/cui_net_$(nhybrids)hyb"
 if !isfile("$(filename).runtime")
     time_taken = @elapsed net = snaq!(t, d, hmax=nhybrids, probQR=pqr, propQuartets=pqt, seed=42, filename=filename)
     

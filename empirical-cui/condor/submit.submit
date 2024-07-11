@@ -16,8 +16,8 @@ transfer_input_files = /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/tra
     /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/julia-1.9.3-linux-x86_64.tar.gz,   \
     /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/script.jl, \
     /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/snaq2-proj.tar.gz, \
-    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/cui_etal_data.msbum.CFs.csv,   \
-    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/cui_etal_data.msbum.QMC.tre
+    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/cui-neza.csv,   \
+    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/cui-neza.tre
 
 request_cpus = 16
 request_memory = 128GB
