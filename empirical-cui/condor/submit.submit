@@ -2,27 +2,34 @@ universe = vanilla
 
 NumHybs = $(Process)
 
-log = /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/logs/$(Cluster)_$(NumHybs).log
-error = /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/errors/$(Cluster)_$(NumHybs).err
-output = /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/outputs/$(Cluster)_$(NumHybs).out
+log = ./logs/$(Cluster)_$(NumHybs).log
+error = ./errors/$(Cluster)_$(NumHybs).err
+output = ./outputs/$(Cluster)_$(NumHybs).out
 
 ############################################################################################################
-executable = /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/condor_empirical_driver.sh
+executable = ./transfer-files/condor_empirical_driver.sh
 arguments = $(NumHybs)
 ############################################################################################################
 
 should_transfer_files = YES
-transfer_input_files = /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/condor_empirical_driver.sh, \
-    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/julia-1.9.3-linux-x86_64.tar.gz,   \
-    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/script.jl, \
-    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/transfer-files/snaq2-proj.tar.gz, \
-    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/cui-neza.csv,   \
-    /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/input/cui-neza.tre
+transfer_input_files = \
+    ./transfer-files/condor_empirical_driver.sh, \
+    ./transfer-files/julia-1.9.3-linux-x86_64.tar.gz,   \
+    ./transfer-files/script.jl, \
+    ./transfer-files/snaq2-proj.tar.gz, \
+    ../input/cui-neza.csv,  \
+    ../input/cui-neza.tre,  \
+    ../input/best0.tre,     \
+    ../input/best1.tre,     \
+    ../input/best2.tre,     \
+    ../input/best3.tre,     \
+    ../input/best4.tre,     \
+    ../input/best5.tre
 
 request_cpus = 16
 request_memory = 128GB
 request_disk = 16GB
 
-priority = 100
+priority = 1000
 
 queue 6

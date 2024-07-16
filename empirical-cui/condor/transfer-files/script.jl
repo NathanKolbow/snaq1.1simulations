@@ -26,7 +26,7 @@ nhybrids = parse(Int64, ARGS[1])
 
 # Load data
 @info "Reading starting tree"
-t = readTopology("cui-neza.tre")   # real data
+t = readTopology("best$(nhybrids).tre")   # real data
 
 @info "Reading CF table"
 d = readTableCF("cui-neza.csv")    # real data

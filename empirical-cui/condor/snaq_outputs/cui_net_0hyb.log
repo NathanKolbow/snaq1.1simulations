@@ -4,7 +4,7 @@ optimization of topology, BL and inheritance probabilities using:
                        xtolAbs=0.001, xtolRel=0.01.
  max number of failed proposals = 75, liktolAbs = 1.0e-6.
 rootname for files: /mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/snaq_outputs/cui_net_0hyb
-BEGIN: 10 runs on starting tree (Xbirchmanni_GARC,Xmalinche_CHIC2,(Xcortezi,(Xmontezumae,(((Xcontinens,Xpygmaeus):2.3017080252234448,(Xnigrensis,Xmultilineatus):1.671108991025126):2.759092131213057,(((((((((Xgordoni,Xmeyeri):0.27086593332514336,Xcouchianus):4.196808533934877,Xvariatus):0.697221167243595,Xevelynae):0.5681304307513453,Xmilleri):0.2868239031681669,Xxiphidium):0.39006592220779324,Xandersi):0.42783533295036885,Xmaculatus):0.5986215662561576,((((Xalvarezi,Xmayae):0.4333783549386694,Xhellerii):0.3187739708046137,Xsignum):2.0371066471202357,(Xclemenciae_F2,Xmonticolus):1.447751800046445):0.9602131745363406):2.3413425740175646):0.5135163354424009):0.7528347026628194):0.9601165929019997);
+BEGIN: 10 runs on starting tree (Xbirchmanni_GARC,Xmalinche_CHIC2,(Xcortezi,(Xmontezumae,((((((Xalvarezi,Xmayae):0.335769895163157,Xhellerii):0.25701275636376913,Xsignum):1.868517433990161,(Xclemenciae_F2,Xmonticolus):1.4568062051783408):0.989395317723853,((((((((Xgordoni,Xmeyeri):0.26106315330686575,Xcouchianus):3.526325059236554,Xvariatus):0.6440449515447828,Xevelynae):0.46241876664792825,Xmilleri):0.22069043217601236,Xxiphidium):0.34185028479102253,Xandersi):0.41306571310159573,Xmaculatus):0.5628328916430533):2.2239077866337014,((Xcontinens,Xpygmaeus):1.9686118609434138,(Xnigrensis,Xmultilineatus):1.4508641693320588):2.4277722089992824):0.4925828367432325):0.6902608624421183):0.8942084566388452);
        using 11 processors
 
 main seed 42
@@ -19,6 +19,6 @@ seed: 39066 for run 8
 seed: 80276 for run 9
 seed: 72198 for run 10
 
-2024-07-12 3:11:19.382
-MaxNet is (Xbirchmanni_GARC,Xmalinche_CHIC2,(Xcortezi,(Xmontezumae,(((Xcontinens,Xpygmaeus):1.9686557104016005,(Xnigrensis,Xmultilineatus):1.4508292324589551):2.427788138271039,(((((((((Xgordoni,Xmeyeri):0.26093904622447106,Xcouchianus):3.5263542760585462,Xvariatus):0.6441170158129672,Xevelynae):0.46237436210169497,Xmilleri):0.2206893555248992,Xxiphidium):0.3418689375335053,Xandersi):0.4130818138671484,Xmaculatus):0.5628179674647737,((((Xalvarezi,Xmayae):0.3357322623601663,Xhellerii):0.25704423095080564,Xsignum):1.8684786153201498,(Xclemenciae_F2,Xmonticolus):1.4568488099180874):0.9894136570123448):2.223892508347026):0.4925612390290175):0.6902900397367548):0.8942464511218811); 
-with -loglik 12306.30159491168
+2024-07-16 6:21:58.641
+MaxNet is (Xbirchmanni_GARC,Xmalinche_CHIC2,(Xcortezi,(Xmontezumae,((((((Xalvarezi,Xmayae):0.33573261546776034,Xhellerii):0.2570428685455809,Xsignum):1.8684829981806892,(Xclemenciae_F2,Xmonticolus):1.4568562811775525):0.9894123051197872,((((((((Xgordoni,Xmeyeri):0.260941650500119,Xcouchianus):3.5263530419946125,Xvariatus):0.6441174121326382,Xevelynae):0.4623785424025624,Xmilleri):0.2206839165610763,Xxiphidium):0.34187169818975405,Xandersi):0.4130797975090862,Xmaculatus):0.562819643879695):2.2238926599946973,((Xcontinens,Xpygmaeus):1.968647426989417,(Xnigrensis,Xmultilineatus):1.4508222016470356):2.427787188281627):0.4925677072017978):0.690280843537655):0.8942572881883746); 
+with -loglik 12306.301595062347
