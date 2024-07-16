@@ -14,10 +14,7 @@ data<-read.csv("n20r1.csv")
 data<-read.csv("n20r3.csv")
 
 ggplot(data,aes(x=factor(numprocs), y=log(runtime), color=factor(whichSNaQ), fill=factor(propQuartets)))+
-  labs(title="Log running time (probQR x g)", y="Log running time (sec)", x="Number of processors",
-       subtitle="[1] SNaQ2 is faster than SNaQ1 in some cases; [2] Running time increases with propQuartets;
-       [3] A little hard to see the pattern for different probQR")+
-  #ylim(0,30)+
+  labs(title="Log running time (probQR x g)", y="Log running time (sec)", x="Number of processors")+
   scale_color_grey()+
   geom_violin()+
   facet_grid(numgt~probQR)+
@@ -26,12 +23,26 @@ ggplot(data,aes(x=factor(numprocs), y=log(runtime), color=factor(whichSNaQ), fil
   
 ggplot(data,aes(x=factor(numprocs), y=netRF, color=factor(whichSNaQ), fill=factor(propQuartets)))+
   labs(title="HWCD (probQR x g)", y="HWCD", x="Number of processors")+
-  #ylim(0,30)+
   scale_color_grey()+
+  #ylim(0,10)+
   geom_violin()+
   facet_grid(numgt~probQR)+
   theme_half_open(12)+
   panel_border()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ggplot(data,aes(x=factor(numprocs), y=majortreeRF, color=factor(propQuartets)))+#, fill=factor(propQuartets)))+
   labs(title="HWCD (probQR x g)", y="HWCD", x="Number of processors")+
