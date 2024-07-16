@@ -1,0 +1,39 @@
+optimization of topology, BL and inheritance probabilities using:
+ hmax = 2,
+ tolerance parameters: ftolRel=1.0e-6, ftolAbs=1.0e-6,
+                       xtolAbs=0.001, xtolRel=0.01.
+ max number of failed proposals = 75, liktolAbs = 1.0e-6.
+rootname for files: net2_7
+BEGIN: 1 runs on starting tree (Xalvarezi,Xmayae,(Xhellerii,(Xsignum,((Xclemenciae_F2,Xmonticolus):1.4552041214707416,(((((((((Xgordoni,Xmeyeri):0.2609873101734162,Xcouchianus):3.528063280805239,Xvariatus):0.6446279089286899,Xevelynae):0.462284368652192,Xmilleri):0.15800582733701732,(Xxiphidium,#H24:1.0::0.17643906087780342):1.1198276366293516):0.49283646032809314,Xandersi):0.6432655641682358,Xmaculatus):1.025780855129809,(((Xmontezumae,(Xcortezi,(Xbirchmanni_GARC,Xmalinche_CHIC2):0.8943065261646596):0.6903951873120144):0.4926049347387669,((Xnigrensis,Xmultilineatus):1.4508249886879712,(Xpygmaeus,Xcontinens):1.9686623551644915):2.4280738607161476):1.684904995871621)#H24:1.0::0.8235609391221965):0.7799246954466896):1.8655924988330903):0.2570158690012912):0.33572199673987246);
+
+main seed 60004
+seed: 60004 for run 1
+2017-07-03 5:45:37.893
+
+ BEGIN SNaQ for run 1, seed 60004 and hmax 2 changed starting topology by NNI move
+
+ changed starting network by move origin
+Begins heuristic optimization of network------
+
+found best network, now we re-optimize branch lengths and gamma more precisely
+STOPPED by number of failures criteria
+END optTopLevel: found minimizer topology at step 98 (failures: 75) with -loglik=8246.04251 and ht_min=[0.17716,0.41461,1.88767,1.45368,0.26103,3.52784,0.64175,0.46358,0.49821,0.02324,1.1424,0.15179,0.64091,1.02757,0.88998,0.69144,0.49347,1.44966,1.96309,2.42832,2.01658,0.74145,0.78299,7.30895,0.64739,0.27395]
+PERFORMANCE: total number of moves (proposed, successful, accepted) in general, and to fix gamma=0.0,t=0.0 cases
+	--------moves general--------				 --------moves gamma,t------	
+move	 Num.Proposed	 Num.Successful	 Num.Accepted	 | Num.Proposed	 Num.Successful	 Num.Accepted
+add		 1		 1		 1	 |	 NA 		 NA 		 NA 
+mvorigin	 31		 31		 2	 |	 0		 0		 --
+mvtarget	 34		 34		 0	 |	 0		 0		 --
+chdir		 14		 11		 2	 |	 0		 0		 --
+delete		 0		 0		 0	 |	 0		 0		 --
+nni		 18		 18		 0	 |	 1		 1		 --
+Total		 98		 95		 5	 |	 1		 1		 1
+Proportion	 -- 		 1.0		 0.1	 |	 -- 		 1.0		 1.0
+
+ FINISHED SNaQ for run 1, -loglik of best 8246.042511711237
+(Xalvarezi,(Xhellerii,(((((Xandersi,((Xxiphidium,#H24:0.023239973513001545::0.17715665839752726):1.1424009259853043,(((((Xgordoni,Xmeyeri):0.26103243720894836,Xcouchianus):3.527841245428812,Xvariatus):0.6417536015129963,Xevelynae):0.46357850907290604,Xmilleri):0.15178602329818972):0.4982128155876821):0.6409140380367984,Xmaculatus):1.0275672567232619,(((Xmontezumae,(Xcortezi,(Xbirchmanni_GARC,Xmalinche_CHIC2):0.8899822193216564):0.6914363935085717):0.4934655762100639,((Xnigrensis,Xmultilineatus):1.449655967757892,(Xpygmaeus,Xcontinens):1.9630850974095204):2.4283150061164402):2.0165787231436965)#H24:0.7414528054171714::0.8228433416024727):0.7829948220998305,(Xclemenciae_F2,Xmonticolus):1.453680518976737):1.8876719486683082)#H25:::0.5853888893983398):0.6473921205336386,(Xmayae,(Xsignum,#H25:::0.4146111106016602):7.308953209290338):0.27395214265058965);
+---------------------
+
+2017-07-04 19:35:8.876
+MaxNet is (Xalvarezi,(Xhellerii,(((((Xandersi,((Xxiphidium,#H24:0.023239973513001545::0.17715665839752726):1.1424009259853043,(((((Xgordoni,Xmeyeri):0.26103243720894836,Xcouchianus):3.527841245428812,Xvariatus):0.6417536015129963,Xevelynae):0.46357850907290604,Xmilleri):0.15178602329818972):0.4982128155876821):0.6409140380367984,Xmaculatus):1.0275672567232619,(((Xmontezumae,(Xcortezi,(Xbirchmanni_GARC,Xmalinche_CHIC2):0.8899822193216564):0.6914363935085717):0.4934655762100639,((Xnigrensis,Xmultilineatus):1.449655967757892,(Xpygmaeus,Xcontinens):1.9630850974095204):2.4283150061164402):2.0165787231436965)#H24:0.7414528054171714::0.8228433416024727):0.7829948220998305,(Xclemenciae_F2,Xmonticolus):1.453680518976737):1.8876719486683082)#H25:::0.5853888893983398):0.6473921205336386,(Xmayae,(Xsignum,#H25:::0.4146111106016602):7.308953209290338):0.27395214265058965); 
+with -loglik 8246.042511711237

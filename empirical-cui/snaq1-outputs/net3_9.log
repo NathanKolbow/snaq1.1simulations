@@ -1,0 +1,38 @@
+optimization of topology, BL and inheritance probabilities using:
+ hmax = 3,
+ tolerance parameters: ftolRel=1.0e-6, ftolAbs=1.0e-6,
+                       xtolAbs=0.001, xtolRel=0.01.
+ max number of failed proposals = 75, liktolAbs = 1.0e-6.
+rootname for files: net3_9
+BEGIN: 1 runs on starting tree (Xalvarezi,Xmayae,((Xsignum,((Xmonticolus,(Xclemenciae_F2,#H25:::0.032485577051040423):0.979116879342896):1.4858786525152954,(((((((((Xgordoni,Xmeyeri):0.26111415598145865,Xcouchianus):3.5325554148283564,Xvariatus):0.6445452395880061,Xevelynae):0.41219807813960146,(Xxiphidium,#H24:0.0::0.16538333427567822):1.4020042304402076):0.2921320715527958,Xmilleri):0.4688709909949548,Xandersi):0.6492623942884177,Xmaculatus):1.0200542801748702,(((Xmontezumae,(Xcortezi,(Xbirchmanni_GARC,Xmalinche_CHIC2):0.8943004029517725):0.6903622798656042):0.4926275928330048,((Xnigrensis,Xmultilineatus):1.4508210422790195,(Xpygmaeus,Xcontinens):1.9686498919562234):2.428065080719157):2.0435103751744865)#H24:0.6476450483433508::0.8346166657243218):0.7816554661308311):1.9841381634366537):0.31614675520900004,(Xhellerii)#H25:::0.9675144229489596):0.28226883225049243);
+
+main seed 87738
+seed: 87738 for run 1
+2017-07-05 4:40:24.017
+
+ BEGIN SNaQ for run 1, seed 87738 and hmax 3 changed starting topology by NNI move
+
+Begins heuristic optimization of network------
+
+found best network, now we re-optimize branch lengths and gamma more precisely
+STOPPED by number of failures criteria
+END optTopLevel: found minimizer topology at step 80 (failures: 75) with -loglik=8017.71128 and ht_min=[0.03469,0.16618,0.0,1.07345,1.47876,0.26743,3.51222,0.64598,0.4103,0.0,1.3764,0.29486,0.46629,0.64618,1.02822,0.29254,0.9047,0.6914,1.45622,1.90964,2.43927,2.0682,0.57639,0.78104,1.9929,0.3263,0.26322,0.20439]
+PERFORMANCE: total number of moves (proposed, successful, accepted) in general, and to fix gamma=0.0,t=0.0 cases
+	--------moves general--------				 --------moves gamma,t------	
+move	 Num.Proposed	 Num.Successful	 Num.Accepted	 | Num.Proposed	 Num.Successful	 Num.Accepted
+add		 2		 2		 1	 |	 NA 		 NA 		 NA 
+mvorigin	 23		 23		 0	 |	 95		 95		 --
+mvtarget	 25		 25		 0	 |	 96		 96		 --
+chdir		 12		 12		 0	 |	 191		 191		 --
+delete		 0		 0		 0	 |	 0		 0		 --
+nni		 18		 17		 0	 |	 3		 3		 --
+Total		 80		 79		 1	 |	 385		 385		 77
+Proportion	 -- 		 1.0		 0.0	 |	 -- 		 1.0		 0.2
+
+ FINISHED SNaQ for run 1, -loglik of best 8017.711284203886
+(Xalvarezi,Xmayae,((Xsignum,((Xmonticolus,(Xclemenciae_F2,#H25:::0.034690031749984765):1.0734524828557266):1.4787560695600206,(((((((((Xgordoni,Xmeyeri):0.26742939246966607,Xcouchianus):3.5122233584850893,Xvariatus):0.6459764292439265,Xevelynae):0.4102985086361108,(Xxiphidium,#H24:2.7301574173847376e-13::0.16618298011733504):1.376395530923616):0.29486388311045286,Xmilleri):0.46628636714480853,Xandersi):0.6461828254349017,Xmaculatus):1.0282179942580163,((((Xpygmaeus,Xcontinens):1.909644446701738,(Xnigrensis,(Xmultilineatus)#H26:::1.0):1.4562248454192255):2.4392705273742825,((Xmontezumae,(Xcortezi,(Xmalinche_CHIC2,Xbirchmanni_GARC):0.9047029763948732):0.6913981425229522):0.20438880455973096,#H26:::0.0):0.2925431820076055):2.0682009309367815)#H24:0.5763886594730836::0.833817019882665):0.781040526602478):1.9929035721086827):0.3263031487964921,(Xhellerii)#H25:::0.9653099682500152):0.2632211535652585);
+---------------------
+
+2017-07-06 5:20:36.444
+MaxNet is (Xalvarezi,Xmayae,((Xsignum,((Xmonticolus,(Xclemenciae_F2,#H25:::0.034690031749984765):1.0734524828557266):1.4787560695600206,(((((((((Xgordoni,Xmeyeri):0.26742939246966607,Xcouchianus):3.5122233584850893,Xvariatus):0.6459764292439265,Xevelynae):0.4102985086361108,(Xxiphidium,#H24:2.7301574173847376e-13::0.16618298011733504):1.376395530923616):0.29486388311045286,Xmilleri):0.46628636714480853,Xandersi):0.6461828254349017,Xmaculatus):1.0282179942580163,((((Xpygmaeus,Xcontinens):1.909644446701738,(Xnigrensis,(Xmultilineatus)#H26:::1.0):1.4562248454192255):2.4392705273742825,((Xmontezumae,(Xcortezi,(Xmalinche_CHIC2,Xbirchmanni_GARC):0.9047029763948732):0.6913981425229522):0.20438880455973096,#H26:::0.0):0.2925431820076055):2.0682009309367815)#H24:0.5763886594730836::0.833817019882665):0.781040526602478):1.9929035721086827):0.3263031487964921,(Xhellerii)#H25:::0.9653099682500152):0.2632211535652585); 
+with -loglik 8017.711284203886

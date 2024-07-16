@@ -1,0 +1,37 @@
+optimization of topology, BL and inheritance probabilities using:
+ hmax = 2,
+ tolerance parameters: ftolRel=1.0e-6, ftolAbs=1.0e-6,
+                       xtolAbs=0.001, xtolRel=0.01.
+ max number of failed proposals = 75, liktolAbs = 1.0e-6.
+rootname for files: net2_3
+BEGIN: 1 runs on starting tree (Xalvarezi,Xmayae,(Xhellerii,(Xsignum,((Xclemenciae_F2,Xmonticolus):1.4552041214707416,(((((((((Xgordoni,Xmeyeri):0.2609873101734162,Xcouchianus):3.528063280805239,Xvariatus):0.6446279089286899,Xevelynae):0.462284368652192,Xmilleri):0.15800582733701732,(Xxiphidium,#H24:1.0::0.17643906087780342):1.1198276366293516):0.49283646032809314,Xandersi):0.6432655641682358,Xmaculatus):1.025780855129809,(((Xmontezumae,(Xcortezi,(Xbirchmanni_GARC,Xmalinche_CHIC2):0.8943065261646596):0.6903951873120144):0.4926049347387669,((Xnigrensis,Xmultilineatus):1.4508249886879712,(Xpygmaeus,Xcontinens):1.9686623551644915):2.4280738607161476):1.684904995871621)#H24:1.0::0.8235609391221965):0.7799246954466896):1.8655924988330903):0.2570158690012912):0.33572199673987246);
+
+main seed 37492
+seed: 37492 for run 1
+2017-07-03 5:43:24.77
+
+ BEGIN SNaQ for run 1, seed 37492 and hmax 2
+Begins heuristic optimization of network------
+
+found best network, now we re-optimize branch lengths and gamma more precisely
+STOPPED by number of failures criteria
+END optTopLevel: found minimizer topology at step 133 (failures: 75) with -loglik=8020.00294 and ht_min=[0.16535,0.0483,1.45792,0.26544,0.79732,3.32009,0.15285,0.28941,0.0468,1.43343,0.46655,0.64939,1.02319,0.89369,0.69748,0.48916,1.44149,1.96221,2.4207,2.03151,0.68562,0.79004,1.86072,0.26155,0.32693,1.56799,0.33043,0.19143]
+PERFORMANCE: total number of moves (proposed, successful, accepted) in general, and to fix gamma=0.0,t=0.0 cases
+	--------moves general--------				 --------moves gamma,t------	
+move	 Num.Proposed	 Num.Successful	 Num.Accepted	 | Num.Proposed	 Num.Successful	 Num.Accepted
+add		 2		 2		 1	 |	 NA 		 NA 		 NA 
+mvorigin	 39		 39		 0	 |	 0		 0		 --
+mvtarget	 32		 32		 0	 |	 0		 0		 --
+chdir		 28		 28		 2	 |	 0		 0		 --
+delete		 0		 0		 0	 |	 0		 0		 --
+nni		 32		 30		 1	 |	 0		 0		 --
+Total		 133		 131		 4	 |	 0		 0		 0
+Proportion	 -- 		 1.0		 0.0	 |	 -- 		 0.0		 0.0
+
+ FINISHED SNaQ for run 1, -loglik of best 8020.002936715612
+(Xgordoni,Xmeyeri,(Xcouchianus,(((Xevelynae,(((Xmilleri,(Xandersi,(Xmaculatus,((((Xmontezumae,(Xcortezi,(Xbirchmanni_GARC,Xmalinche_CHIC2):0.8936900548941372):0.697484142565528):0.48916341793979184,((Xnigrensis,Xmultilineatus):1.441489999120164,(Xpygmaeus,Xcontinens):1.9622122959306443):2.420704665525224):2.0315082275596796)#H24:0.6856163902779526::0.8346528065161253,((Xclemenciae_F2,Xmonticolus):1.4579156829707414,(Xsignum,(Xhellerii,(Xalvarezi,Xmayae):0.3269331415555918):0.2615501071292169):1.860717010000592):0.7900434094966):1.0231949408158696):0.6493933057102839):0.4665502101402436):0.2894073127593637,(Xxiphidium,#H24:0.046799962371485725::0.1653471934838747):1.4334288838032267):0.33042594391686)#H25:0.15284548697761077::0.9516998781251262):0.7973218072877889,Xvariatus):3.3200878819806623,#H25:0.19143113454598248::0.0483001218748738):1.567988531330367):0.26544059103820694);
+---------------------
+
+2017-07-04 12:13:56.246
+MaxNet is (Xgordoni,Xmeyeri,(Xcouchianus,(((Xevelynae,(((Xmilleri,(Xandersi,(Xmaculatus,((((Xmontezumae,(Xcortezi,(Xbirchmanni_GARC,Xmalinche_CHIC2):0.8936900548941372):0.697484142565528):0.48916341793979184,((Xnigrensis,Xmultilineatus):1.441489999120164,(Xpygmaeus,Xcontinens):1.9622122959306443):2.420704665525224):2.0315082275596796)#H24:0.6856163902779526::0.8346528065161253,((Xclemenciae_F2,Xmonticolus):1.4579156829707414,(Xsignum,(Xhellerii,(Xalvarezi,Xmayae):0.3269331415555918):0.2615501071292169):1.860717010000592):0.7900434094966):1.0231949408158696):0.6493933057102839):0.4665502101402436):0.2894073127593637,(Xxiphidium,#H24:0.046799962371485725::0.1653471934838747):1.4334288838032267):0.33042594391686)#H25:0.15284548697761077::0.9516998781251262):0.7973218072877889,Xvariatus):3.3200878819806623,#H25:0.19143113454598248::0.0483001218748738):1.567988531330367):0.26544059103820694); 
+with -loglik 8020.002936715612

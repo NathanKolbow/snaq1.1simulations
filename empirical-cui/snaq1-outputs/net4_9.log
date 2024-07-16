@@ -1,0 +1,39 @@
+optimization of topology, BL and inheritance probabilities using:
+ hmax = 4,
+ tolerance parameters: ftolRel=1.0e-6, ftolAbs=1.0e-6,
+                       xtolAbs=0.001, xtolRel=0.01.
+ max number of failed proposals = 75, liktolAbs = 1.0e-6.
+rootname for files: net4_9
+BEGIN: 1 runs on starting tree (Xalvarezi,Xmayae,((Xsignum,(((((((((((Xgordoni,Xmeyeri):0.260934039544222,Xcouchianus):3.5312797360545534,Xvariatus):0.6443399024732661,Xevelynae):0.4123855942918298,(Xxiphidium,#H24:0.0018361266408130198::0.16539114989813283):1.4008222473756964):0.2917923569670647,Xmilleri):0.469349177188365,Xandersi):0.6487539881470423,Xmaculatus):1.0198477802411505,((((Xmontezumae,(Xcortezi,((Xmalinche_CHIC2,Xbirchmanni_GARC):1.083313518019925)#H26:0.0::0.8727956310421234):1.2638928371797538):0.6285091821002746,((Xnigrensis,Xmultilineatus):1.4513524061920164,(Xpygmaeus,Xcontinens):1.9718994304295323):2.3735668516591146):1.1260098714831577,#H26:8.623855915393824::0.12720436895787657):1.069385985597533)#H24:0.6477570616947983::0.8346088501018671):0.7903361834646656,(Xclemenciae_F2,Xmonticolus):1.4531323606875988):1.350827768154535,#H25:::0.3692984937136875):0.681502354092836):0.633639354032585,(Xhellerii)#H25:::0.6307015062863125):0.0);
+
+main seed 99603
+seed: 99603 for run 1
+2017-07-08 2:53:5.939
+
+ BEGIN SNaQ for run 1, seed 99603 and hmax 4 changed starting topology by NNI move
+
+ changed starting network by move target
+Begins heuristic optimization of network------
+
+found best network, now we re-optimize branch lengths and gamma more precisely
+STOPPED by number of failures criteria
+END optTopLevel: found minimizer topology at step 239 (failures: 75) with -loglik=8590.32809 and ht_min=[0.22315,0.18108,0.36172,0.0,0.10259,0.26904,3.90817,0.7981,0.41546,0.0,0.60814,0.28197,0.44991,0.67432,1.54818,1.30788,0.0,1.92571,0.7364,0.23925,1.96249,1.44376,1.41542,0.0,1.40956,0.0,0.79745,1.76612,1.12975,1.72579,1.61292,2.78409,1.15866,2.11836]
+PERFORMANCE: total number of moves (proposed, successful, accepted) in general, and to fix gamma=0.0,t=0.0 cases
+	--------moves general--------				 --------moves gamma,t------	
+move	 Num.Proposed	 Num.Successful	 Num.Accepted	 | Num.Proposed	 Num.Successful	 Num.Accepted
+add		 2		 1		 1	 |	 NA 		 NA 		 NA 
+mvorigin	 60		 60		 8	 |	 311		 311		 --
+mvtarget	 69		 54		 4	 |	 312		 312		 --
+chdir		 59		 36		 1	 |	 623		 80		 --
+delete		 0		 0		 0	 |	 66		 66		 --
+nni		 49		 36		 3	 |	 11		 11		 --
+Total		 239		 187		 17	 |	 1323		 780		 90
+Proportion	 -- 		 1.0		 0.1	 |	 -- 		 1.0		 0.1
+
+ FINISHED SNaQ for run 1, -loglik of best 8590.32809498963
+(((Xhellerii,#H25:1.1297485381949615::0.3617227816801939):1.7257901070219266,Xalvarezi):0.10258939214054862,(Xsignum,(((Xclemenciae_F2,Xmonticolus):1.7661242388650902,((((Xmilleri,(((Xvariatus,(Xcouchianus,(Xgordoni,Xmeyeri):0.26904461307454597):3.9081678134364255):0.7980954271993769,Xevelynae):0.4154558771863586,(Xxiphidium,#H24:6.653408530556907e-15::0.2231544516647095):0.6081375040643866):0.28197278069628007):0.4499077271785961,Xandersi):0.6743200919772008,Xmaculatus):1.54817990319289,((((Xmontezumae,(Xcortezi,((Xmalinche_CHIC2,Xbirchmanni_GARC):1.307884536536097)#H26:0.0::0.8189162358499761):1.9257071670756212):0.7364011110301152,(#H29:::0.0,((Xnigrensis,Xmultilineatus):1.443763918906458,(Xpygmaeus,(Xcontinens)#H29:::1.0):1.962488886220224):0.2392519332686126):2.1183574690243376):1.4154157942137156,#H26:7.808054759819143e-14::0.1810837641500239):1.4095614795534328)#H24:1.2659655042107326e-14::0.7768455483352905):0.7974525009709367):1.6129154934485113)#H25:2.784089947779091::0.6382772183198061):1.1586649807374754,Xmayae);
+---------------------
+
+2017-07-11 6:3:1.112
+MaxNet is (((Xhellerii,#H25:1.1297485381949615::0.3617227816801939):1.7257901070219266,Xalvarezi):0.10258939214054862,(Xsignum,(((Xclemenciae_F2,Xmonticolus):1.7661242388650902,((((Xmilleri,(((Xvariatus,(Xcouchianus,(Xgordoni,Xmeyeri):0.26904461307454597):3.9081678134364255):0.7980954271993769,Xevelynae):0.4154558771863586,(Xxiphidium,#H24:6.653408530556907e-15::0.2231544516647095):0.6081375040643866):0.28197278069628007):0.4499077271785961,Xandersi):0.6743200919772008,Xmaculatus):1.54817990319289,((((Xmontezumae,(Xcortezi,((Xmalinche_CHIC2,Xbirchmanni_GARC):1.307884536536097)#H26:0.0::0.8189162358499761):1.9257071670756212):0.7364011110301152,(#H29:::0.0,((Xnigrensis,Xmultilineatus):1.443763918906458,(Xpygmaeus,(Xcontinens)#H29:::1.0):1.962488886220224):0.2392519332686126):2.1183574690243376):1.4154157942137156,#H26:7.808054759819143e-14::0.1810837641500239):1.4095614795534328)#H24:1.2659655042107326e-14::0.7768455483352905):0.7974525009709367):1.6129154934485113)#H25:2.784089947779091::0.6382772183198061):1.1586649807374754,Xmayae); 
+with -loglik 8590.32809498963

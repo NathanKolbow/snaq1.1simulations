@@ -1,0 +1,39 @@
+optimization of topology, BL and inheritance probabilities using:
+ hmax = 3,
+ tolerance parameters: ftolRel=1.0e-6, ftolAbs=1.0e-6,
+                       xtolAbs=0.001, xtolRel=0.01.
+ max number of failed proposals = 75, liktolAbs = 1.0e-6.
+rootname for files: net3_6
+BEGIN: 1 runs on starting tree (Xalvarezi,Xmayae,((Xsignum,((Xmonticolus,(Xclemenciae_F2,#H25:::0.032485577051040423):0.979116879342896):1.4858786525152954,(((((((((Xgordoni,Xmeyeri):0.26111415598145865,Xcouchianus):3.5325554148283564,Xvariatus):0.6445452395880061,Xevelynae):0.41219807813960146,(Xxiphidium,#H24:0.0::0.16538333427567822):1.4020042304402076):0.2921320715527958,Xmilleri):0.4688709909949548,Xandersi):0.6492623942884177,Xmaculatus):1.0200542801748702,(((Xmontezumae,(Xcortezi,(Xbirchmanni_GARC,Xmalinche_CHIC2):0.8943004029517725):0.6903622798656042):0.4926275928330048,((Xnigrensis,Xmultilineatus):1.4508210422790195,(Xpygmaeus,Xcontinens):1.9686498919562234):2.428065080719157):2.0435103751744865)#H24:0.6476450483433508::0.8346166657243218):0.7816554661308311):1.9841381634366537):0.31614675520900004,(Xhellerii)#H25:::0.9675144229489596):0.28226883225049243);
+
+main seed 44704
+seed: 44704 for run 1
+2017-07-05 4:39:50.473
+
+ BEGIN SNaQ for run 1, seed 44704 and hmax 3 changed starting topology by NNI move
+
+ changed starting network by move target
+Begins heuristic optimization of network------
+
+found best network, now we re-optimize branch lengths and gamma more precisely
+STOPPED by number of failures criteria
+END optTopLevel: found minimizer topology at step 486 (failures: 75) with -loglik=10393.56691 and ht_min=[0.35395,0.40076,0.07388,1.3298,0.70548,0.25729,3.52548,0.63714,0.6243,0.0,0.0,0.54293,0.43967,0.57266,0.98909,1.80882,1.2617,0.27114,0.92987,1.45066,1.96884,2.35719,0.61603,1.45849,0.62301,0.01397,0.6549,2.0e-5]
+PERFORMANCE: total number of moves (proposed, successful, accepted) in general, and to fix gamma=0.0,t=0.0 cases
+	--------moves general--------				 --------moves gamma,t------	
+move	 Num.Proposed	 Num.Successful	 Num.Accepted	 | Num.Proposed	 Num.Successful	 Num.Accepted
+add		 7		 7		 1	 |	 NA 		 NA 		 NA 
+mvorigin	 119		 119		 15	 |	 0		 0		 --
+mvtarget	 116		 110		 0	 |	 0		 0		 --
+chdir		 113		 100		 1	 |	 1		 1		 --
+delete		 0		 0		 0	 |	 0		 0		 --
+nni		 131		 124		 0	 |	 1		 1		 --
+Total		 486		 460		 17	 |	 2		 2		 2
+Proportion	 -- 		 1.0		 0.0	 |	 -- 		 1.0		 1.0
+
+ FINISHED SNaQ for run 1, -loglik of best 10393.56691371792
+((Xcortezi,(Xmontezumae,(((Xnigrensis,Xmultilineatus):1.450662718542625,(Xpygmaeus,Xcontinens):1.9688449815542055):2.35718994490584,((((Xmonticolus,Xclemenciae_F2):1.4584853963817583,(#H25:::0.353952228722698,(Xsignum,((Xalvarezi,Xmayae):0.013972110888199132,(Xhellerii)#H25:::0.6460477712773021):0.6230106520979243):0.7054783229388241):1.3297951811301185):0.9890930252451008,((Xandersi,(Xmilleri,((((Xgordoni,Xmeyeri):0.25728718814523427,Xcouchianus):3.525483514369856,Xvariatus):0.6243012905845803,(Xevelynae,(Xxiphidium)#H24:::0.5992367624252704):0.0):0.6371440197094694):0.5429307329045863):0.43967381513464243,(#H24:::0.4007632375747296,Xmaculatus):0.0):0.5726565673063987):1.8088207044557225)#H26:0.6548956649247196::0.9261172350549842):0.616030712387787):0.9298664210098349):1.2616975083946904,Xmalinche_CHIC2,(Xbirchmanni_GARC,#H26:1.9396762861519335e-5::0.07388276494501574):0.27114334433490295);
+---------------------
+
+2017-07-06 22:51:20.517
+MaxNet is ((Xcortezi,(Xmontezumae,(((Xnigrensis,Xmultilineatus):1.450662718542625,(Xpygmaeus,Xcontinens):1.9688449815542055):2.35718994490584,((((Xmonticolus,Xclemenciae_F2):1.4584853963817583,(#H25:::0.353952228722698,(Xsignum,((Xalvarezi,Xmayae):0.013972110888199132,(Xhellerii)#H25:::0.6460477712773021):0.6230106520979243):0.7054783229388241):1.3297951811301185):0.9890930252451008,((Xandersi,(Xmilleri,((((Xgordoni,Xmeyeri):0.25728718814523427,Xcouchianus):3.525483514369856,Xvariatus):0.6243012905845803,(Xevelynae,(Xxiphidium)#H24:::0.5992367624252704):0.0):0.6371440197094694):0.5429307329045863):0.43967381513464243,(#H24:::0.4007632375747296,Xmaculatus):0.0):0.5726565673063987):1.8088207044557225)#H26:0.6548956649247196::0.9261172350549842):0.616030712387787):0.9298664210098349):1.2616975083946904,Xmalinche_CHIC2,(Xbirchmanni_GARC,#H26:1.9396762861519335e-5::0.07388276494501574):0.27114334433490295); 
+with -loglik 10393.56691371792
