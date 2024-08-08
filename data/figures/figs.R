@@ -1,5 +1,8 @@
 library(tidyverse)
+library(ggplot2)
+library(cowplot)
 
+setwd("data/output")
 n10r1_df <- read.csv("~/repos/snaq2/data/output/n10r1.csv")
 n10r3_df <- read.csv("~/repos/snaq2/data/output/n10r3.csv")
 n20r1_df <- read.csv("~/repos/snaq2/data/output/n20r1.csv")
@@ -99,11 +102,11 @@ p3 <- filter(gg_df, propQuartets != 0.5) %>%
         )
 p3
 
-pdf("runtime.pdf", width=7, height=7)
+pdf("runtime.pdf", width=6, height=5)
 p2
 dev.off()
 
-pdf("acc.pdf", width=7, height=7)
+pdf("acc.pdf", width=6, height=5)
 p3
 dev.off()
 
