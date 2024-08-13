@@ -13,6 +13,7 @@ data<-read.csv("n10r3.csv")
 data<-read.csv("n20r1.csv")
 data<-read.csv("n20r3.csv")
 
+
 ggplot(data,aes(x=factor(numprocs), y=log(runtime), color=factor(whichSNaQ), fill=factor(propQuartets)))+
   labs(title="Log running time (probQR x g)", y="Log running time (sec)", x="Number of processors")+
   scale_color_grey()+
@@ -177,13 +178,6 @@ data %>%
   facet_grid(numgt~probQR)
 
 data %>%
-  filter(propQuartets == 0.9) %>%
-  ggplot(aes(x=factor(numprocs),y = runtime/3600, color=factor(whichSNaQ)))+
-  #ylim(0,20)+
-  geom_violin()+
-  facet_grid(numgt~probQR)
-
-data %>%
   filter(propQuartets == 0.7) %>%
   ggplot(aes(x=factor(numprocs),y = runtime/3600, color=factor(whichSNaQ)))+
   #ylim(0,20)+
@@ -240,3 +234,152 @@ ggplot(data,aes(x=factor(numprocs), y=log(runtime), color=factor(whichSNaQ), sha
   facet_grid(numgt~propQuartets)+
   theme_half_open(12)+
   panel_border()
+
+
+
+
+
+
+#EVOLUTION
+library(ggpubr)
+
+data1<-read.csv("n10r1.csv")
+data2<-read.csv("n10r3.csv")
+data3<-read.csv("n20r1.csv")
+data4<-read.csv("n20r3.csv")
+
+a<-data1 %>%
+  filter(propQuartets == 1) %>%
+  filter(whichSNaQ==1) %>%  
+  filter(numprocs==4) %>%    
+  ggplot(aes(x=factor(numgt),y = runtime/3600))+
+  labs(title="n=10, h=2", 
+       y="Time (h)", 
+       x="Number of loci")+
+  geom_boxplot()+
+  ylim(0,10)+
+  geom_hline(yintercept=0.4, linetype="dashed", 
+             color = "red", size=1)+
+  annotate("text", x=0.5, y=0.85, label="0.5", color="red")+
+  theme_cowplot(12)
+
+b<-data2 %>%
+  filter(propQuartets == 1) %>%
+  filter(whichSNaQ==1) %>%  
+  filter(numprocs==4) %>%    
+  ggplot(aes(x=factor(numgt),y = runtime/3600))+
+  labs(title="n=10, h=3", 
+       y="Time (h)", 
+       x="Number of loci")+
+  geom_boxplot()+
+  ylim(0,10)+
+  geom_hline(yintercept=1.5, linetype="dashed", 
+             color = "red", size=1)+
+  annotate("text", x=0.5, y=2, label="1.5", color="red")+
+  theme_cowplot(12)
+
+c<-data3 %>%
+  filter(propQuartets == 1) %>%
+  filter(whichSNaQ==1) %>%  
+  filter(numprocs==4) %>%    
+  ggplot(aes(x=factor(numgt),y = runtime/3600))+
+  labs(title="n=20, h=1", 
+       y="Time (h)", 
+       x="Number of loci")+
+  geom_boxplot()+
+  ylim(0,125)+
+  geom_hline(yintercept=24, linetype="dashed", 
+             color = "red", size=1)+
+  annotate("text", x=0.5, y=30, label="24", color="red")+
+  theme_cowplot(12)
+
+d<-data4 %>%
+  filter(propQuartets == 1) %>%
+  filter(whichSNaQ==1) %>%  
+  filter(numprocs==4) %>%    
+  ggplot(aes(x=factor(numgt),y = runtime/3600))+
+  labs(title="n=20, h=3", 
+       y="Time (h)", 
+       x="Number of loci")+
+  geom_boxplot()+
+  ylim(0,125)+
+  geom_hline(yintercept=48, linetype="dashed", 
+             color = "red", size=1)+
+  annotate("text", x=0.5, y=53, label="48", color="red")+
+  theme_cowplot(12)
+
+ggarrange(a,b,c,d,
+          labels = c("A", "B", "C", "D"),
+          ncol = 2, nrow = 2)
+
+data4 %>%
+  filter(probQR == 0) %>%
+  filter(numgt == 3000) %>%  
+  ggplot(aes(x=factor(numprocs), y=log(runtime/3600), color=factor(whichSNaQ), fill=factor(propQuartets)))+
+  labs(title="Log running time (n=20, h=3, gt=3000, probQR=0)", y="Log running time (h)", x="Number of processors")+
+  scale_color_manual(values=c("red", "blue"))+
+  scale_fill_manual(values=c("#999999", "#777777", "#555555", "#333333"))+
+  geom_violin()+
+  labs(fill = "propQuartets")+
+  labs(color = "SNaQ version")+  
+#  facet_grid(numgt~probQR)+
+  theme_half_open(12)+
+  panel_border()
+
+data3 %>%
+  #filter(probQR == 0) %>%
+  filter(numgt == 3000) %>%  
+  ggplot(aes(x=factor(numprocs), y=log(runtime/3600), color=factor(whichSNaQ), fill=factor(propQuartets)))+
+  labs(title="Log running time (n=20, h=3, gt=3000)", y="Log running time (h)", x="Number of processors")+
+  scale_color_manual(values=c("red", "blue"))+
+  scale_fill_manual(values=c("#999999", "#777777", "#555555", "#333333"))+
+  geom_violin()+
+  labs(fill = "propQuartets")+
+  labs(color = "SNaQ version")+  
+  facet_grid(numgt~probQR)+
+  theme_half_open(12)+
+  panel_border()
+
+data2 %>%
+  filter(probQR == 0) %>%
+  filter(numgt == 3000) %>%  
+  ggplot(aes(x=factor(numprocs), y=netRF, color=factor(whichSNaQ), fill=factor(propQuartets)))+
+  labs(title="Accuracy (n=10, h=3, gt=3000, probQR=0)", y="HWCD", x="Number of processors")+
+  scale_color_manual(values=c("red", "blue"))+
+  scale_fill_manual(values=c("#999999", "#777777", "#555555", "#333333"))+
+  #ylim(0,10)+
+  geom_violin()+
+  labs(fill = "propQuartets")+
+  labs(color = "SNaQ version")+    
+  #facet_grid(numgt~probQR)+
+  theme_half_open(12)+
+  panel_border()
+
+data2 %>%
+  filter(probQR == 0) %>%
+  #filter(numgt == 3000) %>%  
+  ggplot(aes(x=factor(numprocs), y=netRF, color=factor(whichSNaQ), fill=factor(propQuartets)))+
+  labs(title="Accuracy (n=10, h=3, probQR=0)", y="HWCD", x="Number of processors")+
+  scale_color_manual(values=c("red", "blue"))+
+  scale_fill_manual(values=c("#999999", "#777777", "#555555", "#333333"))+
+  #ylim(0,10)+
+  geom_violin()+
+  labs(fill = "propQuartets")+
+  labs(color = "SNaQ version")+    
+  facet_grid(numgt~probQR)+
+  theme_half_open(12)+
+  panel_border()
+
+empdata<-read.csv("/Users/khaosan/Dropbox/sungsik.kong-UWisc/2024-Evolution/talk/Figures/output-data.csv")
+
+ggplot(empdata,aes(x = factor(nhybrids), y = (runtime/3600), color=factor(whichSNaQ)))+
+  geom_point()+
+  ylim(0,75)+  
+  labs(color = "SNaQ version",y="Time (h)", x="Number of reticulations (hmax)")+   
+  theme_half_open(12)
+
+ggplot(empdata,aes(x = factor(nhybrids), y = (negloglik), color=factor(whichSNaQ)))+
+  geom_point()+
+  #ylim(0,75)+  
+  labs(color = "SNaQ version",y="-log likelihood", x="Number of reticulations (hmax)")+   
+  theme_half_open(12)
