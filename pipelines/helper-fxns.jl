@@ -1,4 +1,4 @@
-basedir = "/mnt/ws/home/nkolbow/repos/snaq2/"
+basedir = "/mnt/dv/wid/projects4/SolisLemus-snaq2/"
 using PhyloNetworks
 
 function getsimidxs(ngt::Real)
@@ -199,7 +199,7 @@ function cleanestgtfiles(temp_gtfile::AbstractString, temp_seqfile::AbstractStri
 end
 
 # File/folder getter functions
-getnetdir(netabbr::AbstractString) = abspath(joinpath("/mnt/ws/home/nkolbow/repos/snaq2/data/input/", netabbr))
+getnetdir(netabbr::AbstractString) = abspath(joinpath("/mnt/dv/wid/projects4/SolisLemus-snaq2/data/input/", netabbr))
 gettreefiledir(netabbr::AbstractString, ils::AbstractString) = joinpath(getnetdir(netabbr), "treefiles", "$ils"*"ILS")
 
 getestgtfilepath(netabbr::AbstractString, ils::AbstractString, replicate::Integer) = joinpath(gettreefiledir(netabbr, ils), "estgts_$replicate.treefile")

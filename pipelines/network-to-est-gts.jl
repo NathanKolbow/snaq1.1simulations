@@ -50,7 +50,7 @@ seqgen_s = parse(Float64, seqgen_s)
 rmsuppress(file) = try rm(file) catch e end     # used later
 
 # Step 0: move to the correct directly
-cd("/mnt/ws/home/nkolbow/repos/snaq2/")
+cd("/mnt/dv/wid/projects4/SolisLemus-snaq2/")
 
 # Step 1: simulate gene trees
 println("Simulating true gene trees...")

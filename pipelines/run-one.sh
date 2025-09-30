@@ -72,7 +72,7 @@ mk_tempdata_tempfile() {
 }
 
 # If treefiles don't already exist, generate them
-netdir="/mnt/ws/home/nkolbow/repos/snaq2/data/input/${net_abbr}"
+netdir="/mnt/dv/wid/projects4/SolisLemus-snaq2/data/input/${net_abbr}"
 treefiledir="${netdir}/treefiles/${ils}ILS"
 
 estgt_file="${treefiledir}/estgts_${replicate}.treefile"
