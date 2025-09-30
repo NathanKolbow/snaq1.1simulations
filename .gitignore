@@ -1,6 +1,9 @@
 # Any temporary data (IQ tree files, seq-gen files, ...)
 pipelines/temp_data/*
 
+# Julia files
+Manifest.toml
+
 # Mac files
 .DS_Store
 

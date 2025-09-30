@@ -14,17 +14,6 @@ set -e  # forces quit on error
 #
 # USER MUST BE IN THE `pipelines` DIRECTORY WHEN RUNNING
 #
-# TODO: 1. make sure everything has a set seed
-#       2. add ILS, nhybrids, ntaxa to results.csv
-#       3. pass a set seed for selecting same ngt gene trees for each SNaQ1 and SNaQ2 run
-#       4. calculate mean_gtee for the actual selected gene trees, not just the whole file mean
-#       5. use $ngt as the set seed
-#       6. don't wait to the end to write results
-#       7. add major tree RF distance to results (majorRF)
-#       8. accuracy --> RF in results
-#       9. 10,000 --> 4,430 gene trees, ngt=30 takes first 30, ngt=100 takes 31-130
-#       10. reformat so that a replicate # is associated with each treefile, add replicate # to results csv
-#
 # TO TEST THIS SCRIPT: ./run-one.sh "simple-test" ../results/test.csv 30 16 "med"
 
 

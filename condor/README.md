@@ -10,20 +10,14 @@ This folder contains the elements needed for executing computations via HTCondor
 ## Directory structure
 
 > condor/julia-projects/
-> - `julia` packages must be compiled into projects, zipped, and transferred into HT Condor jobs for best performance ([info here](https://chtc.cs.wisc.edu/uw-research-computing/julia-jobs)). This directory contains everything related to that.
-
-> condor/logs/
-> - Log files from all HTCondor runs.
+- `julia` packages must be compiled into projects, zipped, and transferred into HT Condor jobs for best performance ([info here](https://chtc.cs.wisc.edu/uw-research-computing/julia-jobs)). This directory contains everything related to that.
 
 > condor/scripts/
-> - Contains all scripts utilized throughout our jobs.
-> - Does NOT contain any computation-related `julia` scripts; those can be found in `pipelines/*.jl`.
+- Contains all scripts utilized throughout our jobs.
+- Does NOT contain any computation-related `julia` scripts; those can be found in `pipelines/*.jl`.
 
 > condor/submits/
-> - Submit files used to submit jobs to HTCondor.
-
-> condor/transfer-files/
-> - Miscellaneous files that are transferred into HTCondor jobs.
+- Submit files used to submit jobs to HTCondor.
 
 ## How to execute simulations
 
