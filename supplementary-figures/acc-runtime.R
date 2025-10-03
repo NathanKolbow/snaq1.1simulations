@@ -123,21 +123,30 @@ plot_accuracy_by_ngt <- function() {
             limits = c(0, 3500)
         ) +
         expand_limits(x=0, y=0) +
-        theme(panel.grid.minor = element_blank())
+        scale_color_grey() +
+        theme_half_open(12) +
+        panel_border() +
+        scale_fill_manual(values=c("#f1eef6", "#bdc9e1", "#74a9cf", "#0570b0")) +
+        scale_color_manual(values=c("red", "black"))
 }
 
 data <- read_data("n10r1.csv")
-p1 <- plot_accuracy_by_ngt() + ggtitle("A: n10r1") + labs(x="")
+pdf("../../supplementary-figures/accuracy-by-ngt-n10r1.pdf", width=7.78, height=4.18)
+plot_accuracy_by_ngt() + ggtitle("N10R1")
+dev.off()
 
 data <- read_data("n10r3.csv")
-p2 <- plot_accuracy_by_ngt() + ggtitle("B: n10r3") + labs(y="") + labs(x="")
+pdf("../../supplementary-figures/accuracy-by-ngt-n10r3.pdf", width=7.78, height=4.18)
+plot_accuracy_by_ngt() + ggtitle("N10R3")
+dev.off()
 
 data <- read_data("n20r1.csv")
-p3 <- plot_accuracy_by_ngt() + ggtitle("C: n20r1")
+pdf("../../supplementary-figures/accuracy-by-ngt-n20r1.pdf", width=7.78, height=4.18)
+plot_accuracy_by_ngt() + ggtitle("N20R1")
+dev.off()
 
 data <- read_data("n20r3.csv")
-p4 <- plot_accuracy_by_ngt() + ggtitle("D: n20r3") + labs(y="")
-
-pdf("../../supplementary-figures/accuracy-by-ngt-all.pdf", width=15, height=7.5)
-(p1 + p2) / (p3 + p4) + plot_layout(axis_titles = "collect", guides = "collect")
+pdf("../../supplementary-figures/accuracy-by-ngt-n20r3.pdf", width=7.78, height=4.18)
+plot_accuracy_by_ngt() + ggtitle("N20R3")
 dev.off()
+
