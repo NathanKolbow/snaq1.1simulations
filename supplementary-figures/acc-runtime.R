@@ -12,7 +12,7 @@ read_data <- function(path) {
         mutate(
             probQR = paste0("probQR = ", probQR),
             numgt = factor(paste0(numgt, " gt"), levels=c("300 gt", "1000 gt", "3000 gt")),
-            whichSNaQ = if_else(whichSNaQ == 2, 1.1, 1)
+            whichSNaQ = if_else(whichSNaQ == 2, "v1.1", "v1.0")
         )
 }
 plot_runtime <- function() {
@@ -102,7 +102,6 @@ plot_accuracy_by_ngt <- function() {
             ymax = quantile(netRF, 0.975)
         ) %>%
         mutate(
-            whichSNaQ = if_else(whichSNaQ == 1, "v1.0", "v1.1"),
             propQuartets = paste0("propQuartets = ", propQuartets),
             numgt = if_else(numgt == "300 gt", 300, if_else(numgt == "1000 gt", 1000, 3000))
         ) %>%
@@ -115,8 +114,8 @@ plot_accuracy_by_ngt <- function() {
         labs(
             x = "Number of gene trees",
             y = "Average Hardwired Cluster Distance",
-            color = "SNaQ Version",
-            shape = "SNaQ Version"
+            color = "SNaQ",
+            shape = "SNaQ"
         ) +
         scale_x_continuous(
             breaks = c(300, 1000, 3000),
