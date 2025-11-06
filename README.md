@@ -6,14 +6,7 @@ Simulation study and empirical analysis evaluating computational improvements ma
 
 ## Replication Instructions
 
-1. Make sure to download 
-
-To replicate a given analysis, run the following:
-
-```bash
-cd pipelines
-./run-one.sh X X X X X X
-```
+Given the breadth of parameters tested in these simulations and the computational intensity of each simulation individually, it is necessary to perform this study on a high throughput computing cluster. For this purpose, we utilize HT Condor. You will find that many of the scripts in this repository are specifically structured to work in a Condor environment and will not work properly outside of such an environment. See `condor/README.md` for replication instructions on a Condor cluster.
 
 ## Study Overview
 
