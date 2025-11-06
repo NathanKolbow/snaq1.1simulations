@@ -4,6 +4,17 @@
 
 Simulation study and empirical analysis evaluating computational improvements made in [SNaQ.jl](https://github.com/JuliaPhylo/SNaQ.jl) version 1.1, a Julia package for phylogenetic network inference using composite likelihood. This version introduces significant scalability improvements including parallelized quartet calculations, weighted quartet selection, and probabilistic network search, achieving up to 400% runtime improvements with maintained accuracy.
 
+## Replication Instructions
+
+1. Make sure to download 
+
+To replicate a given analysis, run the following:
+
+```bash
+cd pipelines
+./run-one.sh X X X X X X
+```
+
 ## Study Overview
 
 This repository contains the complete computational pipeline for:

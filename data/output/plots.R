@@ -2,7 +2,7 @@ library(magrittr) # needs to be run every time you start R and want to use %>%
 library(dplyr)    # alternatively, this also loads %>%
 library(ggplot2)
 library(cowplot)
-setwd("/mnt/dv/wid/projects4/SolisLemus-snaq2/data/output")
+setwd("data/output")
 
 #results - n10h1
 

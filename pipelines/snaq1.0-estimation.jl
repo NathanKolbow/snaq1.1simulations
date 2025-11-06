@@ -9,7 +9,8 @@ println("Loading packages...")
 nhybrids, ngt, treefile, output_file, replicate = parseSNaQ1estargs(ARGS)
 
 # Put ourselves in the right dir
-@everywhere cd("/mnt/dv/wid/projects4/SolisLemus-snaq2/")
+@everywhere cd(joinpath(@__DIR__, ".."))
+# @everywhere cd("/mnt/dv/wid/projects4/SolisLemus-snaq2/")
 
 # Run SNaQ 1.0
 trees, tempout, df = setupSNaQ(treefile, ngt)
