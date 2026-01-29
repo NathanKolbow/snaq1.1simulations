@@ -30,6 +30,33 @@ plot_runtime <- function() {
         scale_color_manual(values=c("red", "black")) +
         ggtitle(paste0("N", data$ntaxa[1], "R", data$nhybrids_true[1]))
 }
+plot_accuracy_diff <- function() {
+    comp_df <- tibble()
+    for(irow in seq_len(nrow(data))) {
+        row <- data[irow, ]
+        if(row$whichSNaQ != "v1.0") { next; }
+        matching_rows <- filter(data, numgt == row$numgt & whichSNaQ == "v1.1" & replicateid == row$replicateid & numprocs == row$numprocs)
+        matching_rows$netRFold <- row$netRF
+        matching_rows$runtimeold <- row$runtime
+        comp_df <- rbind(comp_df, matching_rows)
+    }
+
+    comp_df %>%
+        mutate(netRF_diff = netRFold - netRF) %>%
+        ggplot(aes(x = factor(numprocs), y = netRF_diff, fill = factor(propQuartets)))+
+        geom_hline(yintercept = 0.0, linetype = "dashed", linewidth = 0.25) +
+        labs(
+            y="Accuracy Difference (HWCD)", x="Number of Processors",
+            fill="propQuartets"
+        )+
+        #ylim(0,10)+
+        #geom_violin(linewidth=0.4)+
+        geom_boxplot(outliers=F)+
+        facet_grid(numgt~probQR)+
+        theme_half_open(12)+
+        panel_border()+
+        scale_fill_manual(values=c("#f1eef6", "#bdc9e1", "#74a9cf", "#0570b0"))
+}
 plot_accuracy <- function() {
     ggplot(data,aes(x=factor(numprocs), y=netRF, color=factor(whichSNaQ), fill=factor(propQuartets)))+
         labs(
@@ -58,6 +85,10 @@ pdf("../../supplementary-figures/accuracy-n10r1.pdf", width=7.7, height=4.18)
 a101 <- plot_accuracy()
 a101
 dev.off()
+pdf("../../supplementary-figures/accuracy-diff-n10r1.pdf", width=7.7, height=4.18)
+ad101 <- plot_accuracy_diff()
+ad101
+dev.off()
 
 data <- read_data("n10r3.csv")
 pdf("../../supplementary-figures/runtime-n10r3.pdf", width=7.7, height=4.18)
@@ -67,6 +98,10 @@ dev.off()
 pdf("../../supplementary-figures/accuracy-n10r3.pdf", width=7.7, height=4.18)
 a103 <- plot_accuracy()
 a103
+dev.off()
+pdf("../../supplementary-figures/accuracy-diff-n10r3.pdf", width=7.7, height=4.18)
+ad103 <- plot_accuracy_diff()
+ad103
 dev.off()
 
 data <- read_data("n20r1.csv")
@@ -78,6 +113,10 @@ pdf("../../supplementary-figures/accuracy-n20r1.pdf", width=7.7, height=4.18)
 a201 <- plot_accuracy()
 a201
 dev.off()
+pdf("../../supplementary-figures/accuracy-diff-n20r1.pdf", width=7.7, height=4.18)
+ad201 <- plot_accuracy_diff()
+ad201
+dev.off()
 
 data <- read_data("n20r3.csv")
 pdf("../../supplementary-figures/runtime-n20r3.pdf", width=7.7, height=4.18)
@@ -88,7 +127,10 @@ pdf("../../supplementary-figures/accuracy-n20r3.pdf", width=7.7, height=4.18)
 a203 <- plot_accuracy()
 a203
 dev.off()
-
+pdf("../../supplementary-figures/accuracy-diff-n20r3.pdf", width=7.7, height=4.18)
+ad203 <- plot_accuracy_diff()
+ad203
+dev.off()
 
 
 
