@@ -2,6 +2,7 @@ library(magrittr) # needs to be run every time you start R and want to use %>%
 library(dplyr)    # alternatively, this also loads %>%
 library(ggplot2)
 library(cowplot)
+library(tidyverse)
 setwd("/mnt/dv/wid/projects4/SolisLemus-snaq2/data/output")
 
 #results - n10h1
@@ -22,9 +23,9 @@ data <- data %>%
 
 
 pdf("runtime.pdf", width=7.7, height=4.18)
-ggplot(data,aes(x=factor(numprocs), y=log(runtime), color=factor(whichSNaQ), fill=factor(propQuartets)))+
+ggplot(data %>% mutate(runtime = runtime / (3600)),aes(x=factor(numprocs), y=log10(runtime), color=factor(whichSNaQ), fill=factor(propQuartets)))+
   labs(
-    y="Log2 Runtime (sec)", x="Number of Processors",
+    y="Runtime (hours)", x="Number of Processors",
     color="SNaQ", fill="propQuartets"
   )+
   scale_color_grey()+
@@ -33,7 +34,20 @@ ggplot(data,aes(x=factor(numprocs), y=log(runtime), color=factor(whichSNaQ), fil
   theme_half_open(12)+
   panel_border()+
   scale_fill_manual(values=c("#f1eef6", "#bdc9e1", "#74a9cf", "#0570b0"))+
-  scale_color_manual(values=c("red", "black"), labels=c("1"="v1.0", "1.1"="v1.1"))
+  scale_color_manual(values=c("red", "black"), labels=c("1"="v1.0", "1.1"="v1.1")) +
+  scale_y_continuous(
+    # sqrt(runtime)
+    # breaks = c(3, 6, 9, 12),
+    # labels = c(3^2, 6^2, 9^2, 12^2)
+    #
+    # log10(runtime)
+    breaks = c(0, log10(3), 1, log10(30), 2),
+    labels = c(0, 3, expression(10), 30, expression(100))
+    #
+    # log2(runtime)
+    # breaks = c(6, 8, 10, 12),
+    # labels = c(expression(2^9), expression(2^10), expression(2^11), expression(2^12), expression(2^13))
+  )
 dev.off()
 
 
@@ -55,7 +69,60 @@ ggplot(data,aes(x=factor(numprocs), y=netRF, color=factor(whichSNaQ), fill=facto
 dev.off()
 
 
+comp_df <- tibble()
+for(irow in seq_len(nrow(data))) {
+  row <- data[irow, ]
+  if(row$whichSNaQ != 1.0) { next; }
+  matching_rows <- filter(data, numgt == row$numgt & whichSNaQ == "1.1" & replicateid == row$replicateid & numprocs == row$numprocs)
+  matching_rows$netRFold <- row$netRF
+  matching_rows$runtimeold <- row$runtime
+  comp_df <- rbind(comp_df, matching_rows)
+}
 
+pdf("acc-diff.pdf", width=7.7, height=4.18)
+comp_df %>%
+  mutate(netRF_diff = netRFold - netRF) %>%
+  ggplot(aes(x = factor(numprocs), y = netRF_diff, fill = factor(propQuartets)))+
+  geom_hline(yintercept = 0.0, linetype = "dashed", linewidth = 0.25) +
+  labs(
+    y="Accuracy Difference (HWCD)", x="Number of Processors",
+    fill="propQuartets"
+  )+
+  #ylim(0,10)+
+  #geom_violin(linewidth=0.4)+
+  geom_boxplot(outliers=F)+
+  facet_grid(numgt~probQR)+
+  theme_half_open(12)+
+  panel_border()+
+  scale_fill_manual(values=c("#f1eef6", "#bdc9e1", "#74a9cf", "#0570b0"))
+dev.off()
+
+#### Below is unused
+# pdf("runtime-new.pdf", width=7.7, height=4.18)
+# comp_df %>%
+#   mutate(
+#     rt_diff = runtimeold - runtime,
+#     rt_factor = runtime / runtimeold
+#   ) %>%
+#   ggplot(aes(x = factor(numprocs), y = (rt_factor), fill = factor(propQuartets)))+
+#   geom_hline(yintercept=1.0, linetype="dashed", linewidth = 0.25) +
+#   geom_hline(yintercept=0.25, linetype="dashed", linewidth = 0.25) +
+#   labs(
+#     y="Accuracy (HWCD)", x="Number of Processors",
+#     fill="propQuartets"
+#   )+
+#   #ylim(0,10)+
+#   #geom_violin(linewidth=0.4)+
+#   geom_boxplot(outliers=F)+
+#   facet_grid(numgt~probQR)+
+#   theme_half_open(12)+
+#   panel_border()+
+#   scale_fill_manual(values=c("#f1eef6", "#bdc9e1", "#74a9cf", "#0570b0")) +
+#   scale_y_continuous(
+#     # breaks = c(2.5, 0.0, -2.5, -5.0),
+#     # labels = 2^(c(2.5, 0.0, -2.5, -5.0))
+#   )
+# dev.off()
 
 
 
