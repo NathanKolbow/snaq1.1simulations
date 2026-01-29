@@ -7,21 +7,22 @@ if nprocs() == 1
 end
 
 # Verify arguments
-if length(ARGS) != 1
-    error("First argument should be an integer in [0, 5], found $(ARGS).")
+if length(ARGS) != 2
+    error("Usage: julia script.jl <NumHybs> <PropQuartets>")
 end
 try
-    parse(Int64, ARGS[1])
+    @show parse(Int64, ARGS[1])
+    @show parse(Float64, ARGS[2])
 catch
-    error("First argument should be an integer in [0, 5], found $(ARGS).")
+    error("(Parse Error) Usage: julia script.jl <NumHybs> <PropQuartets>")
 end
 
 
 # Load PhyloNetworks
 @info "Loading PhyloNetworks"
 @everywhere using PhyloNetworks
-pqr = 1.     # fully weighted
-pqt = 1.   # use a portion of quartets
+pqr = 1.
+pqt = parse(Float64, ARGS[2])
 nhybrids = parse(Int64, ARGS[1])
 
 # Load data
@@ -33,7 +34,8 @@ d = readTableCF("cui-neza.csv")    # real data
 
 # Run SNaQ
 @info "Running SNaQ"
-filename = "/mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/snaq_outputs/cui_net_$(nhybrids)hyb"
+filename = pqt == 1.0 ? "/mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/snaq_outputs/cui_net_$(nhybrids)hyb"
+    : "/mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/snaq_outputs_pq$(pqt)/cui_net_$(nhybrids)hyb"
 if !isfile("$(filename).runtime")
     time_taken = @elapsed net = snaq!(t, d, hmax=nhybrids, probQR=pqr, propQuartets=pqt, seed=42, filename=filename)
     

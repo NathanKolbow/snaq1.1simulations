@@ -1,6 +1,12 @@
 universe = vanilla
 
-NumHybs = $(Process)
+######## SETTINGS USED FOR INITIAL H=0,1,... INFERENCE
+# NumHybs = $(Process)
+# PQ = 1.0
+
+######## SETTINGS USED FOR SUBSEQUENT ANALYSES TO ASSESS THE AFFECT OF PROPQUARTETS
+NumHybs = 2
+PQ = 0.1
 
 log = ./logs/$(Cluster)_$(NumHybs).log
 error = ./errors/$(Cluster)_$(NumHybs).err
@@ -8,7 +14,7 @@ output = ./outputs/$(Cluster)_$(NumHybs).out
 
 ############################################################################################################
 executable = ./transfer-files/condor_empirical_driver.sh
-arguments = $(NumHybs)
+arguments = $(NumHybs) $(PQ)
 ############################################################################################################
 
 should_transfer_files = YES
@@ -32,4 +38,8 @@ request_disk = 16GB
 
 priority = 1000
 
-queue 6
+######## SETTING USED FOR INITIAL H=0,1,... INFERENCE
+#queue 6
+
+######## SETTINGS USED FOR SUBSEQUENT ANALYSES TO ASSESS THE AFFECT OF PROPQUARTETS
+queue 1
