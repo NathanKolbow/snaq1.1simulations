@@ -4,6 +4,10 @@
 
 Simulation study and empirical analysis evaluating computational improvements made in [SNaQ.jl](https://github.com/JuliaPhylo/SNaQ.jl) version 1.1, a Julia package for phylogenetic network inference using composite likelihood. This version introduces significant scalability improvements including parallelized quartet calculations, weighted quartet selection, and probabilistic network search, achieving up to 400% runtime improvements with maintained accuracy.
 
+## Replication Instructions
+
+Given the breadth of parameters tested in these simulations and the computational intensity of each simulation individually, it is necessary to perform this study on a high throughput computing cluster. For this purpose, we utilize HT Condor. You will find that many of the scripts in this repository are specifically structured to work in a Condor environment and will not work properly outside of such an environment. See `condor/README.md` for replication instructions on a Condor cluster.
+
 ## Study Overview
 
 This repository contains the complete computational pipeline for:

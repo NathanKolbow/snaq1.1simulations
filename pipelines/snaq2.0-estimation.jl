@@ -10,7 +10,8 @@ verifyargsSNaQ2(ARGS)
 # Put ourselves in the right dir
 nhybrids, ngt, treefile, output_file, probqr, propq, replicate = parseSNaQ2estargs(ARGS)
 
-@everywhere cd("/mnt/dv/wid/projects4/SolisLemus-snaq2/")
+#@everywhere cd("/mnt/dv/wid/projects4/SolisLemus-snaq2/")
+@everywhere cd(joinpath(@__DIR__, ".."))
 
 # Run SNaQ 2.0
 trees, tempout, df = setupSNaQ(treefile, ngt)

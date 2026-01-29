@@ -26,6 +26,7 @@ ngt=$5
 output_df=$6
 
 # Directories and filepaths
+basedir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../../"
 netdir="/mnt/ws/home/nkolbow/repos/snaq2/data/input/${net_abbr}"
 treefiledir="${netdir}/treefiles/${ils}ILS"
 

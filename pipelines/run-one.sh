@@ -61,7 +61,8 @@ mk_tempdata_tempfile() {
 }
 
 # If treefiles don't already exist, generate them
-netdir="/mnt/dv/wid/projects4/SolisLemus-snaq2/data/input/${net_abbr}"
+basedir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../"
+netdir="${basedir}/data/input/${net_abbr}"
 treefiledir="${netdir}/treefiles/${ils}ILS"
 
 estgt_file="${treefiledir}/estgts_${replicate}.treefile"

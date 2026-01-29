@@ -4,7 +4,7 @@ library(ggplot2)
 library(cowplot)
 library(patchwork)
 library(ggh4x)
-setwd("/mnt/dv/wid/projects4/SolisLemus-snaq2/data/output")
+setwd("data/output")
 
 
 read_data <- function(path) {
