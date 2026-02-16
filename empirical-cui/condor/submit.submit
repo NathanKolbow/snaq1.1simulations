@@ -6,7 +6,7 @@ universe = vanilla
 
 ######## SETTINGS USED FOR SUBSEQUENT ANALYSES TO ASSESS THE AFFECT OF PROPQUARTETS
 NumHybs = 2
-PQ = 0.1
+PQ = 0.7
 
 log = ./logs/$(Cluster)_$(NumHybs).log
 error = ./errors/$(Cluster)_$(NumHybs).err
@@ -32,11 +32,14 @@ transfer_input_files = \
     ../input/best4.tre,     \
     ../input/best5.tre
 
-request_cpus = 16
-request_memory = 128GB
 request_disk = 16GB
+######## SETTING USED FOR INITIAL H=0,1,... INFERENCE
+#request_cpus = 16
+#request_memory = 128GB
 
-priority = 1000
+######## SETTINGS USED FOR SUBSEQUENT ANALYSES TO ASSESS THE AFFECT OF PROPQUARTETS
+request_cpus = 4
+request_memory = 16GB
 
 ######## SETTING USED FOR INITIAL H=0,1,... INFERENCE
 #queue 6

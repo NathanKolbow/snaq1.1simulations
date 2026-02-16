@@ -13,4 +13,4 @@ export JULIA_DEPOT_PATH=$PWD/snaq2-proj/
 
 # Run the script
 echo "Running Julia script from bash"
-julia --project=snaq2-proj/ -p10 -t10 ./script.jl $1 $2
+julia --project=snaq2-proj/ -p3 -t3 ./script.jl $1 $2

@@ -1,0 +1,24 @@
+optimization of topology, BL and inheritance probabilities using:
+ hmax = 2,
+ tolerance parameters: ftolRel=1.0e-6, ftolAbs=1.0e-6,
+                       xtolAbs=0.001, xtolRel=0.01.
+ max number of failed proposals = 75, liktolAbs = 1.0e-6.
+rootname for files: /mnt/dv/wid/projects4/SolisLemus-snaq2/empirical-cui/condor/snaq_outputs_pq0.3/cui_net_2hyb
+BEGIN: 10 runs on starting tree (Xalvarezi,Xmayae,((Xsignum,((Xmonticolus,(Xclemenciae_F2,#H25:::0.032485577051040423):0.979116879342896):1.4858786525152954,(((((((((Xgordoni,Xmeyeri):0.26111415598145865,Xcouchianus):3.5325554148283564,Xvariatus):0.6445452395880061,Xevelynae):0.41219807813960146,(Xxiphidium,#H24:0.0::0.16538333427567822):1.4020042304402076):0.2921320715527958,Xmilleri):0.4688709909949548,Xandersi):0.6492623942884177,Xmaculatus):1.0200542801748702,(((Xmontezumae,(Xcortezi,(Xbirchmanni_GARC,Xmalinche_CHIC2):0.8943004029517725):0.6903622798656042):0.4926275928330048,((Xnigrensis,Xmultilineatus):1.4508210422790195,(Xpygmaeus,Xcontinens):1.9686498919562234):2.428065080719157):2.0435103751744865)#H24:0.6476450483433508::0.8346166657243218):0.7816554661308311):1.9841381634366537):0.31614675520900004,(Xhellerii)#H25:::0.9675144229489596):0.28226883225049243);
+       using 4 processors
+
+main seed 42
+seed: 42 for run 1
+seed: 17357 for run 2
+seed: 32166 for run 3
+seed: 25858 for run 4
+seed: 16643 for run 5
+seed: 52701 for run 6
+seed: 48302 for run 7
+seed: 39066 for run 8
+seed: 80276 for run 9
+seed: 72198 for run 10
+
+2026-02-03 12:3:56.484
+MaxNet is (Xalvarezi,Xmayae,((Xsignum,(((((((((((Xgordoni,Xmeyeri):0.25778262309800026,Xcouchianus):3.5435601856472325,Xvariatus):0.6401592601547865,Xevelynae):0.4256384622868696,(Xxiphidium,#H24:0.002364774677586313::0.16769289118992278):1.2853463241426655):0.29216109747198943,Xmilleri):0.4790152140994788,Xandersi):0.6539415375524842,Xmaculatus):1.0289391487311643,(((Xmontezumae,(Xcortezi,(Xbirchmanni_GARC,Xmalinche_CHIC2):0.871545389620237):0.6816083879658733):0.4958902828757421,((Xpygmaeus,Xcontinens):1.95334771776892,(Xnigrensis,Xmultilineatus):1.486306136150481):2.429417303396876):2.01416678448441)#H24:0.6938677831894164::0.8323071088100772):0.7820540862223764,(Xmonticolus,Xclemenciae_F2):1.4690436139022023):1.7386866223969717)#H25:0.7552746936428598::0.6765243542835127):0.9256309793464899,(Xhellerii,#H25:0.9469781394415789::0.3234756457164873):3.210164308373317):0.04758220918321394); 
+with -loglik 2280.03615456987

@@ -36,6 +36,8 @@ plot_accuracy_diff <- function() {
         row <- data[irow, ]
         if(row$whichSNaQ != "v1.0") { next; }
         matching_rows <- filter(data, numgt == row$numgt & whichSNaQ == "v1.1" & replicateid == row$replicateid & numprocs == row$numprocs)
+        if(nrow(matching_rows) == 0) { next; }  # n20r1 had some replicates that were stopped early for the sake of time,
+                                                # and so do not have matches
         matching_rows$netRFold <- row$netRF
         matching_rows$runtimeold <- row$runtime
         comp_df <- rbind(comp_df, matching_rows)

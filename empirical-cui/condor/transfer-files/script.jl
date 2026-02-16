@@ -34,8 +34,7 @@ d = readTableCF("cui-neza.csv")    # real data
 
 # Run SNaQ
 @info "Running SNaQ"
-filename = pqt == 1.0 ? "/mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/snaq_outputs/cui_net_$(nhybrids)hyb"
-    : "/mnt/ws/home/nkolbow/repos/snaq2/empirical-cui/condor/snaq_outputs_pq$(pqt)/cui_net_$(nhybrids)hyb"
+filename = pqt == 1.0 ? "/mnt/dv/wid/projects4/SolisLemus-snaq2/empirical-cui/condor/snaq_outputs/cui_net_$(nhybrids)hyb" : "/mnt/dv/wid/projects4/SolisLemus-snaq2/empirical-cui/condor/snaq_outputs_pq$(pqt)/cui_net_$(nhybrids)hyb"
 if !isfile("$(filename).runtime")
     time_taken = @elapsed net = snaq!(t, d, hmax=nhybrids, probQR=pqr, propQuartets=pqt, seed=42, filename=filename)
     
