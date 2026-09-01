@@ -38,8 +38,11 @@ For the theory and methodology used in the SNaQ method please cite
 
 When citing the use of SNaQ.jl version 1.1 specifically please cite
 
-> [!NOTE]
-> Citation pending pre-print.
+- Nathan Kolbow, Sungsik Kong, Tyler Chafin, C&eacute;cile An&eacute; and Claudia Sol&iacute;s-Lemus (2026).
+  SNaQ.jl: Improved scalability for level-1 phylogenetic network inference.
+  [Bioinformatics]([https://doi.org/10.1093/bioinformatics/btag289](https://academic.oup.com/bioinformatics/article/42/6/btag289/8675975))
+  42(6):btag289.
+  [doi:10.1093/bioinformatics/btag289](https://doi.org/10.1093/bioinformatics/btag289)
 
 For the PhyloNetworks package, please cite:
 - Claudia Solís-Lemus, Paul Bastide and Cécile Ané (2017). 
